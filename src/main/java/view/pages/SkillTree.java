@@ -92,8 +92,11 @@ public class SkillTree extends JFrame {
         ares.setBackground(color);
         ares.setFont(new Font("TimesRoman", Font.PLAIN, font));
         ares.addActionListener(e ->{
-            if(menu.getXp() >= 750) {
+            if(menu.r1)menu.ares = true;
+
+            else if(menu.getXp() >= 750) {
                 r1 = true;
+                menu.r1 = true;
                 menu.ares = true;
                 menu.aceso = false;
                 menu.proteus = false;
@@ -136,8 +139,11 @@ public class SkillTree extends JFrame {
         aceso.setBackground(color);
         aceso.setFont(new Font("TimesRoman", Font.PLAIN, font));
         aceso.addActionListener(e -> {
-            if(menu.getXp() >= 500){
+            if(menu.c1)menu.aceso = true;
+
+            else if(menu.getXp() >= 500){
                 c1 = true;
+                menu.c1 = true;
                 menu.aceso = true;
                 menu.ares = false;
                 menu.proteus = false;
@@ -199,8 +205,11 @@ public class SkillTree extends JFrame {
         proteus.setBackground(color);
         proteus.setFont(new Font("TimesRoman", Font.PLAIN, font));
         proteus.addActionListener(e -> {
+            if(menu.p1)menu.proteus = true;
+
             if(menu.getXp() >= 1000){
                 p1 = true;
+                menu.p1 = true;
                 //todo
                 menu.proteus = true;
                 menu.ares = false;

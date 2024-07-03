@@ -12,6 +12,7 @@ public class Menu extends JFrame {
     private JButton play = new JButton("play");
     private JButton setting = new JButton("setting");
     private JButton tutorial = new JButton("tutorial");
+    boolean r1, r2, r3, c1, c2, c3, c4, p1, p2, p3;
     public boolean a = false;
     public double aa = 0.1;
     public int bound = 300;
