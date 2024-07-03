@@ -67,11 +67,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public int count = 0;
 
     public GamePanel(Game game){
-        try {
             Sound.sound().wave();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         this.game = game;
         bound = this.game.menu.bound;

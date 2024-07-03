@@ -1,5 +1,7 @@
 package view.pages;
 
+import controller.Minimize;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -40,37 +42,31 @@ public class Menu extends JFrame {
         addButtons();
 
     }
-    private void addButtons(){
-        exit.setSize(buttonWidth,buttonHieght);
-        exit.setLocation(xLoc,400);
+    private void addButtons() {
+        exit.setSize(buttonWidth, buttonHieght);
+        exit.setLocation(xLoc, 400);
         exit.setBackground(color);
 
-        play.setSize(buttonWidth,buttonHieght);
-        play.setLocation(xLoc,100);
+        play.setSize(buttonWidth, buttonHieght);
+        play.setLocation(xLoc, 100);
         play.setBackground(color);
         play.addActionListener(e -> {
             setVisible(false);
-            try {
-//                Minimize m = new Minimize(this);
-//                if(a) {
-                if(true){
-                   game = new Game(this);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            Minimize m = new Minimize(this);
+            if (a)
+                game = new Game(this);
         });
 
-        skillTree.setSize(buttonWidth,buttonHieght);
-        skillTree.setLocation(xLoc,200);
+        skillTree.setSize(buttonWidth, buttonHieght);
+        skillTree.setLocation(xLoc, 200);
         skillTree.setBackground(color);
         skillTree.addActionListener(e -> {
             new SkillTree(this);
             setVisible(false);
         });
 
-        tutorial.setSize(buttonWidth,buttonHieght);
-        tutorial.setLocation(xLoc,300);
+        tutorial.setSize(buttonWidth, buttonHieght);
+        tutorial.setLocation(xLoc, 300);
         tutorial.setBackground(color);
 
         setting.setSize(buttonWidth, buttonHieght);
@@ -78,11 +74,7 @@ public class Menu extends JFrame {
         setting.setBackground(color);
         setting.addActionListener(e -> {
             setVisible(false);
-            try {
-                new Setting(this);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            new Setting(this);
         });
 
         panel.add(exit);
