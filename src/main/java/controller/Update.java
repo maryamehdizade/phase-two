@@ -541,22 +541,16 @@ public class Update {
                 y = Math.abs(playerCenter(((MovePlayer) m).playerModel).getY() - point.getY());
             }
             if(x  <= r && y <= r){
+                double speed = distance(x, y, point.getX(), point.getY()) / 500;
                 m.setImpact(true);
-                double a = -point.getY() + m.getLoc().getY();
-               double b = -point.getX() + m.getLoc().getX();
-
-               setSpeed(a, b, m , impactV);
-
-            }else if(x <= 2*r && y <= 2*r){
-                m.setImpact(true);
-                double a = -point.getY() + m.getLoc().getY();
-                double b = -point.getX() + m.getLoc().getX();
-
-                setSpeed(a, b, m, impactV/2.0);
+               setSpeed(point, m , impactV / speed);
             }
         }
     }
-    private void setSpeed(double a, double b, Movable m, double impactV){
+    private void setSpeed(Point2D point, Movable m, double impactV){
+        double a = -point.getY() + m.getLoc().getY();
+        double b = -point.getX() + m.getLoc().getX();
+
         if(b != 0){
             double angel = Math.atan(a/b);
             if(b < 0){
