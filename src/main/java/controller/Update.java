@@ -544,29 +544,36 @@ public class Update {
                 m.setImpact(true);
                 double a = -point.getY() + m.getLoc().getY();
                double b = -point.getX() + m.getLoc().getX();
-               if(b != 0){
-                   double angel = Math.atan(a/b);
-                   m.setYvelocity(impactV*Math.sin(angel));
-                   m.setXvelocity(impactV*Math.cos(angel));
-               }else if(a >= 0){
-                   m.setYvelocity(impactV);
-               }else if(a < 0){
-                   m.setYvelocity(-impactV);
-               }
+
+               setSpeed(a, b, m , impactV);
+
             }else if(x <= 2*r && y <= 2*r){
                 m.setImpact(true);
                 double a = -point.getY() + m.getLoc().getY();
                 double b = -point.getX() + m.getLoc().getX();
-                if(b != 0){
-                    double angel = Math.atan(a/b);
-                    m.setYvelocity(impactV*Math.sin(angel)/2.0);
-                    m.setXvelocity(impactV*Math.cos(angel)/2.0);
-                }else if(a >= 0){
-                    m.setYvelocity(impactV/2.0);
-                }else if(a < 0){
-                    m.setYvelocity(-impactV/2.0);
-                }
+
+                setSpeed(a, b, m, impactV/2.0);
             }
+        }
+    }
+    private void setSpeed(double a, double b, Movable m, double impactV){
+        if(b != 0){
+            double angel = Math.atan(a/b);
+            if(b < 0){
+                m.setXvelocity(-impactV*Math.cos(angel));
+                if(a < 0)m.setYvelocity(-impactV*Math.sin(angel));
+                else m.setYvelocity(impactV*Math.sin(angel));
+            }
+            else{
+                m.setXvelocity(impactV*Math.cos(angel));
+                if(a < 0) m.setYvelocity(impactV*Math.sin(angel));
+                else m.setYvelocity(-impactV*Math.sin(angel));
+            }
+
+        }else if(a >= 0){
+            m.setYvelocity(impactV);
+        }else if(a < 0){
+            m.setYvelocity(-impactV);
         }
     }
     Timer t;
