@@ -66,8 +66,12 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     int power = 5;
     public int count = 0;
 
-    public GamePanel(Game game) throws Exception {
-        Sound.sound().wave();
+    public GamePanel(Game game){
+        try {
+            Sound.sound().wave();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.game = game;
         bound = this.game.menu.bound;
@@ -91,15 +95,23 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
 
     }
 
-    public void Wave() throws Exception {
+    public void Wave(){
         if(enemies >= 10 && wave1 && start && movables.size() == 1){
-            Sound.sound().wave();
+            try {
+                Sound.sound().wave();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             wave++;
             enemies = 0;
             count = 0;
 
         } else if(enemies >= 15 && wave2 && movables.size() == 1){
-            Sound.sound().wave();
+            try {
+                Sound.sound().wave();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             wave++;
             enemies = 0;
             count = 0;

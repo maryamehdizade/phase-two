@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class GameOver extends JFrame {
     Update update;
-    public GameOver(Update update) throws HeadlessException {
+    public GameOver(Update update){
         this.update = update;
 
         setSize(300, 200);

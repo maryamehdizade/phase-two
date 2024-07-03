@@ -142,8 +142,4 @@ public class Store extends JFrame  {
         panel.update.model.start();
     }
 
-    public static void main(String[] args) throws Exception {
-        new Store(new GamePanel(new Game(new Menu())));
-    }
-
 }

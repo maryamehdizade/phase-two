@@ -83,10 +83,15 @@ public class Setting extends JFrame {
 
     }
 
-    private void adjustVolume() throws Exception {
+    private void adjustVolume(){
 
         int volume = sound.getValue();
-        FloatControl gainControl = (FloatControl) Sound.sound().getBack().getControl(FloatControl.Type.MASTER_GAIN);
+        FloatControl gainControl = null;
+        try {
+            gainControl = (FloatControl) Sound.sound().getBack().getControl(FloatControl.Type.MASTER_GAIN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         float gain = (float) volume / sound.getMaximum();
         float dB = gainControl.getMinimum() + gain * (gainControl.getMaximum() - gainControl.getMinimum());
         gainControl.setValue(dB);

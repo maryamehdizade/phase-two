@@ -18,7 +18,7 @@ public  class Game extends JFrame {
     protected Menu menu;
 
 
-    public Game(Menu menu) throws Exception {
+    public Game(Menu menu){
         this.menu = menu;
 
         setUndecorated(true);
@@ -31,11 +31,19 @@ public  class Game extends JFrame {
         setVisible(true);
 
 
-        this.gamePanel = new GamePanel(this);
+        try {
+            this.gamePanel = new GamePanel(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         panel = gamePanel;
         add(panel);
 
-        sound = Sound.sound();
+        try {
+            sound = Sound.sound();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         sound.start();
 
     }

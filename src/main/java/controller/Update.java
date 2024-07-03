@@ -170,7 +170,7 @@ public class Update {
     }
 
     //model
-    public void updateModel() throws Exception{
+    public void updateModel(){
         moveEpsilon();
         updateBullets();
         updateRecs();
@@ -238,7 +238,7 @@ public class Update {
             }
         }
     }
-    private void updateRecs() throws Exception{
+    private void updateRecs(){
         for (int i = 0; i < panel.getRectangleModels().size(); i++) {
             if(new Random().nextDouble(0,50) <= 1){
                 panel.getRectangleModels().get(i).setSpeed(2);
@@ -247,7 +247,7 @@ public class Update {
             checkCollision(panel.getRectangleModels().get(i));
         }
     }
-    private void updateBullets() throws Exception{
+    private void updateBullets(){
         for (int i = 0; i < panel.getBulletsModel().size(); i++) {
             int a = panel.getBulletsModel().get(i).move();
             if(a == 1)moveLeft();
@@ -263,7 +263,7 @@ public class Update {
         }
     }
 
-    private void updateTriangles() throws Exception{
+    private void updateTriangles(){
         for (int i = 0; i < panel.getTriangleModels().size() ; i++) {
             if (Math.abs(panel.getTriangleModels().get(i).getY3() - panel.playerModel.getLocation().getY()) >= 200) {
                 panel.getTriangleModels().get(i).setSpeed(2);
@@ -361,7 +361,7 @@ public class Update {
             }
         }
     }
-    private void checkCollision(Movable movable) throws Exception {
+    private void checkCollision(Movable movable){
         if (movable instanceof BulletModel) {
             bulletRecCollision(movable);
             //tria
@@ -381,16 +381,24 @@ public class Update {
             traingleTriangleCollision(movable);
         }
     }
-    private void bulletRecCollision(Movable movable) throws Exception {
+    private void bulletRecCollision(Movable movable){
         for (int j = 0; j < panel.getRectangleModels().size(); j++) {
             Polygon rec = new Polygon(panel.getRectangleModels().get(j).getxPoints(),
                     panel.getRectangleModels().get(j).getyPoints(), 4);
             if (rec.contains(bulletCenter((BulletModel) movable))) {
-                Sound.sound().injured();
+                try {
+                    Sound.sound().injured();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 removeBullet((BulletModel) movable);
                 panel.getRectangleModels().get(j).setHp(panel.getRectangleModels().get(j).getHp() - panel.getPower());
                 if (panel.getRectangleModels().get(j).getHp() <= 0) {
-                    Sound.sound().death();
+                    try {
+                        Sound.sound().death();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     removeFromMovables(panel.getRectangleModels().get(j));
                     death(panel.getRectangleModels().get(j));
                     removeRect(j);
@@ -571,9 +579,13 @@ public class Update {
         }
     }
     Timer t;
-    private void victory()throws Exception{
+    private void victory(){
         if(panel.isVictory()){
-            Sound.sound().Victory();
+            try {
+                Sound.sound().Victory();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             model.stop();
             view.stop();
             time.stop();
@@ -588,7 +600,7 @@ public class Update {
             t.start();
         }
     }
-    private void v() throws Exception{
+    private void v(){
         if(panel.getDimension().getWidth()  + 200 >= panel.playerModel.size) {
             panel.playerModel.size += 2;
             if(panel.playerModel.getLocation().getX() < panel.getDimension().getWidth()) panel.playerModel.setLocation(new Point2D.Double
@@ -597,7 +609,7 @@ public class Update {
 
         if(panel.playerModel.size > panel.getDimension().getWidth()) v1();
     }
-    private void v1() throws Exception {
+    private void v1(){
         if(panel.getDimension().getWidth() >= 1 && panel.getDimension().getHeight() >= 1){
             panel.setDimension(new Dimension((int) (panel.getDimension().getWidth() - 0.1),
                     (int) (panel.getDimension().getHeight()  - 0.1)));
@@ -619,7 +631,7 @@ public class Update {
             panel.getCollectableViews().add(createCollectableView(c));
         }
     }
-    private void reduceHp(Movable movable) throws Exception {
+    private void reduceHp(Movable movable){
         int w = 10;
         if(movable instanceof RectangleModel)w = 6;
         panel.playerModel.setHp(panel.playerModel.getHp() - w);
@@ -627,7 +639,7 @@ public class Update {
             gameOver();
         }
     }
-    private void gameOver() throws Exception {
+    private void gameOver(){
         if(!panel.isVictory())Sound.sound().Losing();
         model.stop();
         view.stop();
