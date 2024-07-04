@@ -11,9 +11,8 @@ public  class PlayerView {
     private final String id;
     public double size;
     private  Point2D location;
-    private int levelUp;
-    private int[] xPoints;
-    private int[] yPoints;
+    private int[] xPoints = new int[0];
+    private int[] yPoints = new int[0];
 
     public PlayerView(String id, Point2D location) {
         this.location = location;
@@ -22,40 +21,15 @@ public  class PlayerView {
     public void draw(Graphics g){
         g.setColor(Color.gray);
         g.drawOval((int) location.getX(), (int) location.getY(), (int) size, (int) size);
-        if(levelUp > 0){
-            xPoints = new int[levelUp];
-            yPoints = new int[levelUp];
-            double degree = 360.0/levelUp;
-            double xloc = (location.getX() + size / 2);
-            double yloc = (location.getY() + size / 2);
-            int count = 0;
-            for (double i = 0; i < 359.0; i += degree) {
-                System.out.println(i);
-                double x = Math.cos(i) * size;
-                double y = Math.sin(i) * size;
-                xPoints[count] = (int) x;
-                yPoints[count] = (int) y;
-                count ++;
-                //todo:fix
-                g.drawLine((int) xloc, (int) yloc, (int) (x + xloc), (int) (y + yloc));
-            }
 
-//            g.drawPolygon(new int[]{(int) location.getX(), (int) (location.getX() + size/2), (int) (location.getX() + size)},
-//                    new int[]{(int) (location.getY() + size / 2), (int) (location.getY() - size/ 3), (int) (location.getY() +
-//                            size /2)}, 3);
-//            g.setColor(Color.black);
-//            g.fillOval((int) ((int) location.getX() + 1.0), (int) ((int) location.getY() + 1.0),
-//                    (int) ((int) size - 1.2), (int) ((int) size  - 1.2));
-//
-//            g.fillOval((int) (location.getX() + 3*size /10), (int) (location.getY() - size/10), (int) (2*size/5), (int) (2*size/5));
+        double xloc = (location.getX() + size / 2);
+        double yloc = (location.getY() + size / 2);
 
+        for (int i = 0; i < xPoints.length; i++) {
+            g.drawLine((int) xloc, (int) yloc,xPoints[i],yPoints[i]);
         }
-    }
 
-    public  Point2D getLocation() {
-        return new Point2D.Double(location.getX() + BALL_SIZE/2.0,location.getY() + BALL_SIZE/2.0);
     }
-
     public void setLocation(Point2D location) {
         this.location = location;
     }
@@ -80,19 +54,11 @@ public  class PlayerView {
         return id;
     }
 
-    public int getLevelUp() {
-        return levelUp;
+    public void setxPoints(int[] xPoints) {
+        this.xPoints = xPoints;
     }
 
-    public void setLevelUp(int levelUp) {
-        this.levelUp = levelUp;
-    }
-
-    public int[] getxPoints() {
-        return xPoints;
-    }
-
-    public int[] getyPoints() {
-        return yPoints;
+    public void setyPoints(int[] yPoints) {
+        this.yPoints = yPoints;
     }
 }

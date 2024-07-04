@@ -89,28 +89,21 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
 
     }
 
-    public void Wave(){
-        if(enemies >= 10 && wave1 && start && movables.size() == 1){
-            try {
-                Sound.sound().wave();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void Wave() {
+        if (enemies >= 10 && wave1 && start && movables.size() == 1) {
+
+            Sound.sound().wave();
             wave++;
             enemies = 0;
             count = 0;
 
-        } else if(enemies >= 15 && wave2 && movables.size() == 1){
-            try {
-                Sound.sound().wave();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } else if (enemies >= 15 && wave2 && movables.size() == 1) {
+            Sound.sound().wave();
             wave++;
             enemies = 0;
             count = 0;
 
-        }else if(wave == 3 && movables.size() == 1 && enemies >= 20){
+        } else if (wave == 3 && movables.size() == 1 && enemies >= 20) {
             victory = true;
         }
     }
@@ -225,7 +218,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
                         playerModel.setXp(playerModel.getXp() -100);
                         update.proteus = true;
                         proteusCount ++;
-                        playerView.setLevelUp(playerView.getLevelUp() + 1);
+                        playerModel.setLevelUp(playerModel.getLevelUp() + 1);
                         proteus = true;
 //                    }
 //                }

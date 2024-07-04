@@ -31,8 +31,9 @@ public final class PlayerModel implements Movable {
     private boolean d0Force = false;
     private boolean u0Force = false;
     private boolean l0Force = false;
-    private int[] xPoints;
-    private int[] yPoints;
+    private int[] xPoints = new int[0];
+    private int[] yPoints = new int[0];
+    private int levelUp = 0;
     private static PlayerModel player;
 
     public static PlayerModel getPlayer() {
@@ -69,6 +70,25 @@ public final class PlayerModel implements Movable {
             count = 0;
         }
         return 0;
+    }
+    public void setPoints() {
+        if (levelUp > 0) {
+            xPoints = new int[levelUp];
+            yPoints = new int[levelUp];
+            double degree = 360.0 / levelUp;
+            double xloc = (location.getX() + size / 2);
+            double yloc = (location.getY() + size / 2);
+            int count = 0;
+            for (double i = 0; i < 359.0; i += degree) {
+
+                double x = Math.cos(i) * size;
+                double y = Math.sin(i) * size;
+                xPoints[count] = (int) (x + xloc);
+                yPoints[count] = (int) (y + yloc);
+                count++;
+
+            }
+        }
     }
 
     @Override
@@ -259,12 +279,11 @@ public final class PlayerModel implements Movable {
         this.panelH = panelH;
     }
 
-    public void setxPoints(int[] xPoints) {
-        this.xPoints = xPoints;
+    public int getLevelUp() {
+        return levelUp;
     }
 
-    public void setyPoints(int[] yPoints) {
-        this.yPoints = yPoints;
+    public void setLevelUp(int levelUp) {
+        this.levelUp = levelUp;
     }
-
 }

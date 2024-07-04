@@ -38,11 +38,8 @@ public class Update {
     private double empowerSec;
     public boolean ares ;
     public boolean aceso;
-    private boolean impact = false;
     public boolean proteus;
-    public boolean aresC ;
     public boolean acesoC;
-    public boolean proteusC;
     Point2D collision ;
     Point2D collision2;
 
@@ -161,16 +158,19 @@ public class Update {
         panel.playerView.setXp(playerViewXp(panel.playerModel));
         panel.playerView.setHp(playerViewHp(panel.playerModel));
         panel.playerView.size = panel.playerModel.size;
+        panel.playerView.setxPoints(panel.playerModel.getxPoints());
+        panel.playerView.setyPoints(panel.playerModel.getyPoints());
     }
 
     //model
     public void updateModel(){
+        updateEpsilon();
         moveEpsilon();
         updateBullets();
         updateRecs();
         updateTriangles();
         updateCollectable();
-        updateEpsilon();
+
         victory();
         if(second <= 0.1){
             panel.xmin();
@@ -178,13 +178,19 @@ public class Update {
             panel.setSize(panel.getDimension());
             panel.setLocation(panel.getLoc());
         }
-        if(second >= 100) {
+        if(second >= 10) {
             panel.xmin();
             panel.ymin();
 
         }
         panel.setSize(panel.getDimension());
         panel.setLocation(panel.getLoc());
+
+        waveCheck();
+        addingEnemies();
+        panel.Wave();
+    }
+    private void waveCheck(){
         if(panel.wave == 2 && !panel.wave2){
             if(panel.count == 0) {
                 panel.bound -= 20;
@@ -199,18 +205,9 @@ public class Update {
             panel.wave3 = true;
             panel.wave2 = false;
         }
-        if (panel.random.nextDouble(0, panel.bound) < 1) {
-            if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
-                    (panel.wave == 3 && panel.enemies <= 20)) {
-                Sound.sound().entrance();
-                RectangleModel r1 = new RectangleModel(panel);
-                panel.getRectangleModels().add(r1);
-                panel.getRectangleView().add(createRectView(r1));
-                panel.getMovables().add(r1);
-                panel.enemies ++;
-            }
-            panel.start = true;
-        }
+
+    }
+    private void addingEnemies(){
         if (panel.random.nextDouble(0, panel.bound) < 1) {
             if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
                     (panel.wave == 3 && panel.enemies <= 20)) {
@@ -223,7 +220,19 @@ public class Update {
             }
             panel.start = true;
         }
-        panel.Wave();
+
+        if (panel.random.nextDouble(0, panel.bound) < 1) {
+            if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
+                    (panel.wave == 3 && panel.enemies <= 20)) {
+                Sound.sound().entrance();
+                RectangleModel r1 = new RectangleModel(panel);
+                panel.getRectangleModels().add(r1);
+                panel.getRectangleView().add(createRectView(r1));
+                panel.getMovables().add(r1);
+                panel.enemies ++;
+            }
+            panel.start = true;
+        }
     }
     private void updateCollectable(){
         for (int i = 0; i < panel.getCollectableModels().size();i ++){
@@ -273,8 +282,7 @@ public class Update {
         panel.playerModel.setPanelH(panel.getHeight());
         panel.playerModel.setPanelW(panel.getWidth());
 
-        panel.playerModel.setxPoints(panel.playerView.getxPoints());
-        panel.playerModel.setyPoints(panel.playerView.getyPoints());
+        panel.playerModel.setPoints();
     }
 
     private void moveEpsilon(){
@@ -433,13 +441,18 @@ public class Update {
                 movable.getyPoints(), 4);
 
         if(panel.isProteus()){
-            //todo:fix
-            if(rec.contains(playerCenter(panel.playerModel).getX(), playerCenter(panel.playerModel).getY() - BALL_SIZE / 3.0)){
-                movable.setHp(movable.getHp() - 5);
+            for (int i = 0; i < panel.playerModel.getLevelUp(); i++) {
+                if(rec.contains(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i])){
+                    movable.setHp(movable.getHp() - panel.getPower());
+                    if(movable.getHp() <= 0){
+                        Sound.sound().death();
 
-                impact(new Point2D.Double(playerCenter(panel.playerModel).getX(),
-                        playerCenter(panel.playerModel).getY() - BALL_SIZE / 3.0), 50);
+                        entityDeath(movable);
+                    }
+                    impact(new Point2D.Double(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i]), 50);
+                }
             }
+
         }
     }
 
@@ -470,11 +483,16 @@ public class Update {
         Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
 
         if(panel.isProteus()){
-            //todo:fix
-            if(tri.contains(playerCenter(panel.playerModel).getX(), playerCenter(panel.playerModel).getY() - BALL_SIZE / 3.0)){
-                movable.setHp(movable.getHp() - 5);
-                impact(new Point2D.Double(playerCenter(panel.playerModel).getX(),
-                        playerCenter(panel.playerModel).getY() - BALL_SIZE / 3.0), 50);
+            for (int i = 0; i < panel.playerModel.getLevelUp(); i++) {
+                if(tri.contains(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i])){
+                    movable.setHp(movable.getHp() - panel.getPower());
+                    if(movable.getHp() <= 0){
+                        Sound.sound().death();
+
+                        entityDeath(movable);
+                    }
+                    impact(new Point2D.Double(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i]), 50);
+                }
             }
         }
     }
@@ -524,6 +542,17 @@ public class Update {
             removeFromMovables(panel.getRectangleModels().get(p));
             death(panel.getRectangleModels().get(p));
             removeRect(p);
+        }
+    }
+    private void entityDeath(Movable m){
+        if(m instanceof TriangleModel){
+            removeFromMovables(m);
+            death(m);
+            removeTriangle((TriangleModel) m);
+        }else if(m instanceof RectangleModel){
+            removeFromMovables(m);
+            death(m);
+            removeRect((RectangleModel) m);
         }
     }
 
