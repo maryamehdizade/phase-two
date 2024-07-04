@@ -31,6 +31,8 @@ public final class PlayerModel implements Movable {
     private boolean d0Force = false;
     private boolean u0Force = false;
     private boolean l0Force = false;
+    private int[] xPoints;
+    private int[] yPoints;
     private static PlayerModel player;
 
     public static PlayerModel getPlayer() {
@@ -154,7 +156,7 @@ public final class PlayerModel implements Movable {
 
     @Override
     public int[] getxPoints() {
-        return new int[0];
+        return xPoints;
     }
     public void setLocation(Point2D location) {
         this.location = location;
@@ -182,7 +184,7 @@ public final class PlayerModel implements Movable {
 
     @Override
     public int[] getyPoints() {
-        return new int[0];
+        return yPoints;
     }
 
     public boolean isdForce() {
@@ -256,4 +258,13 @@ public final class PlayerModel implements Movable {
     public void setPanelH(double panelH) {
         this.panelH = panelH;
     }
+
+    public void setxPoints(int[] xPoints) {
+        this.xPoints = xPoints;
+    }
+
+    public void setyPoints(int[] yPoints) {
+        this.yPoints = yPoints;
+    }
+
 }

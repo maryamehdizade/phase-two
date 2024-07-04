@@ -220,16 +220,15 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
         }
         if(keyCode == KeyEvent.VK_P){
             if(game.menu.proteus){
-                if(proteusCount == 0) {
-                    if(playerModel.getXp() >= 100) {
+//                if(proteusCount == 0) {
+//                    if(playerModel.getXp() >= 100) {
                         playerModel.setXp(playerModel.getXp() -100);
                         update.proteus = true;
                         proteusCount ++;
-                        //todo:change to int
-                        playerView.setLevelUp(true);
+                        playerView.setLevelUp(playerView.getLevelUp() + 1);
                         proteus = true;
-                    }
-                }
+//                    }
+//                }
                 //todo
             }
         }

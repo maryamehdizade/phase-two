@@ -83,48 +83,35 @@ public class Update {
 
     }
     private void aresCheck(){
-        if(ares || aresC) {
+        if(ares) {
             aresSec += 0.1;
-            if (aresSec >= 15 && !aresC) {
-                ares = false;
-                panel.setPower(5);
-                aresSec = 0;
-                aresC = true;
-            }
             if (aresSec >= 300) {
-                aresC = false;
                 panel.aresCount = 0;
+                ares = false;
+                aresSec = 0;
             }
         }
     }
     private void acesoCheck(){
-        if(aceso || acesoC){
+        if(aceso){
             acesoSec += 0.1;
-            if(acesoSec%1 >= 0  && acesoSec%1 <= 0.12 && !acesoC)
-                panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
-            if(acesoSec >= 15 && !acesoC){
-                aceso = false;
-                acesoSec = 0;
-                acesoC = true;
-            }
+            panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
             if(acesoSec >= 300){
-                acesoC = false;
                 panel.acesoCount = 0;
+                aceso = false;
+                acesoC = true;
+                acesoSec = 0;
             }
-        }
+        }else if(acesoC)
+            panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
     }
     private void proteusCheck(){
-        if(proteus || proteusC){
+        if(proteus){
             proteusSec += 0.1;
-            if(proteusSec >= 10 && !proteusC){
-                proteus = false;
-                proteusSec = 0;
-                proteusC = true;
-                panel.setProteus(false);
-            }
             if(proteusSec >= 300){
-                proteusC = false;
                 panel.proteusCount = 0;
+                proteusSec = 0;
+                proteus = false;
             }
         }
     }
@@ -285,6 +272,9 @@ public class Update {
     private void updateEpsilon(){
         panel.playerModel.setPanelH(panel.getHeight());
         panel.playerModel.setPanelW(panel.getWidth());
+
+        panel.playerModel.setxPoints(panel.playerView.getxPoints());
+        panel.playerModel.setyPoints(panel.playerView.getyPoints());
     }
 
     private void moveEpsilon(){
