@@ -29,9 +29,10 @@ public  class PlayerView {
             double xloc = (location.getX() + size / 2);
             double yloc = (location.getY() + size / 2);
             int count = 0;
-            for (double i = 0; i < 360.0; i += degree) {
-                double x = Math.cos(degree) * size;
-                double y = Math.sin(degree) * size;
+            for (double i = 0; i < 359.0; i += degree) {
+                System.out.println(i);
+                double x = Math.cos(i) * size;
+                double y = Math.sin(i) * size;
                 xPoints[count] = (int) x;
                 yPoints[count] = (int) y;
                 count ++;
