@@ -15,12 +15,11 @@ public class Util {
 
     // collisions
     public static Point2D ert(PlayerModel model, Movable m) {
-        //todo:fix
         if (m instanceof RectangleModel) {
             for (int i = 0; i < 4; i++) {
                 if (distance(playerCenter(model).getX(), playerCenter(model).getY()
                         , m.getxPoints()[i], m.getyPoints()[i])
-                        <= (BALL_SIZE + RECT_SIZE) / 2.0) {
+                        <= (BALL_SIZE ) / 2.0) {
                     return new Point2D.Double((playerCenter(model).getX() + rectCenter((RectangleModel) m).getX()) / 2.0,
                             (playerCenter(model).getY() + rectCenter((RectangleModel) m).getY()) / 2.0);
                 }
@@ -30,7 +29,7 @@ public class Util {
             for (int i = 0; i < 3; i++) {
                 if (distance(playerCenter(model).getX(), playerCenter(model).getY() ,
                         m.getxPoints()[i], m.getyPoints()[i])
-                        <= (BALL_SIZE) / 2.0 + TRI_SIZE / 3.0) {
+                        <= (BALL_SIZE) / 2.0) {
                     return new Point2D.Double((playerCenter(model).getX() + triangleCenter((TriangleModel) m).getX()) / 2.0,
                             (playerCenter(model).getY() + triangleCenter((TriangleModel) m).getY()) / 2.0);
                 }

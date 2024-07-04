@@ -91,17 +91,14 @@ public final class PlayerModel implements Movable {
             if ( getLocation().getX() > 0 &&
                      getLocation().getX() + BALL_SIZE <=  panelW) {
                  setLocation(addVector( getLocation(), new Point2D.Double(velocity, 0)));
-                System.out.println(getLocation());
             }
             if ( getLocation().getX() + BALL_SIZE >  panelW) {
                  setLocation(
                         new Point2D.Double( panelW - BALL_SIZE - 7,  getLocation().getY()));
                 xvelocity = 0;
-                System.out.println(getLocation());
             } else if ( getLocation().getX() < 2) {
                 setLocation(
                         new Point2D.Double(7,  getLocation().getY()));
-                System.out.println(getLocation());
                 xvelocity = 0;
 
             }
