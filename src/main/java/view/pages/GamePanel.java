@@ -2,7 +2,6 @@ package view.pages;
 
 import controller.Update;
 import model.characterModel.BulletModel;
-import model.characterModel.MovePlayer;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
 import model.characterModel.enemy.RectangleModel;
@@ -34,7 +33,6 @@ import static controller.Util.playerCenter;
 public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public PlayerModel playerModel;
     public PlayerView playerView;
-    public MovePlayer movePlayer;
     private ArrayList<BulletView> bullets = new ArrayList<>();
     private ArrayList<RectangleModel> rectangleModels = new ArrayList<>();
     private ArrayList<RectangleView> rectangleView = new ArrayList<>();
@@ -83,8 +81,8 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
 
         playerModel = PlayerModel.getPlayer();
         playerView = createPlayerView(playerModel.getId());
-        movePlayer = new MovePlayer(playerModel, this);
-        movables.add(movePlayer);
+        
+        movables.add(playerModel);
 
         update = new Update(this);
 
@@ -184,13 +182,13 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_A) {
-            movePlayer.setlForce(true);
+             playerModel.setlForce(true);
         } else if (keyCode == KeyEvent.VK_D) {
-            movePlayer.setrForce(true);
+             playerModel.setrForce(true);
         } else if (keyCode == KeyEvent.VK_W) {
-            movePlayer.setuForce(true);
+             playerModel.setuForce(true);
         } else if (keyCode == KeyEvent.VK_S) {
-            movePlayer.setdForce(true);
+             playerModel.setdForce(true);
         }
         if(keyCode == KeyEvent.VK_SPACE){
             update.model.stop();
@@ -205,20 +203,20 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_D) {
-            movePlayer.setrForce(false);
-            movePlayer.setR0Force(true);
+             playerModel.setrForce(false);
+             playerModel.setR0Force(true);
         }
         if (keyCode == KeyEvent.VK_A) {
-            movePlayer.setlForce(false);
-            movePlayer.setL0Force(true);
+             playerModel.setlForce(false);
+             playerModel.setL0Force(true);
         }
         if (keyCode == KeyEvent.VK_S) {
-            movePlayer.setdForce(false);
-            movePlayer.setD0Force(true);
+             playerModel.setdForce(false);
+             playerModel.setD0Force(true);
         }
         if (keyCode == KeyEvent.VK_W) {
-            movePlayer.setuForce(false);
-            movePlayer.setU0Force(true);
+             playerModel.setuForce(false);
+             playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
             if(game.menu.proteus){

@@ -1,16 +1,36 @@
 package model.characterModel;
 
+import model.movement.Movable;
+
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
+import static controller.Constant.BALL_SIZE;
+import static controller.Util.addVector;
 
 
-public final class PlayerModel {
+public final class PlayerModel implements Movable {
+    
+    private double panelW,panelH;
     private String id;
     private int xp = 0;
     private int hp = 100;
     public double size = 20;
     private Point2D location;
+    private double speed;
+    private int impactTime = 50;
+    private int count;
+    private boolean impact;
+    private double xvelocity = 0;
+    private double yvelocity = 0;
+    private boolean dForce = false;
+    private boolean uForce = false;
+    private boolean lForce = false;
+    private boolean rForce = false;
+    private boolean r0Force = false;
+    private boolean d0Force = false;
+    private boolean u0Force = false;
+    private boolean l0Force = false;
     private static PlayerModel player;
 
     public static PlayerModel getPlayer() {
@@ -33,6 +53,112 @@ public final class PlayerModel {
         this.id = UUID.randomUUID().toString();
     }
 
+
+
+
+    @Override
+    public int move() {
+        if(impact){
+             setLocation(new Point2D.Double( getLocation().getX() - xvelocity,
+                     getLocation().getY() - yvelocity));
+            count ++;
+        }if(count == impactTime){
+            impact = false;
+            count = 0;
+        }
+        return 0;
+    }
+
+    @Override
+    public void move(double velocity) {
+        if (dForce || uForce || u0Force || d0Force) {
+            if ( getLocation().getY() > 0 &&
+                     getLocation().getY() + BALL_SIZE <=  panelH) {
+                 setLocation(addVector( getLocation(), new Point2D.Double(0, velocity)));
+            }
+            if ( getLocation().getY() + BALL_SIZE >  panelH) {
+                 setLocation(
+                        new Point2D.Double( getLocation().getX(),  panelH - BALL_SIZE - 7));
+                yvelocity = 0;
+            } else if ( getLocation().getY() < 2) {
+                 setLocation(
+                        new Point2D.Double( getLocation().getX(), 7));
+                yvelocity = 0;
+            }
+            impact = false;
+        }
+        if (rForce || lForce || l0Force || r0Force) {
+            if ( getLocation().getX() > 0 &&
+                     getLocation().getX() + BALL_SIZE <=  panelW) {
+                 setLocation(addVector( getLocation(), new Point2D.Double(velocity, 0)));
+                System.out.println(getLocation());
+            }
+            if ( getLocation().getX() + BALL_SIZE >  panelW) {
+                 setLocation(
+                        new Point2D.Double( panelW - BALL_SIZE - 7,  getLocation().getY()));
+                xvelocity = 0;
+                System.out.println(getLocation());
+            } else if ( getLocation().getX() < 2) {
+                setLocation(
+                        new Point2D.Double(7,  getLocation().getY()));
+                System.out.println(getLocation());
+                xvelocity = 0;
+
+            }
+            impact = false;
+        }
+    }
+
+
+
+
+    @Override
+    public double getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public Point2D getLoc() {
+        return location;
+    }
+
+    @Override
+    public void findPlayer() {
+
+    }
+    @Override
+    public void setImpact(boolean impact) {
+        this.impact = impact;
+    }
+
+
+    @Override
+    public void setXvelocity(double xvelocity) {
+        this.xvelocity = xvelocity;
+    }
+@Override
+    public void setYvelocity(double yvelocity) {
+        this.yvelocity = yvelocity;
+    }
+
+@Override
+    public double getXvelocity() {
+        return xvelocity;
+    }
+@Override
+    public double getYvelocity() {
+        return yvelocity;
+    }
+
+    @Override
+    public int[] getxPoints() {
+        return new int[0];
+    }
     public void setLocation(Point2D location) {
         this.location = location;
     }
@@ -40,20 +166,97 @@ public final class PlayerModel {
     public Point2D getLocation() {
         return location;
     }
-
     public int getXp() {
         return xp;
     }
-
+    @Override
     public int getHp() {
         return hp;
     }
 
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    @Override
     public void setHp(int hp) {
         this.hp = hp;
     }
 
-    public void setXp(int xp) {
-        this.xp = xp;
+    @Override
+    public int[] getyPoints() {
+        return new int[0];
+    }
+
+    public boolean isdForce() {
+        return dForce;
+    }
+
+    public void setdForce(boolean dForce) {
+        this.dForce = dForce;
+    }
+
+    public boolean isuForce() {
+        return uForce;
+    }
+
+    public void setuForce(boolean uForce) {
+        this.uForce = uForce;
+    }
+
+    public boolean islForce() {
+        return lForce;
+    }
+
+    public void setlForce(boolean lForce) {
+        this.lForce = lForce;
+    }
+
+    public boolean isrForce() {
+        return rForce;
+    }
+
+    public void setrForce(boolean rForce) {
+        this.rForce = rForce;
+    }
+
+    public boolean isR0Force() {
+        return r0Force;
+    }
+
+    public void setR0Force(boolean r0Force) {
+        this.r0Force = r0Force;
+    }
+
+    public boolean isD0Force() {
+        return d0Force;
+    }
+
+    public void setD0Force(boolean d0Force) {
+        this.d0Force = d0Force;
+    }
+
+    public boolean isU0Force() {
+        return u0Force;
+    }
+
+    public void setU0Force(boolean u0Force) {
+        this.u0Force = u0Force;
+    }
+
+    public boolean isL0Force() {
+        return l0Force;
+    }
+
+    public void setL0Force(boolean l0Force) {
+        this.l0Force = l0Force;
+    }
+
+    public void setPanelW(double panelW) {
+        this.panelW = panelW;
+    }
+
+    public void setPanelH(double panelH) {
+        this.panelH = panelH;
     }
 }

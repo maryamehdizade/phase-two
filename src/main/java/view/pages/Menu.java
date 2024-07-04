@@ -53,8 +53,8 @@ public class Menu extends JFrame {
         play.setBackground(color);
         play.addActionListener(e -> {
             setVisible(false);
-            Minimize m = new Minimize(this);
-            if (a)
+//            Minimize m = new Minimize(this);
+//            if (a)
                 game = new Game(this);
         });
 

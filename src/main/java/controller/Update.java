@@ -1,7 +1,6 @@
 package controller;
 
 import model.characterModel.BulletModel;
-import model.characterModel.MovePlayer;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
 import model.characterModel.enemy.RectangleModel;
@@ -19,8 +18,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import static controller.Constant.BALL_SIZE;
-import static controller.Constant.MODEL_UPDATE_TIME;
+import static controller.Constant.*;
 import static controller.Controller.*;
 import static controller.Util.*;
 
@@ -51,7 +49,7 @@ public class Update {
     public Update(GamePanel panel) {
         this.panel = panel;
         a = this.panel.game.getMenu().aa;
-        view = new Timer((int) 15, e -> updateView()){{setCoalesce(true);}};
+        view = new Timer((int) FRAME_UPDATE_TIME, e -> updateView()){{setCoalesce(true);}};
         view.start();
         model = new Timer((int) MODEL_UPDATE_TIME, e -> {
             try {
@@ -185,6 +183,7 @@ public class Update {
         updateRecs();
         updateTriangles();
         updateCollectable();
+        updateEpsilon();
         victory();
         if(second <= 0.1){
             panel.xmin();
@@ -283,56 +282,60 @@ public class Update {
             checkCollision(panel.getTriangleModels().get(i));
         }
     }
+    private void updateEpsilon(){
+        panel.playerModel.setPanelH(panel.getHeight());
+        panel.playerModel.setPanelW(panel.getWidth());
+    }
 
     private void moveEpsilon(){
-        panel.movePlayer.move();
-        if (panel.movePlayer.isdForce()) {
-            panel.movePlayer.setYvelocity(panel.movePlayer.getYvelocity() + a);
-            panel.movePlayer.move(panel.movePlayer.getYvelocity());
+        panel.playerModel.move();
+        if (panel. playerModel.isdForce()) {
+            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity() + a);
+            panel. playerModel.move(panel. playerModel.getYvelocity());
         }
-        if (panel.movePlayer.isuForce()) {
-            panel.movePlayer.setYvelocity(panel.movePlayer.getYvelocity()+ a);
-            panel.movePlayer.move(-panel.movePlayer.getYvelocity());
+        if (panel. playerModel.isuForce()) {
+            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()+ a);
+            panel. playerModel.move(-panel. playerModel.getYvelocity());
         }
-        if (panel.movePlayer.isrForce()) {
-            panel.movePlayer.setXvelocity(panel.movePlayer.getXvelocity()+ a);
-            panel.movePlayer.move(panel.movePlayer.getXvelocity());
+        if (panel. playerModel.isrForce()) {
+            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()+ a);
+            panel. playerModel.move(panel. playerModel.getXvelocity());
         }
-        if (panel.movePlayer.islForce()) {
-            panel.movePlayer.setXvelocity(panel.movePlayer.getXvelocity()+ a);
-            panel.movePlayer.move(-panel.movePlayer.getXvelocity());
+        if (panel. playerModel.islForce()) {
+            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()+ a);
+            panel. playerModel.move(-panel. playerModel.getXvelocity());
         }
-        if (panel.movePlayer.isR0Force()){
-            panel.movePlayer.setXvelocity(panel.movePlayer.getXvelocity()- a);
-            if(panel.movePlayer.getXvelocity() <= 0){
-                panel.movePlayer.setR0Force(false);
-                panel.movePlayer.setXvelocity(0);
+        if (panel. playerModel.isR0Force()){
+            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()- a);
+            if(panel. playerModel.getXvelocity() <= 0){
+                panel. playerModel.setR0Force(false);
+                panel. playerModel.setXvelocity(0);
             }
-            panel.movePlayer.move(panel.movePlayer.getXvelocity());
+            panel. playerModel.move(panel. playerModel.getXvelocity());
         }
-        if (panel.movePlayer.isL0Force()) {
-            panel.movePlayer.setXvelocity(panel.movePlayer.getXvelocity()- a);
-            if(panel.movePlayer.getXvelocity() <= 0){
-                panel.movePlayer.setL0Force(false);
-                panel.movePlayer.setXvelocity(0);
+        if (panel. playerModel.isL0Force()) {
+            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()- a);
+            if(panel. playerModel.getXvelocity() <= 0){
+                panel. playerModel.setL0Force(false);
+                panel. playerModel.setXvelocity(0);
             }
-            panel.movePlayer.move(-panel.movePlayer.getXvelocity());
+            panel. playerModel.move(-panel. playerModel.getXvelocity());
         }
-        if (panel.movePlayer.isU0Force()) {
-            panel.movePlayer.setYvelocity(panel.movePlayer.getYvelocity()- a);
-            if(panel.movePlayer.getYvelocity() <= 0){
-                panel.movePlayer.setU0Force(false);
-                panel.movePlayer.setYvelocity(0);
+        if (panel. playerModel.isU0Force()) {
+            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()- a);
+            if(panel. playerModel.getYvelocity() <= 0){
+                panel. playerModel.setU0Force(false);
+                panel. playerModel.setYvelocity(0);
             }
-            panel.movePlayer.move(-panel.movePlayer.getYvelocity());
+            panel. playerModel.move(-panel. playerModel.getYvelocity());
         }
-        if (panel.movePlayer.isD0Force()) {
-            panel.movePlayer.setYvelocity(panel.movePlayer.getYvelocity()- a);
-            if(panel.movePlayer.getYvelocity() <= 0){
-                panel.movePlayer.setD0Force(false);
-                panel.movePlayer.setYvelocity(0);
+        if (panel. playerModel.isD0Force()) {
+            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()- a);
+            if(panel. playerModel.getYvelocity() <= 0){
+                panel. playerModel.setD0Force(false);
+                panel. playerModel.setYvelocity(0);
             }
-            panel.movePlayer.move(panel.movePlayer.getYvelocity());
+            panel. playerModel.move(panel. playerModel.getYvelocity());
         }
         //wall
         if (panel.playerModel.getLocation().getY() + BALL_SIZE> panel.getHeight()) {
@@ -359,8 +362,7 @@ public class Update {
                     Math.abs(c.getLoc().getY() - panel.playerModel.getLocation().getY()) <= 13 ){
 
                 panel.getCollectableModels().get(i).timer.stop();
-
-                panel.getCollectableModels().get(i).timer.stop();
+                
 
                 panel.getCollectableModels().remove(i);
                 panel.getCollectableViews().remove(i);
@@ -548,9 +550,9 @@ public class Update {
             else if(m instanceof TriangleModel){
                 x = Math.abs(m.getLoc().getX() - point.getX());
                 y = Math.abs(m.getLoc().getY() - point.getY());
-            }else if (m instanceof MovePlayer){
-                x = Math.abs(playerCenter(((MovePlayer) m).playerModel).getX() - point.getX());
-                y = Math.abs(playerCenter(((MovePlayer) m).playerModel).getY() - point.getY());
+            }else if (m instanceof PlayerModel){
+                x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
+                y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
             }
             if(x  <= r && y <= r){
                 double speed = distance(x, y, point.getX(), point.getY()) / 500;

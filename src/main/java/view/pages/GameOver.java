@@ -20,6 +20,7 @@ public class GameOver extends JFrame {
         setSize(301,201);
         requestFocus();
         setFocusable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //addbuttons
         add();
