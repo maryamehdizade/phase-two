@@ -18,7 +18,7 @@ public  class Game extends JFrame {
     protected Menu menu;
 
 
-    public Game(Menu menu) {
+    public Game(Menu menu, int phase) {
         this.menu = menu;
 
         setUndecorated(true);
@@ -31,7 +31,7 @@ public  class Game extends JFrame {
         setVisible(true);
 
 
-        this.gamePanel = new GamePanel(this);
+        this.gamePanel = new GamePanel(this, phase);
         panel = gamePanel;
         add(panel);
 

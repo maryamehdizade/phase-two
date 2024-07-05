@@ -55,7 +55,7 @@ public class Menu extends JFrame {
             setVisible(false);
 //            Minimize m = new Minimize(this);
 //            if (a)
-                game = new Game(this);
+                game = new Game(this, 1);
         });
 
         skillTree.setSize(buttonWidth, buttonHieght);

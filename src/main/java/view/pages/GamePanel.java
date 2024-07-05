@@ -1,6 +1,8 @@
 package view.pages;
 
+import controller.SkillTreeHandler;
 import controller.Update;
+import controller.Update2;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
@@ -31,6 +33,7 @@ import static controller.Controller.createPlayerView;
 import static controller.Util.playerCenter;
 
 public  class GamePanel extends JPanel implements KeyListener, MouseListener {
+    private SkillTreeHandler handler;
     public PlayerModel playerModel;
     public PlayerView playerView;
     private ArrayList<BulletView> bullets = new ArrayList<>();
@@ -44,7 +47,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     private ArrayList<Movable> movables = new ArrayList<>();
     private Dimension dimension = new Dimension(700,700);
     private Point loc = new Point(100,20);
-    protected boolean victory = false;
+    public boolean victory = false;
     public Random random = new Random();
     public boolean wave1 = true;
     public int heal = 0;
@@ -53,6 +56,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public boolean wave3 = false;
     public boolean empower = false;
     public int wave = 1;
+    public int phase;
     public int bound ;
     public int enemies = 0;
     public int aresCount ;
@@ -60,12 +64,13 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
     public int proteusCount ;
     private boolean proteus;
     public Game game;
-    Update update;
+    public Update update;
     int power = 5;
     public int count = 0;
 
-    public GamePanel(Game game){
-            Sound.sound().wave();
+    public GamePanel(Game game, int phase) {
+        this.phase = phase;
+        Sound.sound().wave();
 
         this.game = game;
         bound = this.game.menu.bound;
@@ -81,60 +86,14 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
 
         playerModel = PlayerModel.getPlayer();
         playerView = createPlayerView(playerModel.getId());
-        
+
         movables.add(playerModel);
 
         update = new Update(this);
 
-
+        handler = new SkillTreeHandler(this);
     }
 
-    public void Wave() {
-        if (enemies >= 10 && wave1 && start && movables.size() == 1) {
-
-            Sound.sound().wave();
-            wave++;
-            enemies = 0;
-            count = 0;
-
-        } else if (enemies >= 15 && wave2 && movables.size() == 1) {
-            Sound.sound().wave();
-            wave++;
-            enemies = 0;
-            count = 0;
-
-        } else if (wave == 3 && movables.size() == 1 && enemies >= 20) {
-            victory = true;
-        }
-    }
-    public void xmin(){
-        if(dimension.width > MIN_SIZE.width) {
-            dimension.width -= 1;
-            if(loc.getX() < 200) loc.setLocation(loc.getX() + 0.5,loc.getY() );
-        }
-        if(playerModel.getLocation().getX() + BALL_SIZE > dimension.getWidth()){
-            playerModel.setLocation(
-                    new Point2D.Double(dimension.getWidth() - BALL_SIZE ,playerModel.getLocation().getY()));
-        }else if(playerModel.getLocation().getX()  < 2){
-            playerModel.setLocation(
-                    new Point2D.Double(5,playerModel.getLocation().getY()));
-
-        }
-
-    }
-    public void ymin(){
-        if(dimension.height > MIN_SIZE.height) {
-            dimension.height -= 1;
-            if(loc.getY() < 200) loc.setLocation(loc.getX(),loc.getY() + 0.5);
-        }
-        if (playerModel.getLocation().getY() + BALL_SIZE> dimension.getHeight()) {
-            playerModel.setLocation(
-                    new Point2D.Double(playerModel.getLocation().getX(), dimension.getHeight() - BALL_SIZE - 5));
-        }else if(playerModel.getLocation().getY() < 2){
-            playerModel.setLocation(
-                    new Point2D.Double(playerModel.getLocation().getX(),  5));
-        }
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -216,7 +175,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
                 if(proteusCount == 0) {
                     if(playerModel.getXp() >= 100) {
                         playerModel.setXp(playerModel.getXp() -100);
-                        update.proteus = true;
+                        handler.proteus = true;
                         proteusCount ++;
                         playerModel.setLevelUp(playerModel.getLevelUp() + 1);
                         proteus = true;
@@ -230,7 +189,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
                 if(acesoCount == 0) {
                     if(playerModel.getXp() >= 100) {
                         playerModel.setXp(playerModel.getXp() -100);
-                        update.aceso = true;
+                        handler.aceso = true;
                         heal ++;
                         acesoCount ++;
 
@@ -244,7 +203,7 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
                     if(playerModel.getXp() >= 100) {
                         playerModel.setXp(playerModel.getXp() -100);
                         power += 2;
-                        update.ares = true;
+                        handler.ares = true;
                         aresCount++;
                     }
                 }

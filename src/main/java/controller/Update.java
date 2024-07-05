@@ -24,6 +24,7 @@ import static controller.Util.*;
 
 public class Update {
     public GamePanel panel;
+
     public Timer time;
     public Timer view;
     public   Timer model;
@@ -32,14 +33,8 @@ public class Update {
 
     public double a ;
     private double second;
-    private double aresSec = 0;
-    private double acesoSec = 0;
-    private double proteusSec = 0;
-    private double empowerSec;
-    public boolean ares ;
-    public boolean aceso;
-    public boolean proteus;
-    public boolean acesoC;
+    boolean over;
+
     Point2D collision ;
     Point2D collision2;
 
@@ -48,75 +43,21 @@ public class Update {
         a = this.panel.game.getMenu().aa;
         view = new Timer((int) FRAME_UPDATE_TIME, e -> updateView()){{setCoalesce(true);}};
         view.start();
-        model = new Timer((int) MODEL_UPDATE_TIME, e -> {
-            try {
-                updateModel();
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
-            }
-        }){{setCoalesce(true);}};
+        model = new Timer((int) MODEL_UPDATE_TIME, e -> updateModel()){{setCoalesce(true);}};
         model.start();
 
-        time = new Timer(100,e -> {
-            second += 0.1;
-            skiilTree();
-            store();
 
-        });
+        time = new Timer(1000,e -> second += 1);
         time.start();
 
-    }
-    private void store(){
-        //store empower
-        if(panel.empower) {
-            empowerSec += 0.1;
-            if (empowerSec >= 15) panel.empower = false;
-        }
-    }
-    private void skiilTree(){
-        aresCheck();
-        acesoCheck();
-        proteusCheck();
-
-    }
-    private void aresCheck(){
-        if(ares) {
-            aresSec += 0.1;
-            if (aresSec >= 300) {
-                panel.aresCount = 0;
-                ares = false;
-                aresSec = 0;
-            }
-        }
-    }
-    private void acesoCheck(){
-        if(aceso){
-            acesoSec += 0.1;
-            panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
-            if(acesoSec >= 300){
-                panel.acesoCount = 0;
-                aceso = false;
-                acesoC = true;
-                acesoSec = 0;
-            }
-        }else if(acesoC)
-            panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
-    }
-    private void proteusCheck(){
-        if(proteus){
-            proteusSec += 0.1;
-            if(proteusSec >= 300){
-                panel.proteusCount = 0;
-                proteusSec = 0;
-                proteus = false;
-            }
-        }
     }
     public void updateView(){
         updatePlayerView();
         updateBulletsView();
-        updateRectangleView();
-        updateTrianglesView();
+        if(panel.phase == 1) {
+            updateRectangleView();
+            updateTrianglesView();
+        }
     }
     private void updateRectangleView(){
         for (RectangleView r : panel.getRectangleView()) {
@@ -164,31 +105,102 @@ public class Update {
 
     //model
     public void updateModel(){
-        updateEpsilon();
-        moveEpsilon();
+        epsilonCheck();
         updateBullets();
-        updateRecs();
-        updateTriangles();
+        if(panel.phase == 1) {
+            phaseOne();
+        }else{
+
+        }
         updateCollectable();
 
         victory();
+        timeCheck();
+        setPanelSize();
+
+
+    }
+    private void epsilonCheck(){
+        updateEpsilon();
+        moveEpsilon();
+    }
+    private void timeCheck(){
         if(second <= 0.1){
-            panel.xmin();
-            panel.ymin();
-            panel.setSize(panel.getDimension());
-            panel.setLocation(panel.getLoc());
+            initialGame();
         }
         if(second >= 10) {
-            panel.xmin();
-            panel.ymin();
-
+            shrinkage();
         }
+    }
+    private void setPanelSize(){
         panel.setSize(panel.getDimension());
         panel.setLocation(panel.getLoc());
-
+    }
+    private void shrinkage(){
+        xmin();
+        ymin();
+    }
+    private void initialGame(){
+        shrinkage();
+        setPanelSize();
+    }
+    private void phaseOne(){
+        updateRecs();
+        updateTriangles();
         waveCheck();
         addingEnemies();
-        panel.Wave();
+        Wave();
+    }
+    private void phaseTwo(){
+
+    }
+
+    public void xmin(){
+        if(panel.getDimension().width > MIN_SIZE.width) {
+            panel.getDimension().width -= 1;
+            if(panel.getLoc().getX() < 200) panel.getLoc().setLocation(panel.getLoc().getX() + 0.5, panel.getLoc().getY() );
+        }
+        if(panel.playerModel.getLocation().getX() + BALL_SIZE > panel.getDimension().getWidth()){
+            panel.playerModel.setLocation(
+                    new Point2D.Double(panel.getDimension().getWidth() - BALL_SIZE ,panel.playerModel.getLocation().getY()));
+        }else if(panel.playerModel.getLocation().getX()  < 2){
+            panel.playerModel.setLocation(
+                    new Point2D.Double(5,panel.playerModel.getLocation().getY()));
+
+        }
+
+    }
+    public void ymin(){
+        if(panel.getDimension().height > MIN_SIZE.height) {
+            panel.getDimension().height -= 1;
+            if(panel.getLoc().getY() < 200) panel.getLoc().setLocation(panel.getLoc().getX(), panel.getLoc().getY() + 0.5);
+        }
+        if (panel.playerModel.getLocation().getY() + BALL_SIZE> panel.getDimension().getHeight()) {
+            panel.playerModel.setLocation(
+                    new Point2D.Double(panel.playerModel.getLocation().getX(), panel.getDimension().getHeight() - BALL_SIZE - 5));
+        }else if(panel.playerModel.getLocation().getY() < 2){
+            panel.playerModel.setLocation(
+                    new Point2D.Double(panel.playerModel.getLocation().getX(),  5));
+        }
+    }
+
+    public void Wave() {
+        if (panel.enemies >= 10 && panel.wave1 && panel.start && panel.getMovables().size() == 1) {
+
+            waveChange();
+
+        } else if (panel.enemies >= 15 && panel.wave2 && panel.getMovables().size() == 1) {
+            waveChange();
+
+        } else if (panel.wave == 3 && panel.getMovables().size() == 1 && panel.enemies >= 20) {
+            panel.victory = true;
+        }
+    }
+    private void waveChange(){
+        Sound.sound().wave();
+        panel.wave++;
+        panel.enemies = 0;
+        panel.count = 0;
     }
     private void waveCheck(){
         if(panel.wave == 2 && !panel.wave2){
@@ -335,7 +347,11 @@ public class Update {
             }
             panel. playerModel.move(panel. playerModel.getYvelocity());
         }
-        //wall
+
+        wallCheck();
+        getC();
+    }
+    private void wallCheck(){
         if (panel.playerModel.getLocation().getY() + BALL_SIZE> panel.getHeight()) {
             panel.playerModel.setLocation(
                     new Point2D.Double(panel.playerModel.getLocation().getX(), panel.getHeight() - BALL_SIZE - 5));
@@ -351,7 +367,6 @@ public class Update {
                     new Point2D.Double(10,panel.playerModel.getLocation().getY()));
 
         }
-        getC();
     }
     private void getC(){
         for (int i = 0; i < panel.getCollectableModels().size(); i++) {
@@ -663,6 +678,7 @@ public class Update {
         model.stop();
         view.stop();
         time.stop();
+        over = true;
         PlayerModel.setPlayer( null);
         Sound.sound().stop();
 
