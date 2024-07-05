@@ -14,16 +14,15 @@ import static controller.Util.setEntityLoc;
 
 public class Omenoctmodel extends Enemy implements Movable {
     private GamePanel panel;
-    private PlayerModel playerModel;
     private double speed = 1;
     private int hp = 20;
     private Random random = new Random();
     private int[] xPoints;
     private int[] yPoints;
     private Point2D loc;
-    private double xvelocity;
-    private double yvelocity;
     private String id;
+    private double m;
+    private boolean impact;
     private JFrame frame;
     private Point2D destination;
     private double x, x2, x3, x4, x5, x6, x7, x8,y, y2,y3,y4,y5,y6,y7,y8;
@@ -60,11 +59,23 @@ public class Omenoctmodel extends Enemy implements Movable {
         yPoints = new int[]{(int) y, (int) y, (int) (y + OMENOCT_SIZE/3), (int) (y + OMENOCT_SIZE *2/3),
                 (int) (y + OMENOCT_SIZE), (int) (y + OMENOCT_SIZE), (int) (y + OMENOCT_SIZE*2/3), (int) (y + OMENOCT_SIZE/3)};
 
+        if(!impact) {
+            m = Math.atan2((destination.getY() - loc.getY()), (destination.getX() - loc.getX()));
+            xvelocity = (Math.cos(m) * 2) * speed;
+            yvelocity = (Math.sin(m) * 2) * speed;
+        }
+        if(impact){
+            findPlayer(loc);
+        }if( xvelocity == (Math.cos(m) * 2) * speed &&  yvelocity == (Math.sin(m) * 2) * speed){
+            impact = false;
+        }
         return 0;
     }
     @Override
     public void findPlayer(Point2D loc) {
-
+        m = Math.atan2((destination.getY() - loc.getY()),(destination.getX() - loc.getX()));
+        xvelocity += ((Math.cos(m) * 2) * speed - xvelocity)/80;
+        yvelocity += ((Math.sin(m) * 2) * speed - yvelocity)/80;
     }
 
     private void findNearestWall(){
@@ -123,7 +134,7 @@ public class Omenoctmodel extends Enemy implements Movable {
 
     @Override
     public void setImpact(boolean impact) {
-
+        this.impact = impact;
     }
 
     @Override

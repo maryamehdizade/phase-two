@@ -11,18 +11,14 @@ import static controller.Util.setEntityLoc;
 
 public class RectangleModel extends Enemy  implements Movable {
     private int hp = 10;
-    private GamePanel panel;
     private Random random = new Random();
     private int[] xPoints;
     private int[] yPoints;
     private Point2D loc;
     String id;
     private boolean impact;
-    private double m;
 
-    public RectangleModel(GamePanel panel) {
-        this.panel = panel;
-        this.playerModel = panel.playerModel;
+    public RectangleModel() {
         this.id = UUID.randomUUID().toString();
         createRecs();
     }

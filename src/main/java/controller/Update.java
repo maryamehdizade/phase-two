@@ -224,7 +224,7 @@ public class Update {
             if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
                     (panel.wave == 3 && panel.enemies <= 20)) {
                 Sound.sound().entrance();
-                TriangleModel t1 = new TriangleModel(panel);
+                TriangleModel t1 = new TriangleModel();
                 panel.getTriangleModels().add(t1);
                 panel.getTriangleViews().add(createTriangleView(t1));
                 panel.getMovables().add(t1);
@@ -237,7 +237,7 @@ public class Update {
             if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
                     (panel.wave == 3 && panel.enemies <= 20)) {
                 Sound.sound().entrance();
-                RectangleModel r1 = new RectangleModel(panel);
+                RectangleModel r1 = new RectangleModel();
                 panel.getRectangleModels().add(r1);
                 panel.getRectangleView().add(createRectView(r1));
                 panel.getMovables().add(r1);
