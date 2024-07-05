@@ -635,6 +635,7 @@ public class Update {
     private void v(){
         if(panel.getDimension().getWidth()  + 200 >= panel.playerModel.size) {
             panel.playerModel.size += 2;
+            panel.playerModel.setPoints();
             if(panel.playerModel.getLocation().getX() < panel.getDimension().getWidth()) panel.playerModel.setLocation(new Point2D.Double
                     (panel.playerModel.getLocation().getX() - 1, panel.playerModel.getLocation().getY() - 1));
         }
