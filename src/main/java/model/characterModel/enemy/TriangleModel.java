@@ -9,18 +9,15 @@ import java.util.Random;
 import java.util.UUID;
 
 import static controller.Constant.TRI_SIZE;
+import static controller.Util.setEntityLoc;
 
-public class TriangleModel implements Movable {
+public class TriangleModel extends Enemy implements Movable {
 
     private double x1, y1, x2, y2, x3, y3;
     private int[] xPoints;
     private int[] yPoints;
     private Point2D loc;
-    private double speed = 1;
-    private double dx;
-    private double dy;
     private int hp = 15;
-    private PlayerModel playerModel;
     private String id;
     private Random random = new Random();
     private GamePanel panel;
@@ -34,31 +31,29 @@ public class TriangleModel implements Movable {
 
         createTriangle();
     }
-    public void findPlayer(){
-        double m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
-        dx += ((Math.cos(m) * 2) * speed - dx)/80;
-        dy += ((Math.sin(m) * 2) * speed - dy)/80;
+    public void findPlayer(Point2D loc){
+        super.findPlayer(loc);
     }
     @Override
     public int move() {
         if(!impact) {
             angle = Math.atan2((playerModel.getLocation().getY() - y1), (playerModel.getLocation().getX() - x1));
-            dx = (Math.cos(angle) * 2) * speed;
-            dy = (Math.sin(angle) * 2) * speed;
+             xvelocity = (Math.cos(angle) * 2) * speed;
+             yvelocity = (Math.sin(angle) * 2) * speed;
         }
         if(impact){
-            findPlayer();
-        }if(dx == (Math.cos(angle) * 2) * speed && dy == (Math.sin(angle) * 2) * speed){
+            findPlayer(loc);
+        }if( xvelocity == (Math.cos(angle) * 2) * speed &&  yvelocity == (Math.sin(angle) * 2) * speed){
             impact = false;
         }
 
 
-        x1 += dx;
-        y1 += dy;
-        x2 += dx;
-        y2 += dy;
-        x3 += dx;
-        y3 += dy;
+        x1 +=  xvelocity;
+        y1 +=  yvelocity;
+        x2 +=  xvelocity;
+        y2 +=  yvelocity;
+        x3 +=  xvelocity;
+        y3 +=  yvelocity;
 
         xPoints = new int[]{(int) x1, (int) x3, (int) x2};
         yPoints = new int[]{(int) y1, (int) y3, (int) y2};
@@ -70,23 +65,11 @@ public class TriangleModel implements Movable {
     void createTriangle(){
         double x;
         double y;
-        double r = Math.floor(Math.random()*2);
-        if(r == 0) {
-            x = random.nextDouble(20, 700);
-            if(Math.floor(Math.random()*2) == 0){
-                y = 30;
-            }else{
-                y = 500;
-            }
-        }else {
-            y = random.nextDouble(0, 500);
-            if(Math.floor(Math.random()*2) == 0){
-                x =20;
-            }else{
-                x = 800;
-            }
 
-        }
+        Point2D startLoc = setEntityLoc();
+        x = startLoc.getX();
+        y = startLoc.getY();
+
         this.x1 = x;
         this.y1 = y;
         this.x2 = x + TRI_SIZE;
@@ -98,8 +81,8 @@ public class TriangleModel implements Movable {
         yPoints = new int[]{(int) y1, (int) y3, (int) y2};
 
          angle = Math.atan2(playerModel.getLocation().getY() - y1, playerModel.getLocation().getX() - x1);
-         dx = Math.cos(angle) * speed;
-         dy = Math.sin(angle) * speed;
+          xvelocity = Math.cos(angle) * speed;
+          yvelocity = Math.sin(angle) * speed;
 
         loc = new Point2D.Double((x1 + x2 + x3)/3, (y1 + y2 + y3)/3);
     }
@@ -152,22 +135,22 @@ public class TriangleModel implements Movable {
 
     @Override
     public void setXvelocity(double xvelocity) {
-        dx = xvelocity;
+         this.xvelocity = xvelocity;
     }
 
     @Override
     public void setYvelocity(double yvelocity) {
-        dy = yvelocity;
+         this.yvelocity = yvelocity;
     }
 
     @Override
     public double getXvelocity() {
-        return dx;
+        return  xvelocity;
     }
 
     @Override
     public double getYvelocity() {
-        return dy;
+        return  yvelocity;
     }
 
     @Override

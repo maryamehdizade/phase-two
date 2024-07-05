@@ -1,6 +1,4 @@
 package model.characterModel.enemy;
-
-import model.characterModel.PlayerModel;
 import model.movement.Movable;
 import view.pages.GamePanel;
 
@@ -9,19 +7,15 @@ import java.util.Random;
 import java.util.UUID;
 
 import static controller.Constant.RECT_SIZE;
+import static controller.Util.setEntityLoc;
 
-public class RectangleModel extends java.awt.Rectangle implements Movable {
+public class RectangleModel extends Enemy  implements Movable {
     private int hp = 10;
-    private PlayerModel playerModel;
-
-    private double speed = 1;
     private GamePanel panel;
     private Random random = new Random();
     private int[] xPoints;
     private int[] yPoints;
     private Point2D loc;
-    private double dx;
-    private double dy;
     String id;
     private boolean impact;
     private double m;
@@ -33,34 +27,15 @@ public class RectangleModel extends java.awt.Rectangle implements Movable {
         createRecs();
     }
     public void createRecs(){
-        double x;
-        double y;
-        double r = Math.floor(Math.random()*2);
-        if(r == 0) {
-            x = random.nextDouble(20,500);
-            if(Math.floor(Math.random()*2) == 0){
-                y = 20 ;
-            }else{
-                y =500;
-            }
-        }else {
-            y = random.nextDouble(20, 500);
-            if(Math.floor(Math.random()*2) == 0){
-                x = 20;
-            }else{
-                x = 800;
-            }
 
-        }
-
-        loc = new Point2D.Double(x,y);
+        loc = setEntityLoc();
 
         xPoints = new int[]{(int) loc.getX(), (int) (loc.getX() + RECT_SIZE),(int) (loc.getX() + RECT_SIZE), (int) loc.getX()};
         yPoints = new int[]{(int) loc.getY(), (int) loc.getY(), (int) (loc.getY() + RECT_SIZE), (int) (loc.getY() + RECT_SIZE)};
 
         m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
-        dx = (Math.cos(m) * 2) * speed;
-        dy = (Math.sin(m) * 2) * speed;
+         xvelocity = (Math.cos(m) * 2) * speed;
+         yvelocity = (Math.sin(m) * 2) * speed;
 
     }
 
@@ -69,18 +44,18 @@ public class RectangleModel extends java.awt.Rectangle implements Movable {
 
         if(!impact) {
             m = Math.atan2((playerModel.getLocation().getY() - loc.getY()), (playerModel.getLocation().getX() - loc.getX()));
-            dx = (Math.cos(m) * 2) * speed;
-            dy = (Math.sin(m) * 2) * speed;
+             xvelocity = (Math.cos(m) * 2) * speed;
+             yvelocity = (Math.sin(m) * 2) * speed;
         }
 
         if(impact){
-            findPlayer();
-        }if(dx == (Math.cos(m) * 2) * speed && dy == (Math.sin(m) * 2) * speed){
+            findPlayer(loc);
+        }if( xvelocity == (Math.cos(m) * 2) * speed &&  yvelocity == (Math.sin(m) * 2) * speed){
             impact = false;
         }
 
 
-        loc = new Point2D.Double(loc.getX() + dx, loc.getY() + dy);
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
 
         xPoints = new int[]{(int) loc.getX(), (int) (loc.getX() + RECT_SIZE),(int) (loc.getX() + RECT_SIZE), (int) loc.getX()};
         yPoints = new int[]{(int) loc.getY(), (int) loc.getY(), (int) (loc.getY() + RECT_SIZE), (int) (loc.getY() + RECT_SIZE)};
@@ -90,10 +65,8 @@ public class RectangleModel extends java.awt.Rectangle implements Movable {
     }
 
     @Override
-    public void findPlayer() {
-        double m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
-        dx += ((Math.cos(m) * 2) * speed - dx)/80;
-        dy += ((Math.sin(m) * 2) * speed - dy)/80;
+    public void findPlayer(Point2D loc) {
+        super.findPlayer(loc);
     }
 
     @Override
@@ -133,22 +106,22 @@ public class RectangleModel extends java.awt.Rectangle implements Movable {
         return speed;
     }
     public void setXvelocity(double xvelocity) {
-        dx = xvelocity;
+         this.xvelocity = xvelocity;
     }
 
     @Override
     public void setYvelocity(double yvelocity) {
-        dy = yvelocity;
+         this.yvelocity = yvelocity;
     }
 
     @Override
     public double getXvelocity() {
-        return dx;
+        return  xvelocity;
     }
 
     @Override
     public double getYvelocity() {
-        return dy;
+        return  yvelocity;
     }
     @Override
     public void move(double velocity) {

@@ -22,7 +22,7 @@ public interface Movable {
 
     Point2D getLoc();
 
-    void findPlayer();
+
 
     void setImpact(boolean impact);
 

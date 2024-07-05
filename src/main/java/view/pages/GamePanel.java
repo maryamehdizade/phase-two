@@ -85,6 +85,8 @@ public  class GamePanel extends JPanel implements KeyListener, MouseListener {
 
 
         playerModel = PlayerModel.getPlayer();
+        playerModel.setFrame(game);
+
         playerView = createPlayerView(playerModel.getId());
 
         movables.add(playerModel);

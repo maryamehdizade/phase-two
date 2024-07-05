@@ -2,6 +2,7 @@ package model.characterModel;
 
 import model.movement.Movable;
 
+import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public final class PlayerModel implements Movable {
     private int[] yPoints = new int[0];
     private int levelUp = 0;
     private static PlayerModel player;
+    private JFrame frame;
 
     public static PlayerModel getPlayer() {
         if(player == null){
@@ -129,7 +131,13 @@ public final class PlayerModel implements Movable {
     }
 
 
+    public JFrame getFrame() {
+        return frame;
+    }
 
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
 
     @Override
     public double getSpeed() {
@@ -146,10 +154,6 @@ public final class PlayerModel implements Movable {
         return location;
     }
 
-    @Override
-    public void findPlayer() {
-
-    }
     @Override
     public void setImpact(boolean impact) {
         this.impact = impact;

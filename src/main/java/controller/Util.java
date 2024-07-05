@@ -7,11 +7,36 @@ import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import static controller.Constant.*;
 import static java.awt.geom.Point2D.distance;
 
 public class Util {
+    public static Point2D setEntityLoc(){
+        double x;
+        double y;
+        double r = Math.floor(Math.random()*2);
+        Random random = new Random();
+        if(r == 0) {
+            x = random.nextDouble(20,500);
+            if(Math.floor(Math.random()*2) == 0){
+                y = 20 ;
+            }else{
+                y =500;
+            }
+        }else {
+            y = random.nextDouble(20, 500);
+            if(Math.floor(Math.random()*2) == 0){
+                x = 20;
+            }else{
+                x = 800;
+            }
+
+        }
+        return new Point2D.Double(x, y);
+    }
+
 
     // collisions
     public static Point2D ert(PlayerModel model, Movable m) {

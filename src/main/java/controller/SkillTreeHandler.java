@@ -54,15 +54,16 @@ public class SkillTreeHandler {
     private void acesoCheck(){
         if(aceso){
             acesoSec += 0.1;
-               panel.playerModel.setHp(   panel.playerModel.getHp() +    panel.heal);
+            if(acesoSec%1 >= 0  && acesoSec%1 <= 0.12)
+                panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
             if(acesoSec >= 300){
-                   panel.acesoCount = 0;
+                panel.acesoCount = 0;
                 aceso = false;
                 acesoC = true;
                 acesoSec = 0;
             }
         }else if(acesoC)
-               panel.playerModel.setHp(   panel.playerModel.getHp() +    panel.heal);
+               panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
     }
     private void proteusCheck(){
         if(proteus){
