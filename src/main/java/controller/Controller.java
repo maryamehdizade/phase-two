@@ -16,14 +16,11 @@ import java.util.Objects;
 
 public class Controller  {
 
-    public static PlayerView createPlayerView(String id){
-        return new PlayerView(id, Objects.requireNonNull(findPlayer(id)).getLocation());
+    public static PlayerView createPlayerView(){
+        return new PlayerView(PlayerModel.getPlayer().getLocation());
     }
     public static RectangleView createRectView(RectangleModel rectangleModel){
         return new RectangleView(rectangleModel.getId(), rectangleModel.getLoc());
-    }
-    public static PlayerModel findPlayer(String id){
-        return PlayerModel.getPlayer();
     }
     public static Point2D playerViewLocation(PlayerModel playerModel){
         return playerModel.getLocation();
@@ -38,7 +35,7 @@ public class Controller  {
 
     }
     public static BulletView createBulletView(BulletModel bulletModel){
-        return new BulletView(bulletModel.getId(), bulletModel.getLoc(), bulletModel.getDx(), bulletModel.getDy(), bulletModel.getPanel());
+        return new BulletView(bulletModel.getId(), bulletModel.getLoc());
     }
     public static CollectableView createCollectableView(CollectableModel collectableModel){
         return new CollectableView(collectableModel.getId(), collectableModel.getLoc());

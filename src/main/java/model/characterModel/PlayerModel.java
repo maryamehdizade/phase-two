@@ -13,7 +13,6 @@ import static controller.Util.addVector;
 public final class PlayerModel implements Movable {
     
     private double panelW,panelH;
-    private String id;
     private int xp = 0;
     private int hp = 100;
     public double size = 20;
@@ -50,12 +49,11 @@ public final class PlayerModel implements Movable {
     }
 
     public String getId() {
-        return id;
+        return "";
     }
 
     public PlayerModel(Point2D location) {
         this.location = location;
-        this.id = UUID.randomUUID().toString();
     }
 
 
@@ -137,11 +135,6 @@ public final class PlayerModel implements Movable {
 
     public void setFrame(JFrame frame) {
         this.frame = frame;
-    }
-
-    @Override
-    public double getSpeed() {
-        return speed;
     }
 
     @Override

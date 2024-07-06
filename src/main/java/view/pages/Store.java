@@ -51,8 +51,9 @@ public class Store extends JFrame  {
         slaughter.setBackground(color);
         slaughter.setFont(new Font("TimesRoman", Font.PLAIN, font));
         slaughter.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 200){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 200);
+            if(panel. playerView.getXp() >= 200){
+                panel. playerView.setXp(panel. playerView.getXp() - 200);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -61,8 +62,9 @@ public class Store extends JFrame  {
         slumber.setBackground(color);
         slumber.setFont(new Font("TimesRoman", Font.PLAIN, font));
         slumber.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 150){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 150);
+            if(panel. playerView.getXp() >= 150){
+                panel. playerView.setXp(panel. playerView.getXp() - 150);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -71,8 +73,9 @@ public class Store extends JFrame  {
         dismay.setBackground(color);
         dismay.setFont(new Font("TimesRoman", Font.PLAIN, font));
         dismay.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 120){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 120);
+            if(panel. playerView.getXp() >= 120){
+                panel. playerView.setXp(panel. playerView.getXp() - 120);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -84,9 +87,11 @@ public class Store extends JFrame  {
         banish.setBackground(color);
         banish.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         banish.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 100){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 100);
-                panel.update.impact(playerCenter(panel.playerModel), 200);
+            if(panel. playerView.getXp() >= 100){
+                panel. playerView.setXp(panel. playerView.getXp() - 100);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
+                panel.update.impact(panel.playerView.getLoc(), 200);
+
             }
             start();
         });
@@ -96,8 +101,9 @@ public class Store extends JFrame  {
         empower.setBackground(color);
         empower.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         empower.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 75){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 75);
+            if(panel. playerView.getXp() >= 75){
+                panel. playerView.setXp(panel. playerView.getXp() - 75);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
                 panel.empower = true;
             }
             start();
@@ -109,9 +115,11 @@ public class Store extends JFrame  {
         heal.setBackground(color);
         heal.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         heal.addActionListener(e -> {
-            if(panel.playerModel.getXp() >= 50){
-                panel.playerModel.setXp(panel.playerModel.getXp() - 50);
-                panel.playerModel.setHp(panel.playerModel.getHp() + 10);
+            if(panel.playerView.getXp() >= 50){
+                panel. playerView.setXp(panel. playerView.getXp() - 50);
+                panel.update.dataBase.setXp(panel.playerView.getXp());
+                panel. playerView.setHp(panel. playerView.getHp() + 10);
+                panel.update.dataBase.setHp(panel.playerView.getHp());
             }
             start();
         });

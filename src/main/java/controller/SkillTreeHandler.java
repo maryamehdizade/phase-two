@@ -55,7 +55,7 @@ public class SkillTreeHandler {
         if(aceso){
             acesoSec += 0.1;
             if(acesoSec%1 >= 0  && acesoSec%1 <= 0.12)
-                panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
+                DataBase.getDataBase().playerModel.setHp(DataBase.getDataBase().playerModel.getHp() + panel.heal);
             if(acesoSec >= 300){
                 panel.acesoCount = 0;
                 aceso = false;
@@ -63,7 +63,7 @@ public class SkillTreeHandler {
                 acesoSec = 0;
             }
         }else if(acesoC)
-               panel.playerModel.setHp(panel.playerModel.getHp() + panel.heal);
+               DataBase.getDataBase().playerModel.setHp(DataBase.getDataBase().playerModel.getHp() + panel.heal);
     }
     private void proteusCheck(){
         if(proteus){

@@ -1,14 +1,18 @@
 package view.charactersView.enemy;
 
+import view.drawable.Drawable;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
 import static controller.Constant.RECT_SIZE;
 
-public class RectangleView {
+public class RectangleView implements Drawable {
     private int hp;
     private Point2D loc;
     String id;
+    private int[] xPoints;
+    private int[] yPoints;
 
     public RectangleView(String id, Point2D loc) {
         this.id = id;
@@ -36,5 +40,21 @@ public class RectangleView {
 
     public int getHp() {
         return hp;
+    }
+
+    @Override
+    public void setxPoints(int[] xPoints) {
+        this.xPoints = xPoints;
+    }
+
+    @Override
+    public void setyPoints(int[] yPoints) {
+        this.yPoints = yPoints;
+    }
+
+
+    @Override
+    public void setXp(int xp) {
+
     }
 }

@@ -1,5 +1,6 @@
 package view.charactersView;
 
+import view.drawable.Drawable;
 import view.pages.GamePanel;
 
 import java.awt.*;
@@ -7,21 +8,15 @@ import java.awt.geom.Point2D;
 
 import static controller.Constant.BULLET_SIZE;
 
-public class BulletView {
+public class BulletView implements Drawable {
     private Point2D loc;
-    private double dx;
-    private double dy;
     private String id;
 
-    GamePanel panel;
 
-    public BulletView(String id, Point2D loc, double dx, double dy, GamePanel panel) {
+    public BulletView(String id, Point2D loc) {
 
-        this.panel = panel;
         this.id = id;
         this.loc = loc;
-        this.dx = dx;
-        this.dy = dy;
 
     }
 
@@ -34,7 +29,28 @@ public class BulletView {
         this.loc = loc;
     }
 
+    @Override
+    public void setHp(int hp) {
+    }
+
+    @Override
+    public void setxPoints(int[] xPoints) {
+
+    }
+
+    @Override
+    public void setyPoints(int[] yPoints) {
+
+    }
+
+
+    @Override
+    public void setXp(int xp) {
+
+    }
+
     public String getId() {
         return id;
     }
+
 }

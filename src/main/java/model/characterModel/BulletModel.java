@@ -7,16 +7,15 @@ import java.awt.geom.Point2D;
 import java.util.UUID;
 
 public class BulletModel implements Movable {
+    private double panelW,panelH;
     private Point2D loc;
     private double dx;
     private double dy;
-    private double speed = 6;
+    private double speed = 3;
     private String id;
-    GamePanel panel;
 
-    public BulletModel(Point2D loc, int targetX, int targetY, GamePanel panel) {
+    public BulletModel(Point2D loc, int targetX, int targetY) {
 
-        this.panel = panel;
 
         id = UUID.randomUUID().toString();
         this.loc = loc;
@@ -59,9 +58,9 @@ public class BulletModel implements Movable {
         loc = new Point2D.Double(loc.getX() + dx, loc.getY() + dy);
 
         if(loc.getX() < 0)return 1;
-        else if(loc.getX() > panel.getDimension().getWidth())return 2;
+        else if(loc.getX() > panelW)return 2;
         else if(loc.getY() < 0)return 3;
-        else if(loc.getY() > panel.getDimension().getHeight())return 4;
+        else if(loc.getY() > panelH)return 4;
         return 0;
     }
 
@@ -70,10 +69,6 @@ public class BulletModel implements Movable {
 
     }
 
-    @Override
-    public double getSpeed() {
-        return speed;
-    }
 
     @Override
     public void setSpeed(double speed) {
@@ -100,17 +95,7 @@ public class BulletModel implements Movable {
         return dy;
     }
 
-    public GamePanel getPanel() {
-        return panel;
-    }
 
-    public double getDx() {
-        return dx;
-    }
-
-    public double getDy() {
-        return dy;
-    }
 
     public Point2D getLoc() {
         return loc;
@@ -118,5 +103,13 @@ public class BulletModel implements Movable {
 
     public String getId() {
         return id;
+    }
+
+    public void setPanelW(double panelW) {
+        this.panelW = panelW;
+    }
+
+    public void setPanelH(double panelH) {
+        this.panelH = panelH;
     }
 }

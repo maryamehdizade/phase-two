@@ -1,13 +1,33 @@
 package view.charactersView.enemy;
 
+import view.drawable.Drawable;
+
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static controller.Constant.TRI_SIZE;
 
-public class TriangleView {
+public class TriangleView implements Drawable {
     private double x1, y1, x2, y2, x3, y3;
     private int hp;
     private String id;
+    private int[] xPoints = new int[3];
+    private int[] yPoints = new int[3];
+
+
+    public void setxPoints(int[] xPoints) {
+        this.xPoints = xPoints;
+    }
+
+    public void setyPoints(int[] yPoints) {
+        this.yPoints = yPoints;
+    }
+
+
+    @Override
+    public void setXp(int xp) {
+
+    }
 
     public TriangleView(String id, double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
@@ -20,11 +40,10 @@ public class TriangleView {
     }
 
     public void draw(Graphics g) {
-        int[] xPoints = {(int) x1, (int) x2, (int) x3};
-        int[] yPoints = {(int) y1, (int) y2, (int) y3};
         g.setColor(Color.yellow);
         g.drawPolygon(xPoints, yPoints, 3);
-        g.drawString(String.valueOf(hp), (int) ((x1 + x2 + x3) / 3) - TRI_SIZE/5, (int) ((y1 + y2 + y3) / 3) +  TRI_SIZE/5);
+        g.drawString(String.valueOf(hp), ((xPoints[0] + xPoints[2] + xPoints[2]) / 3) - TRI_SIZE/5,
+                ((yPoints[0] + yPoints[1] + yPoints[2]) / 3) +  TRI_SIZE/5);
     }
 
     public void setX1(double x1) {
@@ -57,6 +76,11 @@ public class TriangleView {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public void setLoc(Point2D loc) {
+
     }
 
 }

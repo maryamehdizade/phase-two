@@ -65,6 +65,7 @@ public class RectangleModel extends Enemy  implements Movable {
         super.findPlayer(loc);
     }
 
+
     @Override
     public void setImpact(boolean impact) {
         this.impact = impact;
@@ -98,9 +99,6 @@ public class RectangleModel extends Enemy  implements Movable {
         this.speed = speed;
     }
 
-    public double getSpeed() {
-        return speed;
-    }
     public void setXvelocity(double xvelocity) {
          this.xvelocity = xvelocity;
     }
@@ -121,6 +119,16 @@ public class RectangleModel extends Enemy  implements Movable {
     }
     @Override
     public void move(double velocity) {
+
+    }
+
+    @Override
+    public void setPanelW(double panelW) {
+
+    }
+
+    @Override
+    public void setPanelH(double panelH) {
 
     }
 

@@ -1,39 +1,38 @@
 package view.charactersView;
 
+import view.drawable.Drawable;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.UUID;
 
 import static controller.Constant.BALL_SIZE;
 
-public  class PlayerView {
+public  class PlayerView implements Drawable {
     private int xp ;
     private int hp ;
     private final String id;
-    public double size;
-    private  Point2D location;
+    private double size;
+    private  Point2D  loc;
     private int[] xPoints = new int[0];
     private int[] yPoints = new int[0];
 
-    public PlayerView(String id, Point2D location) {
-        this.location = location;
-        this.id = id;
+    public PlayerView(Point2D  loc) {
+        this. loc =  loc;
+        id = UUID.randomUUID().toString();
     }
     public void draw(Graphics g){
         g.setColor(Color.gray);
-        g.drawOval((int) location.getX(), (int) location.getY(), (int) size, (int) size);
+        g.drawOval((int)  loc.getX(), (int)  loc.getY(), (int) size, (int) size);
 
-        double xloc = (location.getX() + size / 2);
-        double yloc = (location.getY() + size / 2);
+        double xloc = ( loc.getX() + size / 2);
+        double yloc = ( loc.getY() + size / 2);
 
         for (int i = 0; i < xPoints.length; i++) {
             g.drawLine((int) xloc, (int) yloc,xPoints[i],yPoints[i]);
         }
 
     }
-    public void setLocation(Point2D location) {
-        this.location = location;
-    }
-
     public int getXp() {
         return xp;
     }
@@ -51,7 +50,7 @@ public  class PlayerView {
     }
 
     public String getId() {
-        return id;
+        return "";
     }
 
     public void setxPoints(int[] xPoints) {
@@ -60,5 +59,18 @@ public  class PlayerView {
 
     public void setyPoints(int[] yPoints) {
         this.yPoints = yPoints;
+    }
+
+    public Point2D getLoc() {
+        return loc;
+    }
+
+    @Override
+    public void setLoc(Point2D loc) {
+        this.loc = loc;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 }

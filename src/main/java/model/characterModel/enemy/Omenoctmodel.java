@@ -1,34 +1,29 @@
 package model.characterModel.enemy;
 
-import model.characterModel.PlayerModel;
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
-import java.util.Random;
 import java.util.UUID;
 
 import static controller.Constant.OMENOCT_SIZE;
+import static controller.Constant.RECT_SIZE;
 import static controller.Util.setEntityLoc;
 
 public class Omenoctmodel extends Enemy implements Movable {
-    private GamePanel panel;
     private double speed = 1;
     private int hp = 20;
-    private Random random = new Random();
     private int[] xPoints;
     private int[] yPoints;
     private Point2D loc;
     private String id;
-    private double m;
+    private double panelW, panelH, panelX, panelY;
     private boolean impact;
     private JFrame frame;
+    private boolean xWall;
     private Point2D destination;
     private double x, x2, x3, x4, x5, x6, x7, x8,y, y2,y3,y4,y5,y6,y7,y8;
-    public Omenoctmodel(GamePanel panel){
-        this.panel = panel;
-        this.playerModel = panel.playerModel;
+    public Omenoctmodel(){
         frame = playerModel.getFrame();
         this.id = UUID.randomUUID().toString();
         createOmenoct();
@@ -37,6 +32,8 @@ public class Omenoctmodel extends Enemy implements Movable {
         Point2D startLoc = setEntityLoc();
         x = startLoc.getX();
         y = startLoc.getY();
+
+        loc = new Point2D.Double(x + OMENOCT_SIZE/2.0, y + OMENOCT_SIZE/2.0);
 
         xPoints = new int[]{(int) (x + OMENOCT_SIZE/3), (int) (x + OMENOCT_SIZE * 2/3), (int) (x + OMENOCT_SIZE),
                 (int) (x + OMENOCT_SIZE), (int) (x + OMENOCT_SIZE * 2 /3), (int) (x + OMENOCT_SIZE/3), (int) x, (int) x};
@@ -54,40 +51,94 @@ public class Omenoctmodel extends Enemy implements Movable {
     @Override
     public int move() {
 
-        xPoints = new int[]{(int) (x + OMENOCT_SIZE/3), (int) (x + OMENOCT_SIZE * 2/3), (int) (x + OMENOCT_SIZE),
-                (int) (x + OMENOCT_SIZE), (int) (x + OMENOCT_SIZE * 2 /3), (int) (x + OMENOCT_SIZE/3), (int) x, (int) x};
-        yPoints = new int[]{(int) y, (int) y, (int) (y + OMENOCT_SIZE/3), (int) (y + OMENOCT_SIZE *2/3),
-                (int) (y + OMENOCT_SIZE), (int) (y + OMENOCT_SIZE), (int) (y + OMENOCT_SIZE*2/3), (int) (y + OMENOCT_SIZE/3)};
-
         if(!impact) {
-            m = Math.atan2((destination.getY() - loc.getY()), (destination.getX() - loc.getX()));
-            xvelocity = (Math.cos(m) * 2) * speed;
-            yvelocity = (Math.sin(m) * 2) * speed;
+            findPlayer(loc);
         }
         if(impact){
-            findPlayer(loc);
+            findNearestWall();
         }if( xvelocity == (Math.cos(m) * 2) * speed &&  yvelocity == (Math.sin(m) * 2) * speed){
             impact = false;
         }
+
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+
+        xPoints = new int[]{(int) loc.getX() - OMENOCT_SIZE, (int) (loc.getX() + OMENOCT_SIZE/6),
+                (int) (loc.getX() + OMENOCT_SIZE/2), (int) (loc.getX() + OMENOCT_SIZE/2),  (int) (loc.getX() + OMENOCT_SIZE/6)
+        , (int) (loc.getX() - OMENOCT_SIZE/6), (int) (loc.getX() - OMENOCT_SIZE/2), (int) (loc.getX() - OMENOCT_SIZE/2)};
+
+        yPoints = new int[]{(int) loc.getY() - OMENOCT_SIZE/2, (int) loc.getY() - OMENOCT_SIZE/2, (int)loc.getY() - OMENOCT_SIZE/6,
+                (int) (loc.getY() + OMENOCT_SIZE/6) ,(int) loc.getY() + OMENOCT_SIZE/2, (int) loc.getY() + OMENOCT_SIZE/2 ,
+                (int) (loc.getY() + OMENOCT_SIZE/6),  (int) (loc.getY() - OMENOCT_SIZE/6)};
+
         return 0;
+    }
+    private boolean checkX(){
+        return destination.getX() == loc.getX() - OMENOCT_SIZE/2 || destination.getX() == loc.getX() + OMENOCT_SIZE/2;
+    }
+    private boolean checkY(){
+        return destination.getY() == loc.getY() - OMENOCT_SIZE/2 || destination.getY() == loc.getY() + OMENOCT_SIZE/2;
     }
     @Override
     public void findPlayer(Point2D loc) {
-        m = Math.atan2((destination.getY() - loc.getY()),(destination.getX() - loc.getX()));
-        xvelocity += ((Math.cos(m) * 2) * speed - xvelocity)/80;
-        yvelocity += ((Math.sin(m) * 2) * speed - yvelocity)/80;
+        if (destination.getY() != 0 && destination.getY() != panelH) {
+            if (checkX())
+                verticalMovement();
+            else {
+                if (loc.getX() - OMENOCT_SIZE/2.0 <= 2 || loc.getX() + OMENOCT_SIZE/2.0 >= panelW - 2) {
+                    horizonMovement();
+                } else verticalMovement();
+            }
+        } else if (destination.getX() != 0 && destination.getX() != panelW) {
+            if (checkY())
+                horizonMovement();
+            else {
+                if (loc.getX() - OMENOCT_SIZE/2<= 2 || loc.getX() + OMENOCT_SIZE/2 >= panelH - 2)
+                    verticalMovement();
+                else horizonMovement();
+
+            }
+        }
+    }
+    private void verticalMovement(){
+        if(loc.getY() > destination.getY())speed = -1;
+        else speed = 1;
+//        if(loc.getX() != destination.getX())speed *= -1;
+        xvelocity = 0;
+        yvelocity = speed * 2;
+    }
+    private void horizonMovement(){
+    if(loc.getX() > destination.getX())speed = -1;
+    else speed = 1;
+//    if(loc.getY()!= destination.getY()) speed *= -1;
+    xvelocity = speed * 2;
+    yvelocity = 0;
+}
+    @Override
+    void setVel() {
+
     }
 
     private void findNearestWall(){
-        double xDis = - panel.getX() + playerModel.getLocation().getX();
-        double xDis2 = panel.getWidth() - playerModel.getLocation().getX();
-        double yDis = -panel.getY() + playerModel.getLocation().getY();
-        double yDis2 = panel.getHeight() - playerModel.getLocation().getY();
+        double xDis = - panelX + playerModel.getLocation().getX();
+        double xDis2 = panelW - playerModel.getLocation().getX();
+        double yDis = -panelY + playerModel.getLocation().getY();
+        double yDis2 = panelH - playerModel.getLocation().getY();
         double y = Math.min(yDis2, yDis);
         double x = Math.min(xDis, xDis2);
-        if(x > y)destination = new Point2D.Double(0, y);
-        if(y > x)destination = new Point2D.Double(x, 0);
+        if(x > y){
+            double yy = 0;
+            if(xDis2 < xDis)yy = panelH;
+            destination = new Point2D.Double( playerModel.getLocation().getX(), yy);
+            xWall = false;
+        }
+        if(y > x){
+            double yy = 0;
+            if(yDis2 < yDis)yy = panelW;
+             destination = new Point2D.Double(yy, playerModel.getLocation().getY());
+            xWall = true;
+        }
 
+        findPlayer(loc);
     }
 
     @Override
@@ -96,8 +147,13 @@ public class Omenoctmodel extends Enemy implements Movable {
     }
 
     @Override
-    public double getSpeed() {
-        return speed;
+    public void setPanelW(double panelW) {
+
+    }
+
+    @Override
+    public void setPanelH(double panelH) {
+
     }
 
     @Override

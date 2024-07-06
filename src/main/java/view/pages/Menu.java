@@ -22,9 +22,9 @@ public class Menu extends JFrame {
     private int xLoc = 200;
     private final Color color = Color.GRAY;
     Game game;
-    boolean ares = false;
-    boolean aceso = false;
-    boolean proteus = false;
+    public boolean ares = false;
+    public boolean aceso = false;
+    public boolean proteus = false;
     private int xp;
 
     private JPanel panel = new JPanel();

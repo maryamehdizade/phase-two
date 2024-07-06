@@ -5,30 +5,20 @@ import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.Constant.COLLECTABLE_SIZE;
+public class OmenovtView implements Drawable {
+    @Override
+    public void draw(Graphics g) {
 
-public class CollectableView implements Drawable {
-    private Point2D loc;
-    String id;
-
-    public CollectableView(String ID, Point2D loc) {
-        id = ID;
-        this.loc = loc;
-    }
-
-    public void draw(Graphics g){
-        g.setColor(Color.white);
-        g.drawOval((int) loc.getX(), (int) loc.getY(), COLLECTABLE_SIZE, COLLECTABLE_SIZE);
     }
 
     @Override
     public String getId() {
-        return id;
+        return null;
     }
 
     @Override
     public void setLoc(Point2D loc) {
-        this.loc = loc;
+
     }
 
     @Override

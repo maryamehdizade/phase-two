@@ -7,7 +7,9 @@ public interface Movable {
 
     void move(double velocity);
 
-    double getSpeed();
+
+    void setPanelW(double panelW);
+    void setPanelH(double panelH);
 
     void setSpeed(double speed);
 
@@ -33,4 +35,5 @@ public interface Movable {
     int getHp();
 
     int[] getyPoints();
+    String getId();
 }

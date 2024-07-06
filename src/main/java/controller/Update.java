@@ -8,8 +8,11 @@ import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
 import sound.Sound;
 import view.charactersView.BulletView;
+import view.charactersView.PlayerView;
+import view.charactersView.enemy.CollectableView;
 import view.charactersView.enemy.RectangleView;
 import view.charactersView.enemy.TriangleView;
+import view.drawable.Drawable;
 import view.pages.GameOver;
 import view.pages.GamePanel;
 
@@ -34,13 +37,24 @@ public class Update {
     public double a ;
     private double second;
     boolean over;
+    public DataBase dataBase;
 
     Point2D collision ;
     Point2D collision2;
+    private void initialDataBase(){
+        DataBase.setDataBase(new DataBase(this));
+        dataBase = DataBase.getDataBase();
+        panel.playerView = createPlayerView();
+        panel.getDrawables().add(panel.playerView);
+    }
 
     public Update(GamePanel panel) {
+
+
         this.panel = panel;
         a = this.panel.game.getMenu().aa;
+
+        initialDataBase();
         view = new Timer((int) FRAME_UPDATE_TIME, e -> updateView()){{setCoalesce(true);}};
         view.start();
         model = new Timer((int) MODEL_UPDATE_TIME, e -> updateModel()){{setCoalesce(true);}};
@@ -52,55 +66,57 @@ public class Update {
 
     }
     public void updateView(){
-        updatePlayerView();
-        updateBulletsView();
-        if(panel.phase == 1) {
-            updateRectangleView();
-            updateTrianglesView();
-        }
-    }
-    private void updateRectangleView(){
-        for (RectangleView r : panel.getRectangleView()) {
-            for (RectangleModel model: panel.getRectangleModels()) {
-                if(model.getId().equals(r.getId())){
-                    r.setLoc(model.getLoc());
-                    r.setHp(model.getHp());
-                }
-            }
-        }
-    }
-    private void updateTrianglesView(){
-        for (TriangleView t : panel.getTriangleViews()) {
-            for (TriangleModel model: panel.getTriangleModels()) {
-                if(model.getId().equals(t.getId())){
-                    t.setX1(model.getX1());
-                    t.setX2(model.getX2());
-                    t.setX3(model.getX3());
-                    t.setY1(model.getY1());
-                    t.setY2(model.getY2());
-                    t.setY3(model.getY3());
-                    t.setHp(model.getHp());
 
+        updatePanelDrawables();
+    }
+    private void updatePanelDrawables(){
+        for(Drawable d: panel.getDrawables()){
+            if(d instanceof PlayerView)updatePlayerView((PlayerView) d);
+            if(d instanceof RectangleView)updateRectangleView((RectangleView) d);
+            if(d instanceof TriangleView)updateTrianglesView((TriangleView) d);
+            if(d instanceof BulletView)updateBulletsView((BulletView) d);
+        }
+    }
+    private void updateRectangleView(RectangleView r) {
+        for (Movable movable : dataBase.movables) {
+            if(movable instanceof RectangleModel) {
+                if (movable.getId().equals(r.getId())) {
+                    r.setLoc(movable.getLoc());
+                    r.setHp(movable.getHp());
+                    r.setxPoints(movable.getxPoints());
+                    r.setyPoints(movable.getyPoints());
                 }
             }
         }
     }
-    private void updateBulletsView(){
-        for (BulletView b : panel.getBullets()) {
-            for (BulletModel m : panel.getBulletsModel()) {
-                if(m.getId().equals(b.getId())){
-                    b.setLoc(m.getLoc());
+    private void updateTrianglesView(TriangleView r) {
+        for (Movable movable : dataBase.movables) {
+            if (movable instanceof TriangleModel) {
+                if (movable.getId().equals(r.getId())) {
+                    r.setLoc(movable.getLoc());
+                    r.setHp(movable.getHp());
+                    r.setxPoints(movable.getxPoints());
+                    r.setyPoints(movable.getyPoints());
                 }
             }
         }
     }
-    private void updatePlayerView(){
-        panel.playerView.setLocation(playerViewLocation(panel.playerModel));
-        panel.playerView.setXp(playerViewXp(panel.playerModel));
-        panel.playerView.setHp(playerViewHp(panel.playerModel));
-        panel.playerView.size = panel.playerModel.size;
-        panel.playerView.setxPoints(panel.playerModel.getxPoints());
-        panel.playerView.setyPoints(panel.playerModel.getyPoints());
+    private void updateBulletsView(BulletView r) {
+        for (Movable movable : dataBase.movables) {
+            if (movable instanceof BulletModel) {
+                if (movable.getId().equals(r.getId())) {
+                    r.setLoc(movable.getLoc());
+                }
+            }
+        }
+    }
+    private void updatePlayerView(PlayerView p) {
+        p.setLoc(playerViewLocation(dataBase.playerModel));
+        p.setXp(playerViewXp(dataBase.playerModel));
+        p.setHp(playerViewHp(dataBase.playerModel));
+        p.setSize(dataBase.playerModel.size);
+        p.setxPoints(dataBase.playerModel.getxPoints());
+        p.setyPoints(dataBase.playerModel.getyPoints());
     }
 
     //model
@@ -160,12 +176,12 @@ public class Update {
             panel.getDimension().width -= 1;
             if(panel.getLoc().getX() < 200) panel.getLoc().setLocation(panel.getLoc().getX() + 0.5, panel.getLoc().getY() );
         }
-        if(panel.playerModel.getLocation().getX() + BALL_SIZE > panel.getDimension().getWidth()){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.getDimension().getWidth() - BALL_SIZE ,panel.playerModel.getLocation().getY()));
-        }else if(panel.playerModel.getLocation().getX()  < 2){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(5,panel.playerModel.getLocation().getY()));
+        if( dataBase.playerModel.getLocation().getX() + BALL_SIZE > panel.getDimension().getWidth()){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double(panel.getDimension().getWidth() - BALL_SIZE , dataBase.playerModel.getLocation().getY()));
+        }else if( dataBase.playerModel.getLocation().getX()  < 2){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double(5, dataBase.playerModel.getLocation().getY()));
 
         }
 
@@ -175,24 +191,24 @@ public class Update {
             panel.getDimension().height -= 1;
             if(panel.getLoc().getY() < 200) panel.getLoc().setLocation(panel.getLoc().getX(), panel.getLoc().getY() + 0.5);
         }
-        if (panel.playerModel.getLocation().getY() + BALL_SIZE> panel.getDimension().getHeight()) {
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.playerModel.getLocation().getX(), panel.getDimension().getHeight() - BALL_SIZE - 5));
-        }else if(panel.playerModel.getLocation().getY() < 2){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.playerModel.getLocation().getX(),  5));
+        if ( dataBase.playerModel.getLocation().getY() + BALL_SIZE> panel.getDimension().getHeight()) {
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double( dataBase.playerModel.getLocation().getX(), panel.getDimension().getHeight() - BALL_SIZE - 5));
+        }else if( dataBase.playerModel.getLocation().getY() < 2){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double( dataBase.playerModel.getLocation().getX(),  5));
         }
     }
 
     public void Wave() {
-        if (panel.enemies >= 10 && panel.wave1 && panel.start && panel.getMovables().size() == 1) {
+        if (panel.enemies >= 10 && panel.wave1 && panel.start && dataBase.movables.size() == 1) {
 
             waveChange();
 
-        } else if (panel.enemies >= 15 && panel.wave2 && panel.getMovables().size() == 1) {
+        } else if (panel.enemies >= 15 && panel.wave2 && dataBase.movables.size() == 1) {
             waveChange();
 
-        } else if (panel.wave == 3 && panel.getMovables().size() == 1 && panel.enemies >= 20) {
+        } else if (panel.wave == 3 && dataBase.movables.size() == 1 && panel.enemies >= 20) {
             panel.victory = true;
         }
     }
@@ -225,9 +241,8 @@ public class Update {
                     (panel.wave == 3 && panel.enemies <= 20)) {
                 Sound.sound().entrance();
                 TriangleModel t1 = new TriangleModel();
-                panel.getTriangleModels().add(t1);
-                panel.getTriangleViews().add(createTriangleView(t1));
-                panel.getMovables().add(t1);
+                dataBase.movables.add(t1);
+                panel.getDrawables().add(createTriangleView(t1));
                 panel.enemies ++;
             }
             panel.start = true;
@@ -238,213 +253,240 @@ public class Update {
                     (panel.wave == 3 && panel.enemies <= 20)) {
                 Sound.sound().entrance();
                 RectangleModel r1 = new RectangleModel();
-                panel.getRectangleModels().add(r1);
-                panel.getRectangleView().add(createRectView(r1));
-                panel.getMovables().add(r1);
+                dataBase.movables.add(r1);
+                panel.getDrawables().add(createRectView(r1));
                 panel.enemies ++;
             }
             panel.start = true;
         }
     }
     private void updateCollectable(){
-        for (int i = 0; i < panel.getCollectableModels().size();i ++){
-            if(panel.getCollectableModels().get(i).getSecond() >= 10){
-                panel.getCollectableModels().remove(i);
-                panel.getCollectableViews().remove(i);
+        for (int i = 0; i < dataBase.collectableModels.size();i ++) {
+            if (dataBase.collectableModels.get(i).getSecond() >= 10) {
+                removeCollectable(dataBase.collectableModels.get(i));
+                dataBase.collectableModels.remove(i);
+
+            }
+        }
+    }
+    private void removeCollectable(CollectableModel c){
+        for(int i = 0; i < panel.getDrawables().size(); i++){
+            if(panel.getDrawables().get(i) instanceof CollectableView){
+                if(panel.getDrawables().get(i).getId().equals(c.getId())){
+                    panel.getDrawables().remove(i);
+                    break;
+                }
             }
         }
     }
     private void updateRecs(){
-        for (int i = 0; i < panel.getRectangleModels().size(); i++) {
-            if(new Random().nextDouble(0,50) <= 1){
-                panel.getRectangleModels().get(i).setSpeed(2);
-            }if(second % 2 == 0)panel.getRectangleModels().get(i).setSpeed(1);
-            panel.getRectangleModels().get(i).move();
-            checkCollision(panel.getRectangleModels().get(i));
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            if(dataBase.movables.get(i) instanceof RectangleModel) {
+                if (new Random().nextDouble(0, 50) <= 1) {
+                    dataBase.movables.get(i).setSpeed(2);
+                }
+                if (second % 2 == 0) dataBase.movables.get(i).setSpeed(1);
+                dataBase.movables.get(i).move();
+                checkCollision(dataBase.movables.get(i));
+            }
         }
     }
     private void updateBullets(){
-        for (int i = 0; i < panel.getBulletsModel().size(); i++) {
-            int a = panel.getBulletsModel().get(i).move();
-            if(a == 1)moveLeft();
-            else if(a == 2)moveRight();
-            else if(a == 3)moveUp();
-            else if(a == 4)moveDown();
-            checkCollision(panel.getBulletsModel().get(i));
-            if (a != 0) {
-                impact(bulletCenter(panel.getBulletsModel().get(i)), 50);
-                removeBullet(i);
-            }
+        for (int i = 0; i <  dataBase.movables.size(); i++) {
+            if(dataBase.movables.get(i) instanceof BulletModel) {
 
+                dataBase.movables.get(i).setPanelH(panel.getHeight());
+                dataBase.movables.get(i).setPanelW(panel.getWidth());
+
+                int a = dataBase.movables.get(i).move();
+                if (a == 1) moveLeft();
+                else if (a == 2) moveRight();
+                else if (a == 3) moveUp();
+                else if (a == 4) moveDown();
+
+                if (a != 0) {
+                    impact(bulletCenter((BulletModel) dataBase.movables.get(i)), 50);
+                    removeBullet(i);
+                }else{
+                    checkCollision(dataBase.movables.get(i));
+                }
+
+            }
         }
     }
 
     private void updateTriangles(){
-        for (int i = 0; i < panel.getTriangleModels().size() ; i++) {
-            if (Math.abs(panel.getTriangleModels().get(i).getY3() - panel.playerModel.getLocation().getY()) >= 200) {
-                panel.getTriangleModels().get(i).setSpeed(2);
-            }else{
-                panel.getTriangleModels().get(i).setSpeed(1);
+        for (int i = 0; i <  dataBase.movables.size() ; i++) {
+            if (distance(dataBase.movables.get(i).getLoc().getX(), dataBase.movables.get(i).getLoc().getY()
+                    , dataBase.playerModel.getLoc().getX(), dataBase.playerModel.getLoc().getY()) >= 200) {
+                dataBase.movables.get(i).setSpeed(2);
+            } else {
+                dataBase.movables.get(i).setSpeed(1);
             }
-            panel.getTriangleModels().get(i).move();
-            checkCollision(panel.getTriangleModels().get(i));
+            dataBase.movables.get(i).move();
+            checkCollision(dataBase.movables.get(i));
         }
     }
     private void updateEpsilon(){
-        panel.playerModel.setPanelH(panel.getHeight());
-        panel.playerModel.setPanelW(panel.getWidth());
+         dataBase.playerModel.setPanelH(panel.getHeight());
+         dataBase.playerModel.setPanelW(panel.getWidth());
+         dataBase.playerModel.setPoints();
 
-        panel.playerModel.setPoints();
     }
 
     private void moveEpsilon(){
-        panel.playerModel.move();
-        if (panel. playerModel.isdForce()) {
-            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity() + a);
-            panel. playerModel.move(panel. playerModel.getYvelocity());
+         dataBase.playerModel.move();
+        if ( dataBase. playerModel.isdForce()) {
+             dataBase. playerModel.setYvelocity( dataBase. playerModel.getYvelocity() + a);
+             dataBase. playerModel.move( dataBase. playerModel.getYvelocity());
         }
-        if (panel. playerModel.isuForce()) {
-            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()+ a);
-            panel. playerModel.move(-panel. playerModel.getYvelocity());
+        if ( dataBase. playerModel.isuForce()) {
+             dataBase. playerModel.setYvelocity( dataBase. playerModel.getYvelocity()+ a);
+             dataBase. playerModel.move(- dataBase. playerModel.getYvelocity());
         }
-        if (panel. playerModel.isrForce()) {
-            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()+ a);
-            panel. playerModel.move(panel. playerModel.getXvelocity());
+        if ( dataBase. playerModel.isrForce()) {
+             dataBase. playerModel.setXvelocity( dataBase. playerModel.getXvelocity()+ a);
+             dataBase. playerModel.move( dataBase. playerModel.getXvelocity());
         }
-        if (panel. playerModel.islForce()) {
-            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()+ a);
-            panel. playerModel.move(-panel. playerModel.getXvelocity());
+        if ( dataBase. playerModel.islForce()) {
+             dataBase. playerModel.setXvelocity( dataBase. playerModel.getXvelocity()+ a);
+             dataBase. playerModel.move(- dataBase. playerModel.getXvelocity());
         }
-        if (panel. playerModel.isR0Force()){
-            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()- a);
-            if(panel. playerModel.getXvelocity() <= 0){
-                panel. playerModel.setR0Force(false);
-                panel. playerModel.setXvelocity(0);
+        if ( dataBase. playerModel.isR0Force()){
+             dataBase. playerModel.setXvelocity( dataBase. playerModel.getXvelocity()- a);
+            if( dataBase. playerModel.getXvelocity() <= 0){
+                 dataBase. playerModel.setR0Force(false);
+                 dataBase. playerModel.setXvelocity(0);
             }
-            panel. playerModel.move(panel. playerModel.getXvelocity());
+             dataBase. playerModel.move( dataBase. playerModel.getXvelocity());
         }
-        if (panel. playerModel.isL0Force()) {
-            panel. playerModel.setXvelocity(panel. playerModel.getXvelocity()- a);
-            if(panel. playerModel.getXvelocity() <= 0){
-                panel. playerModel.setL0Force(false);
-                panel. playerModel.setXvelocity(0);
+        if ( dataBase. playerModel.isL0Force()) {
+             dataBase. playerModel.setXvelocity( dataBase. playerModel.getXvelocity()- a);
+            if( dataBase. playerModel.getXvelocity() <= 0){
+                 dataBase. playerModel.setL0Force(false);
+                 dataBase. playerModel.setXvelocity(0);
             }
-            panel. playerModel.move(-panel. playerModel.getXvelocity());
+             dataBase. playerModel.move(- dataBase. playerModel.getXvelocity());
         }
-        if (panel. playerModel.isU0Force()) {
-            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()- a);
-            if(panel. playerModel.getYvelocity() <= 0){
-                panel. playerModel.setU0Force(false);
-                panel. playerModel.setYvelocity(0);
+        if ( dataBase. playerModel.isU0Force()) {
+             dataBase. playerModel.setYvelocity( dataBase. playerModel.getYvelocity()- a);
+            if( dataBase. playerModel.getYvelocity() <= 0){
+                 dataBase. playerModel.setU0Force(false);
+                 dataBase. playerModel.setYvelocity(0);
             }
-            panel. playerModel.move(-panel. playerModel.getYvelocity());
+             dataBase. playerModel.move(- dataBase. playerModel.getYvelocity());
         }
-        if (panel. playerModel.isD0Force()) {
-            panel. playerModel.setYvelocity(panel. playerModel.getYvelocity()- a);
-            if(panel. playerModel.getYvelocity() <= 0){
-                panel. playerModel.setD0Force(false);
-                panel. playerModel.setYvelocity(0);
+        if ( dataBase. playerModel.isD0Force()) {
+             dataBase. playerModel.setYvelocity( dataBase. playerModel.getYvelocity()- a);
+            if( dataBase. playerModel.getYvelocity() <= 0){
+                 dataBase. playerModel.setD0Force(false);
+                 dataBase. playerModel.setYvelocity(0);
             }
-            panel. playerModel.move(panel. playerModel.getYvelocity());
+             dataBase. playerModel.move( dataBase. playerModel.getYvelocity());
         }
 
         wallCheck();
         getC();
     }
     private void wallCheck(){
-        if (panel.playerModel.getLocation().getY() + BALL_SIZE> panel.getHeight()) {
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.playerModel.getLocation().getX(), panel.getHeight() - BALL_SIZE - 5));
-        }else if(panel.playerModel.getLocation().getY() < 2){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.playerModel.getLocation().getX(),  10));
+        if ( dataBase.playerModel.getLocation().getY() + BALL_SIZE> panel.getHeight()) {
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double( dataBase.playerModel.getLocation().getX(), panel.getHeight() - BALL_SIZE - 5));
+        }else if( dataBase.playerModel.getLocation().getY() < 2){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double( dataBase.playerModel.getLocation().getX(),  10));
         }
-        if(panel.playerModel.getLocation().getX() + BALL_SIZE > panel.getWidth()){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(panel.getWidth() - BALL_SIZE ,panel.playerModel.getLocation().getY()));
-        }else if(panel.playerModel.getLocation().getX()  < 2){
-            panel.playerModel.setLocation(
-                    new Point2D.Double(10,panel.playerModel.getLocation().getY()));
+        if( dataBase.playerModel.getLocation().getX() + BALL_SIZE > panel.getWidth()){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double(panel.getWidth() - BALL_SIZE ,dataBase.playerModel.getLocation().getY()));
+        }else if( dataBase.playerModel.getLocation().getX()  < 2){
+             dataBase.playerModel.setLocation(
+                    new Point2D.Double(10, dataBase.playerModel.getLocation().getY()));
 
         }
     }
     private void getC(){
-        for (int i = 0; i < panel.getCollectableModels().size(); i++) {
-            CollectableModel c = panel.getCollectableModels().get(i);
-            if(Math.abs(c.getLoc().getX() - panel.playerModel.getLocation().getX()) <= 13 &&
-                    Math.abs(c.getLoc().getY() - panel.playerModel.getLocation().getY()) <= 13 ){
+        for (int i = 0; i <  dataBase.collectableModels.size(); i++) {
+            CollectableModel c = dataBase.collectableModels.get(i);
+            if (Math.abs(c.getLoc().getX() - dataBase.playerModel.getLocation().getX()) <= 13 &&
+                    Math.abs(c.getLoc().getY() - dataBase.playerModel.getLocation().getY()) <= 13) {
 
-                panel.getCollectableModels().get(i).timer.stop();
-                
+                dataBase.collectableModels.get(i).timer.stop();
 
-                panel.getCollectableModels().remove(i);
-                panel.getCollectableViews().remove(i);
 
-                panel.playerModel.setXp(panel.playerModel.getXp() + 5);
+                removeCollectable(dataBase.collectableModels.get(i));
+                dataBase.collectableModels.remove(i);
+
+                dataBase.playerModel.setXp(dataBase.playerModel.getXp() + 5);
 
             }
         }
     }
+
     private void checkCollision(Movable movable){
         if (movable instanceof BulletModel) {
-            bulletRecCollision(movable);
-            //tria
-            bulletTriangleCollision(movable);
-
+            checkBulletCollisions((BulletModel) movable);
         } else if (movable instanceof RectangleModel) {
-            //epsilon
-             rectEpsilonCollision(movable);
-            //rect
-            rectRectCollision(movable);
-            //tria
-            rectangleTriangleCollision(movable);
+            checkRectColiisions((RectangleModel) movable);
         } else if (movable instanceof TriangleModel) {
-            //epsilon
-            triangleEpsilonCollosion(movable);
-            //tria
-            traingleTriangleCollision(movable);
+            checkTriCollisions((TriangleModel) movable);
         }
     }
-    private void bulletRecCollision(Movable movable){
-        for (int j = 0; j < panel.getRectangleModels().size(); j++) {
-            Polygon rec = new Polygon(panel.getRectangleModels().get(j).getxPoints(),
-                    panel.getRectangleModels().get(j).getyPoints(), 4);
-            if (rec.contains(bulletCenter((BulletModel) movable))) {
-                Sound.sound().injured();
-
-                removeBullet((BulletModel) movable);
-
-                panel.getRectangleModels().get(j).setHp(panel.getRectangleModels().get(j).getHp() - panel.getPower());
-                if (panel.getRectangleModels().get(j).getHp() <= 0) {
-                    Sound.sound().death();
-
-                    entityDeath(panel.getRectangleModels().get(j), j);
-                }
-                impact(bulletCenter((BulletModel) movable), 50);
+    private void checkBulletCollisions(BulletModel movable){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            if(!dataBase.movables.get(i).equals(movable)){
+                if(dataBase.movables.get(i) instanceof RectangleModel)
+                    bulletRecCollision((RectangleModel) dataBase.movables.get(i), (BulletModel) movable);
+                else if(dataBase.movables.get(i) instanceof TriangleModel)
+                    bulletTriangleCollision((TriangleModel) dataBase.movables.get(i), (BulletModel) movable);
             }
         }
     }
-    private void rectRectCollision(Movable movable){
-        Polygon rec = new Polygon(movable.getxPoints(),
-                movable.getyPoints(), 4);
-
-        for (int i = 0; i < panel.getRectangleModels().size(); i++) {
-            if(movable != panel.getRectangleModels().get(i)) {
-                for (int j = 0; j < 4; j++) {
-
-                    if (rec.contains(new Point2D.Double(panel.getRectangleModels().get(i).getxPoints()[j],
-                            panel.getRectangleModels().get(i).getyPoints()[j]))) {
-
-                        impact(new Point2D.Double(panel.getRectangleModels().get(i).getxPoints()[j],
-                                panel.getRectangleModels().get(i).getyPoints()[j]), 50);
-                    }
-                }
+    private void checkTriCollisions(TriangleModel movable){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            if (!dataBase.movables.get(i).equals(movable)) {
+                if (dataBase.movables.get(i) instanceof PlayerModel)
+                    triangleEpsilonCollosion((TriangleModel) movable);
+                else if (dataBase.movables.get(i) instanceof TriangleModel)
+                    traingleTriangleCollision((TriangleModel) dataBase.movables.get(i), (TriangleModel) movable);
             }
         }
     }
-    private void rectEpsilonCollision(Movable movable){
-        collision = ert(panel.playerModel, movable);
-        collision2 = er(panel.playerModel, (RectangleModel) movable);
+    private void checkRectColiisions(RectangleModel movable){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            if(!dataBase.movables.get(i).equals(movable)){
+                if(dataBase.movables.get(i) instanceof PlayerModel)
+                    rectEpsilonCollision((RectangleModel) movable);
+                else if(dataBase.movables.get(i) instanceof TriangleModel)
+                    rectangleTriangleCollision((TriangleModel) dataBase.movables.get(i), (RectangleModel) movable);
+                else  if(dataBase.movables.get(i) instanceof RectangleModel)
+                    rectRectCollision((RectangleModel) dataBase.movables.get(i), (RectangleModel) movable);
+            }
+        }
+    }
+    private void bulletRecCollision(RectangleModel r, BulletModel b){
+            Polygon rec = new Polygon(r.getxPoints(),
+                    r.getyPoints(), 4);
+            if (rec.contains(bulletCenter(b))) {
+                removeBullet(b);
+
+                injured(r);
+                impact(bulletCenter(b), 50);
+            }
+    }
+    private void rectRectCollision(RectangleModel r,RectangleModel movable) {
+        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
+
+        for (int j = 0; j < 4; j++) {
+            if (rec.contains(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]))) {
+
+                impact(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]), 50);
+            }
+        }
+    }
+    private void rectEpsilonCollision(RectangleModel movable){
+        collision = ert( dataBase.playerModel, movable);
+        collision2 = er( dataBase.playerModel,movable);
         if(collision != null){
             reduceHp(movable);
 
@@ -456,39 +498,37 @@ public class Update {
                 movable.getyPoints(), 4);
 
         if(panel.isProteus()){
-            for (int i = 0; i < panel.playerModel.getLevelUp(); i++) {
-                if(rec.contains(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i])){
-                    movable.setHp(movable.getHp() - panel.getPower());
-                    if(movable.getHp() <= 0){
-                        Sound.sound().death();
-
-                        entityDeath(movable);
-                    }
-                    impact(new Point2D.Double(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i]), 50);
+            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
+                if(rec.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
+                    injured(movable);
+                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
                 }
             }
 
         }
     }
+    private void injured(Movable r){
+        Sound.sound().injured();
+        r.setHp(r.getHp() - panel.getPower());
+        if (r.getHp() <= 0) {
 
-    private void rectangleTriangleCollision(Movable movable){
-        Polygon rec = new Polygon(movable.getxPoints(),
-                movable.getyPoints(), 4);
+            entityDeath(r);
+        }
+    }
 
-        for (int i = 0; i < panel.getTriangleModels().size(); i++) {
-            for (int j = 0; j < 3; j++) {
-                if (rec.contains(new Point2D.Double(panel.getTriangleModels().get(i).getxPoints()[j],
-                        panel.getTriangleModels().get(i).getyPoints()[j]))) {
+    private void rectangleTriangleCollision(TriangleModel t, RectangleModel movable) {
+        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
 
-                    impact(new Point2D.Double(panel.getTriangleModels().get(i).getxPoints()[j],
-                            panel.getTriangleModels().get(i).getyPoints()[j]), 50);
-                }
+        for (int j = 0; j < 3; j++) {
+            if (rec.contains(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]))) {
+
+                impact(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]), 50);
             }
         }
     }
-    private void triangleEpsilonCollosion(Movable movable){
-        collision = ert(panel.playerModel, movable);
-        collision2 = et(panel.playerModel, (TriangleModel) movable);
+    private void triangleEpsilonCollosion(TriangleModel movable){
+        collision = ert( dataBase.playerModel, movable);
+        collision2 = et( dataBase.playerModel, movable);
         if (collision != null) {
             reduceHp(movable);
             impact(collision, 50);
@@ -498,100 +538,77 @@ public class Update {
         Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
 
         if(panel.isProteus()){
-            for (int i = 0; i < panel.playerModel.getLevelUp(); i++) {
-                if(tri.contains(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i])){
-                    movable.setHp(movable.getHp() - panel.getPower());
-                    if(movable.getHp() <= 0){
-                        Sound.sound().death();
-
-                        entityDeath(movable);
-                    }
-                    impact(new Point2D.Double(panel.playerModel.getxPoints()[i], panel.playerModel.getyPoints()[i]), 50);
+            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
+                if(tri.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
+                    injured(movable);
+                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
                 }
             }
         }
     }
-    private void traingleTriangleCollision(Movable movable){
+    private void traingleTriangleCollision(TriangleModel t, TriangleModel movable) {
         Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
 
-        for (int i = 0; i < panel.getTriangleModels().size(); i++) {
-            if(movable != panel.getTriangleModels().get(i)) {
-                for (int j = 0; j < 3; j++) {
-                    if (tri.contains(new Point2D.Double(panel.getTriangleModels().get(i).getxPoints()[j],
-                            panel.getTriangleModels().get(i).getyPoints()[j]))) {
+        for (int j = 0; j < 3; j++) {
+            if (tri.contains(new Point2D.Double(t.getxPoints()[j],
+                    t.getyPoints()[j]))) {
 
-                        impact(new Point2D.Double(panel.getTriangleModels().get(i).getxPoints()[j],
-                                panel.getTriangleModels().get(i).getyPoints()[j]), 50);
-                    }
-                }
+                impact(new Point2D.Double(t.getxPoints()[j],
+                        t.getyPoints()[j]), 50);
             }
         }
     }
-    private void bulletTriangleCollision(Movable movable) {
-        for (int p = 0; p < panel.getTriangleModels().size(); p++) {
-            Polygon rec = new Polygon(panel.getTriangleModels().get(p).getxPoints(),
-                    panel.getTriangleModels().get(p).getyPoints(), 3);
+    private void bulletTriangleCollision(TriangleModel t, BulletModel b) {
+            Polygon rec = new Polygon(t.getxPoints(),
+                    t.getyPoints(), 3);
 
-            if (rec.contains(bulletCenter((BulletModel) movable))) {
-                Sound.sound().injured();
+            if (rec.contains(bulletCenter(b))) {
 
-                removeBullet((BulletModel) movable);
+                removeBullet(b);
 
-                panel.getTriangleModels().get(p).setHp(panel.getTriangleModels().get(p).getHp() - panel.getPower());
+                injured(t);
 
-                if (panel.getTriangleModels().get(p).getHp() <= 0) {
-                    Sound.sound().death();
-
-                    entityDeath(panel.getTriangleModels().get(p), p);
-                }
-                impact(bulletCenter((BulletModel) movable), 50);
+                impact(bulletCenter(b), 50);
             }
-        }
     }
-    private void entityDeath(Movable m, int p){
-        if(m instanceof TriangleModel){
-            removeFromMovables(panel.getTriangleModels().get(p));
-            death(panel.getTriangleModels().get(p));
-            removeTriangle(p);
-        }else if(m instanceof RectangleModel){
-            removeFromMovables(panel.getRectangleModels().get(p));
-            death(panel.getRectangleModels().get(p));
-            removeRect(p);
-        }
+    private void entityDeath(Movable m) {
+        Sound.sound().death();
+        dataBase.movables.remove(m);
+        removeEntity(m);
+        death(m);
     }
-    private void entityDeath(Movable m){
-        if(m instanceof TriangleModel){
-            removeFromMovables(m);
-            death(m);
-            removeTriangle((TriangleModel) m);
-        }else if(m instanceof RectangleModel){
-            removeFromMovables(m);
-            death(m);
-            removeRect((RectangleModel) m);
+    private void removeEntity(Movable m){
+        for (int i = 0; i < panel.getDrawables().size(); i++) {
+            if(panel.getDrawables().get(i).getId().equals(m.getId())){
+                panel.getDrawables().remove(i);
+                break;
+            }
         }
     }
 
 
     public void impact(Point2D point, double r){
-        for (int i = 0; i < panel.getMovables().size(); i ++) {
-            Movable m = panel.getMovables().get(i);
-            double x = 0;
-            double y = 0;
-            if(m instanceof RectangleModel){
-               x = Math.abs(rectCenter((RectangleModel) m).getX() - point.getX());
-               y = Math.abs(rectCenter((RectangleModel) m).getY() - point.getY());
-            }
-            else if(m instanceof TriangleModel){
-                x = Math.abs(m.getLoc().getX() - point.getX());
-                y = Math.abs(m.getLoc().getY() - point.getY());
-            }else if (m instanceof PlayerModel){
-                x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
-                y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
-            }
-            if(x  <= r && y <= r){
-                double speed = distance(x, y, point.getX(), point.getY()) / 500;
-                m.setImpact(true);
-               setSpeed(point, m , impactV / speed);
+        for (int i = 0; i < dataBase.movables.size(); i ++) {
+            Movable m =  dataBase.movables.get(i);
+            if (!(m instanceof BulletModel)) {
+
+                double x = 0;
+                double y = 0;
+                if (m instanceof RectangleModel) {
+                    x = Math.abs(rectCenter((RectangleModel) m).getX() - point.getX());
+                    y = Math.abs(rectCenter((RectangleModel) m).getY() - point.getY());
+                } else if (m instanceof TriangleModel) {
+                    x = Math.abs(m.getLoc().getX() - point.getX());
+                    y = Math.abs(m.getLoc().getY() - point.getY());
+                } else if (m instanceof PlayerModel) {
+                    x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
+                    y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
+                }
+                if (x <= r && y <= r) {
+                    double speed = distance(x, y, point.getX(), point.getY()) / 500;
+                    m.setImpact(true);
+                    setSpeed(point, m, impactV / speed);
+                }
             }
         }
     }
@@ -627,20 +644,20 @@ public class Update {
             time.stop();
             t = new Timer(10, e -> {
                 v();
-                updatePlayerView();
+                updatePlayerView(panel.playerView);
             });
             t.start();
         }
     }
     private void v(){
-        if(panel.getDimension().getWidth()  + 200 >= panel.playerModel.size) {
-            panel.playerModel.size += 2;
-            panel.playerModel.setPoints();
-            if(panel.playerModel.getLocation().getX() < panel.getDimension().getWidth()) panel.playerModel.setLocation(new Point2D.Double
-                    (panel.playerModel.getLocation().getX() - 1, panel.playerModel.getLocation().getY() - 1));
+        if(panel.getDimension().getWidth()  + 200 >=  dataBase.playerModel.size) {
+             dataBase.playerModel.size += 2;
+             dataBase.playerModel.setPoints();
+            if( dataBase.playerModel.getLocation().getX() <  panel.getDimension().getWidth())  dataBase.playerModel.setLocation(new Point2D.Double
+                    ( dataBase.playerModel.getLocation().getX() - 1,  dataBase.playerModel.getLocation().getY() - 1));
         }
 
-        if(panel.playerModel.size > panel.getDimension().getWidth()) v1();
+        if( dataBase.playerModel.size > panel.getDimension().getWidth()) v1();
     }
     private void v1(){
         if(panel.getDimension().getWidth() >= 1 && panel.getDimension().getHeight() >= 1){
@@ -661,16 +678,16 @@ public class Update {
         if(movable instanceof TriangleModel)n = 2;
         for (int i = 0; i < n; i++) {
             CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*10, i *10)));
-            panel.getCollectableModels().add(c);
-            panel.getCollectableViews().add(createCollectableView(c));
+            dataBase.collectableModels.add(c);
+            panel.getDrawables().add(createCollectableView(c));
         }
     }
     private void reduceHp(Movable movable){
         int w = 0;
         if(movable instanceof TriangleModel)w = 10;
         else if(movable instanceof RectangleModel)w = 6;
-        panel.playerModel.setHp(panel.playerModel.getHp() - w);
-        if(panel.playerModel.getHp() <= 0){
+         dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
+        if( dataBase.playerModel.getHp() <= 0){
             gameOver();
         }
     }
@@ -687,56 +704,24 @@ public class Update {
     }
 
 
-    //remove
-    private void removeFromMovables(Movable movable){
-        for (int i = 0; i < panel.getMovables().size(); i ++) {
-            if(movable == panel.getMovables().get(i)){
-                removeFromMovables(i);
-            }
-        }
-    }
-    private void removeFromMovables(int i) {
-     panel.getMovables().remove(i);
-    }
 
-    private void removeTriangle(int i){
-        panel.getTriangleViews().remove(i);
-        panel.getTriangleModels().remove(i);
-    }
-    private void removeTriangle(TriangleModel t){
-        for (int i = 0; i < panel.getTriangleModels().size(); i++) {
-            if(panel.getTriangleModels().get(i) == t){
-                removeTriangle(i);
-            }
-        }
-    }
-
-    private void removeRect(int i){
-        panel.getRectangleModels().remove(i);
-        panel.getRectangleView().remove(i);
-    }
-    private void removeRect(RectangleModel i){
-        for (int j = 0; j < panel.getRectangleModels().size(); j++) {
-            if(panel.getRectangleModels().get(j) == i){
-                removeRect(j);
-            }
-        }
-    }
     private void removeBullet(int i) {
-        if(!panel.getBulletsModel().isEmpty()) {
-            panel.getBullets().remove(i);
-            for (int j = 0; j < panel.getBullets().size(); j++) {
-                if (panel.getBullets().get(j).getId().equals(panel.getBulletsModel().get(i).getId())) {
-                    panel.getBullets().remove(j);
-                    break;
-                }
+
+//        panel.getDrawables().remove(i);
+        for (int j = 0; j < panel.getDrawables().size(); j++) {
+            if(panel.getDrawables().get(j) instanceof BulletView)
+                if (panel.getDrawables().get(j).getId().equals(dataBase.movables.get(i).getId())) {
+                panel.getDrawables().remove(j);
+                break;
             }
-            panel.getBulletsModel().remove(i);
         }
+        dataBase.movables.remove(i);
     }
     private void removeBullet(BulletModel bulletModel){
-        for (int i = 0; i < panel.getBulletsModel().size(); i++) {
-            if(panel.getBulletsModel().get(i).getId().equals(bulletModel.getId()))removeBullet(i);
+        for (int i = 0; i <  dataBase.movables.size(); i++) {
+            if(dataBase.movables.get(i) instanceof BulletModel)
+                if( dataBase.movables.get(i).getId().equals(bulletModel.getId()))
+                    removeBullet(i);
         }
     }
     private void moveLeft(){

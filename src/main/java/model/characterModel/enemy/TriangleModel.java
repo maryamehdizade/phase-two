@@ -29,6 +29,7 @@ public class TriangleModel extends Enemy implements Movable {
     public void findPlayer(Point2D loc){
         super.findPlayer(loc);
     }
+
     @Override
     public int move() {
         if(!impact) {
@@ -84,6 +85,16 @@ public class TriangleModel extends Enemy implements Movable {
 
     @Override
     public void move(double velocity) {
+
+    }
+
+    @Override
+    public void setPanelW(double panelW) {
+
+    }
+
+    @Override
+    public void setPanelH(double panelH) {
 
     }
 
@@ -148,10 +159,6 @@ public class TriangleModel extends Enemy implements Movable {
         return  yvelocity;
     }
 
-    @Override
-    public double getSpeed() {
-        return speed;
-    }
 
     @Override
     public Point2D getLoc() {
