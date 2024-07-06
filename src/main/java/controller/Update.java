@@ -240,21 +240,17 @@ public class Update {
             if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
                     (panel.wave == 3 && panel.enemies <= 20)) {
                 Sound.sound().entrance();
-                TriangleModel t1 = new TriangleModel();
-                dataBase.movables.add(t1);
-                panel.getDrawables().add(createTriangleView(t1));
-                panel.enemies ++;
-            }
-            panel.start = true;
-        }
+                Movable n;
+                if(panel.random.nextInt(0,2) == 1) {
+                    n = new TriangleModel();
 
-        if (panel.random.nextDouble(0, panel.bound) < 1) {
-            if((panel.wave == 1 && panel.enemies <= 10) || (panel.wave == 2 && panel.enemies <= 15) ||
-                    (panel.wave == 3 && panel.enemies <= 20)) {
-                Sound.sound().entrance();
-                RectangleModel r1 = new RectangleModel();
-                dataBase.movables.add(r1);
-                panel.getDrawables().add(createRectView(r1));
+                    panel.getDrawables().add(createTriangleView((TriangleModel) n));
+                }else{
+
+                    n = new RectangleModel();
+                    panel.getDrawables().add(createRectView((RectangleModel) n));
+                }
+                dataBase.movables.add(n);
                 panel.enemies ++;
             }
             panel.start = true;
