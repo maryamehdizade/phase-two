@@ -1,5 +1,6 @@
 package controller;
 
+import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
@@ -10,6 +11,7 @@ import view.charactersView.PlayerView;
 import view.charactersView.enemy.CollectableView;
 import view.charactersView.enemy.RectangleView;
 import view.charactersView.enemy.TriangleView;
+import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.Objects;
@@ -17,7 +19,7 @@ import java.util.Objects;
 public class Controller  {
 
     public static PlayerView createPlayerView(){
-        return new PlayerView(PlayerModel.getPlayer().getLocation());
+        return new PlayerView(PlayerModel.getPlayer().getId(), PlayerModel.getPlayer().getLocation());
     }
     public static RectangleView createRectView(RectangleModel rectangleModel){
         return new RectangleView(rectangleModel.getId(), rectangleModel.getLoc());
@@ -39,6 +41,9 @@ public class Controller  {
     }
     public static CollectableView createCollectableView(CollectableModel collectableModel){
         return new CollectableView(collectableModel.getId(), collectableModel.getLoc());
+    }
+    public static GamePanel creatGamePanel(GamePanelModel g){
+        return new GamePanel(g.getId());
     }
 
     public static TriangleView createTriangleView(TriangleModel t){

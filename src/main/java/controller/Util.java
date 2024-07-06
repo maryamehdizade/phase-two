@@ -9,8 +9,8 @@ import model.movement.Movable;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import static controller.Constant.*;
-import static java.awt.geom.Point2D.distance;
+import static controller.constants.Constant.*;
+import static controller.constants.EntityConstants.*;
 
 public class Util {
     public static Point2D setEntityLoc(){

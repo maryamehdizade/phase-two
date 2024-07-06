@@ -5,7 +5,18 @@ import controller.Minimize;
 import javax.swing.*;
 import java.awt.*;
 
+import static view.pages.Game.getGame;
+
 public class Menu extends JFrame {
+    private static Menu menu;
+
+    public static Menu getMenu() {
+        if(menu == null){
+            System.out.println("creating menu");
+            menu = new Menu();
+        }
+        return menu;
+    }
 
     private JButton exit = new JButton("exit");
     private JButton skillTree = new JButton("skill tree");
@@ -21,14 +32,13 @@ public class Menu extends JFrame {
     private final int buttonHieght = 70;
     private int xLoc = 200;
     private final Color color = Color.GRAY;
-    Game game;
     public boolean ares = false;
     public boolean aceso = false;
     public boolean proteus = false;
     private int xp;
 
     private JPanel panel = new JPanel();
-    public Menu(){
+    private Menu(){
         setSize(700,700);
         setLocation(300,20);
         setVisible(true);
@@ -53,9 +63,10 @@ public class Menu extends JFrame {
         play.setBackground(color);
         play.addActionListener(e -> {
             setVisible(false);
+
 //            Minimize m = new Minimize(this);
 //            if (a)
-                game = new Game(this, 1);
+                getGame();
         });
 
         skillTree.setSize(buttonWidth, buttonHieght);

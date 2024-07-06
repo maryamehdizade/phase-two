@@ -4,6 +4,7 @@ import controller.DataBase;
 import controller.Update;
 import model.characterModel.BulletModel;
 import view.pages.GamePanel;
+import view.pages.Menu;
 import view.pages.Store;
 
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import static controller.Util.playerCenter;
 public class MyListner implements KeyListener, MouseListener {
     DataBase dataBase;
     GamePanel panel;
+//    Update update = Update.getUpdate();
     
     public MyListner(GamePanel panel){
         this.panel = panel;
@@ -35,9 +37,9 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setdForce(true);
         }
         if(keyCode == KeyEvent.VK_SPACE){
-            panel.update.model.stop();
-            panel.update.view.stop();
-            panel.update.time.stop();
+//            update.model.stop();
+//            update.view.stop();
+//            update.time.stop();
             new Store(panel);
         }
     }
@@ -63,7 +65,7 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
-            if(panel.game.getMenu().proteus){
+            if(Menu.getMenu().proteus){
                 if(panel.proteusCount == 0) {
                     if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
@@ -77,7 +79,7 @@ public class MyListner implements KeyListener, MouseListener {
             }
         }
         if(keyCode == KeyEvent.VK_C){
-            if(panel.game.getMenu().aceso){
+            if(Menu.getMenu().aceso){
                 if(panel.acesoCount == 0) {
                     if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
@@ -90,7 +92,7 @@ public class MyListner implements KeyListener, MouseListener {
             }
         }
         if(keyCode == KeyEvent.VK_R){
-            if(panel.game.getMenu().ares){
+            if(Menu.getMenu().ares){
                 if(panel.aresCount == 0) {
                     if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);

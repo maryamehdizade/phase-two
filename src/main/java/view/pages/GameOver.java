@@ -26,7 +26,7 @@ public class GameOver extends JFrame {
         add();
     }
     private void add(){
-        update.panel.game.menu.setXp(update.panel.game.menu.getXp() + update.panel.playerView.getXp());
+        Menu.getMenu().setXp(Menu.getMenu().getXp() + update.panel.playerView.getXp());
 
         JLabel xp = new JLabel(String.valueOf(update.panel.playerView.getXp()));
         xp.setSize(100,70);
@@ -39,8 +39,8 @@ public class GameOver extends JFrame {
         button.setLocation(50,140);
         button.addActionListener(e -> {
             dispose();
-            update.panel.game.dispose();
-            update.panel.game.menu.setVisible(true);
+            Game.getGame().dispose();
+            Menu.getMenu().setVisible(true);
         });
 
         JLabel vic = new JLabel("victory!");

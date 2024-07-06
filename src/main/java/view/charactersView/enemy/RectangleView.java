@@ -5,7 +5,8 @@ import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.Constant.RECT_SIZE;
+import static controller.constants.EntityConstants.RECT_SIZE;
+
 
 public class RectangleView implements Drawable {
     private int hp;

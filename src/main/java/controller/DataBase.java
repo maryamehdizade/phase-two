@@ -1,23 +1,27 @@
 package controller;
 
-import model.characterModel.BulletModel;
+import model.GamePanelModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import java.util.ArrayList;
 
+import static controller.constants.Constant.PANEL_DIMENSION;
+import static controller.constants.Constant.PANEL_LOCATION;
+
 public class DataBase {
-    Update update;
+    GamePanelModel gamePanelModel;
     public ArrayList<Movable> movables = new ArrayList<>();
     ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public PlayerModel playerModel;
 
     private static DataBase dataBase;
-    DataBase(Update update){
-        this.update = update;
+    private DataBase(){
+
+        gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION);
         playerModel = PlayerModel.getPlayer();
+        gamePanelModel.playerModel = playerModel;
         movables.add(playerModel);
     }
     public void setXp(int xp){
@@ -28,11 +32,9 @@ public class DataBase {
     }
 
     public static DataBase getDataBase() {
+        if(dataBase == null)dataBase = new DataBase();
         return dataBase;
     }
 
-    public static void setDataBase(DataBase dataBase) {
-        DataBase.dataBase = dataBase;
-    }
 
 }

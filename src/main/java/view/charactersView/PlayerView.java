@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-import static controller.Constant.BALL_SIZE;
-
 public  class PlayerView implements Drawable {
     private int xp ;
     private int hp ;
@@ -17,9 +15,9 @@ public  class PlayerView implements Drawable {
     private int[] xPoints = new int[0];
     private int[] yPoints = new int[0];
 
-    public PlayerView(Point2D  loc) {
+    public PlayerView(String id, Point2D  loc) {
         this. loc =  loc;
-        id = UUID.randomUUID().toString();
+        this.id = id;
     }
     public void draw(Graphics g){
         g.setColor(Color.gray);

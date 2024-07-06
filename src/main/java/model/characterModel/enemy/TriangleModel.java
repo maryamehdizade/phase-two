@@ -1,14 +1,12 @@
 package model.characterModel.enemy;
 
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 import java.util.UUID;
 
-import static controller.Constant.TRI_SIZE;
 import static controller.Util.setEntityLoc;
+import static controller.constants.EntityConstants.TRI_SIZE;
 
 public class TriangleModel extends Enemy implements Movable {
 

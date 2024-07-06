@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-import static controller.Constant.BALL_SIZE;
 import static controller.Util.addVector;
+import static controller.constants.EntityConstants.BALL_SIZE;
 
 
 public final class PlayerModel implements Movable {
@@ -36,6 +36,7 @@ public final class PlayerModel implements Movable {
     private int levelUp = 0;
     private static PlayerModel player;
     private JFrame frame;
+    private String id;
 
     public static PlayerModel getPlayer() {
         if(player == null){
@@ -44,15 +45,16 @@ public final class PlayerModel implements Movable {
         return player;
     }
 
-    public static void setPlayer(PlayerModel player) {
-        PlayerModel.player = player;
+    public static void defuse() {
+        player = null;
     }
 
     public String getId() {
-        return "";
+        return id;
     }
 
     public PlayerModel(Point2D location) {
+        id = UUID.randomUUID().toString();
         this.location = location;
     }
 

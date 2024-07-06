@@ -1,5 +1,7 @@
 package view.pages;
 
+import controller.Update;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,6 +23,7 @@ public class Store extends JFrame  {
     int y1 = 15;
     int y2 = size.height + y1 + y1;
     int y3 = size.height + y2 + y1;
+    Update update = Update.getUpdate();
 
     private int font = 22;
 
@@ -28,7 +31,7 @@ public class Store extends JFrame  {
         this.panel = panel;
 
         setSize(500, 500);
-        setLocation((int) ((panel.getDimension().getWidth())), (int) (panel.getDimension().getHeight() / 2));
+        setLocation(((panel.getWidth())), (panel.getHeight() / 2));
         setResizable(false);
         setBackground(Color.black);
         setUndecorated(true);
@@ -53,7 +56,7 @@ public class Store extends JFrame  {
         slaughter.addActionListener(e -> {
             if(panel. playerView.getXp() >= 200){
                 panel. playerView.setXp(panel. playerView.getXp() - 200);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
+                update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -64,7 +67,7 @@ public class Store extends JFrame  {
         slumber.addActionListener(e -> {
             if(panel. playerView.getXp() >= 150){
                 panel. playerView.setXp(panel. playerView.getXp() - 150);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
+                update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -75,7 +78,7 @@ public class Store extends JFrame  {
         dismay.addActionListener(e -> {
             if(panel. playerView.getXp() >= 120){
                 panel. playerView.setXp(panel. playerView.getXp() - 120);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
+                update.dataBase.setXp(panel.playerView.getXp());
             }
         });
 
@@ -89,8 +92,8 @@ public class Store extends JFrame  {
         banish.addActionListener(e -> {
             if(panel. playerView.getXp() >= 100){
                 panel. playerView.setXp(panel. playerView.getXp() - 100);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
-                panel.update.impact(panel.playerView.getLoc(), 200);
+                update.dataBase.setXp(panel.playerView.getXp());
+                update.impact(panel.playerView.getLoc(), 200);
 
             }
             start();
@@ -103,7 +106,7 @@ public class Store extends JFrame  {
         empower.addActionListener(e -> {
             if(panel. playerView.getXp() >= 75){
                 panel. playerView.setXp(panel. playerView.getXp() - 75);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
+                update.dataBase.setXp(panel.playerView.getXp());
                 panel.empower = true;
             }
             start();
@@ -117,9 +120,9 @@ public class Store extends JFrame  {
         heal.addActionListener(e -> {
             if(panel.playerView.getXp() >= 50){
                 panel. playerView.setXp(panel. playerView.getXp() - 50);
-                panel.update.dataBase.setXp(panel.playerView.getXp());
+                update.dataBase.setXp(panel.playerView.getXp());
                 panel. playerView.setHp(panel. playerView.getHp() + 10);
-                panel.update.dataBase.setHp(panel.playerView.getHp());
+                update.dataBase.setHp(panel.playerView.getHp());
             }
             start();
         });
@@ -146,8 +149,8 @@ public class Store extends JFrame  {
     }
     private void start(){
         dispose();
-        panel.update.view.start();
-        panel.update.model.start();
+        update.view.start();
+        update.model.start();
     }
 
 }

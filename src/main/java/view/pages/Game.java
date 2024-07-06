@@ -2,24 +2,32 @@ package view.pages;
 
 
 
+import controller.Update;
 import sound.Sound;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static controller.Constant.FRAME_DIMENSION;
+import static controller.constants.Constant.FRAME_DIMENSION;
 
 
 public  class Game extends JFrame {
+    private static Game game;
+
+    public static Game getGame() {
+        if(game == null){
+            System.out.println("creating game");
+            game = new Game();
+        }
+        return game;
+    }
+
     JPanel panel ;
     int y = 2;
-    GamePanel gamePanel ;
     private Sound sound;
-    protected Menu menu;
 
 
-    public Game(Menu menu, int phase) {
-        this.menu = menu;
+    private Game() {
 
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
@@ -31,16 +39,11 @@ public  class Game extends JFrame {
         setVisible(true);
 
 
-        this.gamePanel = new GamePanel(this, phase);
-        panel = gamePanel;
+        panel = Update.getUpdate().panel;
         add(panel);
 
         sound = Sound.sound();
         sound.start();
 
-    }
-
-    public Menu getMenu() {
-        return menu;
     }
 }

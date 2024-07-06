@@ -1,13 +1,12 @@
 package model.characterModel.enemy;
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.UUID;
 
-import static controller.Constant.RECT_SIZE;
 import static controller.Util.setEntityLoc;
+import static controller.constants.EntityConstants.RECT_SIZE;
 
 public class RectangleModel extends Enemy  implements Movable {
     private int hp = 10;

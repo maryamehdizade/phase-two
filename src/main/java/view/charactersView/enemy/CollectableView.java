@@ -5,7 +5,7 @@ import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.Constant.COLLECTABLE_SIZE;
+import static controller.constants.EntityConstants.COLLECTABLE_SIZE;
 
 public class CollectableView implements Drawable {
     private Point2D loc;

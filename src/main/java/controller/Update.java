@@ -13,21 +13,34 @@ import view.charactersView.enemy.CollectableView;
 import view.charactersView.enemy.RectangleView;
 import view.charactersView.enemy.TriangleView;
 import view.drawable.Drawable;
+import view.pages.Game;
 import view.pages.GameOver;
 import view.pages.GamePanel;
+import view.pages.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import static controller.Constant.*;
 import static controller.Controller.*;
 import static controller.Util.*;
+import static controller.constants.EntityConstants.BALL_SIZE;
+import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
+import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
 
 public class Update {
-    public GamePanel panel;
+    private static Update update;
 
+    public static Update getUpdate() {
+        if(update == null){
+            System.out.println("creating update");
+            update = new Update();
+        }
+        return update;
+    }
+
+    public GamePanel panel;
     public Timer time;
     public Timer view;
     public   Timer model;
@@ -35,26 +48,25 @@ public class Update {
     private final int n = 20;
 
     public double a ;
-    private double second;
+    private int second;
     boolean over;
     public DataBase dataBase;
 
     Point2D collision ;
     Point2D collision2;
     private void initialDataBase(){
-        DataBase.setDataBase(new DataBase(this));
         dataBase = DataBase.getDataBase();
-        panel.playerView = createPlayerView();
-        panel.getDrawables().add(panel.playerView);
     }
+    public Update() {
 
-    public Update(GamePanel panel) {
-
-
-        this.panel = panel;
-        a = this.panel.game.getMenu().aa;
 
         initialDataBase();
+
+//        panel = new GamePanel("");
+        panel = creatGamePanel(dataBase.gamePanelModel);
+        a = Menu.getMenu().aa;
+        panel.playerView = createPlayerView();
+        panel.getDrawables().add(panel.playerView);
         view = new Timer((int) FRAME_UPDATE_TIME, e -> updateView()){{setCoalesce(true);}};
         view.start();
         model = new Timer((int) MODEL_UPDATE_TIME, e -> updateModel()){{setCoalesce(true);}};
@@ -70,12 +82,14 @@ public class Update {
         updatePanelDrawables();
     }
     private void updatePanelDrawables(){
+        updatePanel();
         for(Drawable d: panel.getDrawables()){
             if(d instanceof PlayerView)updatePlayerView((PlayerView) d);
             if(d instanceof RectangleView)updateRectangleView((RectangleView) d);
             if(d instanceof TriangleView)updateTrianglesView((TriangleView) d);
             if(d instanceof BulletView)updateBulletsView((BulletView) d);
         }
+
     }
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.movables) {
@@ -118,21 +132,21 @@ public class Update {
         p.setxPoints(dataBase.playerModel.getxPoints());
         p.setyPoints(dataBase.playerModel.getyPoints());
     }
+    private void updatePanel(){
+        panel.setSize(dataBase.gamePanelModel.getDimension());
+        panel.setLocation(dataBase.gamePanelModel.getLoc());
+        panel.second = second;
+    }
 
     //model
-    public void updateModel(){
+    public void updateModel() {
         epsilonCheck();
         updateBullets();
-        if(panel.phase == 1) {
-            phaseOne();
-        }else{
-
-        }
+        phaseOne();
         updateCollectable();
 
         victory();
         timeCheck();
-        setPanelSize();
 
 
     }
@@ -141,24 +155,16 @@ public class Update {
         moveEpsilon();
     }
     private void timeCheck(){
-        if(second <= 0.1){
+        if(second <= 1){
             initialGame();
         }
         if(second >= 10) {
-            shrinkage();
+            dataBase.gamePanelModel.shrinkage();
         }
     }
-    private void setPanelSize(){
-        panel.setSize(panel.getDimension());
-        panel.setLocation(panel.getLoc());
-    }
-    private void shrinkage(){
-        xmin();
-        ymin();
-    }
+
     private void initialGame(){
-        shrinkage();
-        setPanelSize();
+        dataBase.gamePanelModel.shrinkage();
     }
     private void phaseOne(){
         updateRecs();
@@ -171,34 +177,7 @@ public class Update {
 
     }
 
-    public void xmin(){
-        if(panel.getDimension().width > MIN_SIZE.width) {
-            panel.getDimension().width -= 1;
-            if(panel.getLoc().getX() < 200) panel.getLoc().setLocation(panel.getLoc().getX() + 0.5, panel.getLoc().getY() );
-        }
-        if( dataBase.playerModel.getLocation().getX() + BALL_SIZE > panel.getDimension().getWidth()){
-             dataBase.playerModel.setLocation(
-                    new Point2D.Double(panel.getDimension().getWidth() - BALL_SIZE , dataBase.playerModel.getLocation().getY()));
-        }else if( dataBase.playerModel.getLocation().getX()  < 2){
-             dataBase.playerModel.setLocation(
-                    new Point2D.Double(5, dataBase.playerModel.getLocation().getY()));
 
-        }
-
-    }
-    public void ymin(){
-        if(panel.getDimension().height > MIN_SIZE.height) {
-            panel.getDimension().height -= 1;
-            if(panel.getLoc().getY() < 200) panel.getLoc().setLocation(panel.getLoc().getX(), panel.getLoc().getY() + 0.5);
-        }
-        if ( dataBase.playerModel.getLocation().getY() + BALL_SIZE> panel.getDimension().getHeight()) {
-             dataBase.playerModel.setLocation(
-                    new Point2D.Double( dataBase.playerModel.getLocation().getX(), panel.getDimension().getHeight() - BALL_SIZE - 5));
-        }else if( dataBase.playerModel.getLocation().getY() < 2){
-             dataBase.playerModel.setLocation(
-                    new Point2D.Double( dataBase.playerModel.getLocation().getX(),  5));
-        }
-    }
 
     public void Wave() {
         if (panel.enemies >= 10 && panel.wave1 && panel.start && dataBase.movables.size() == 1) {
@@ -646,26 +625,25 @@ public class Update {
         }
     }
     private void v(){
-        if(panel.getDimension().getWidth()  + 200 >=  dataBase.playerModel.size) {
+        if(dataBase.gamePanelModel.getDimension().getWidth()  + 200 >=  dataBase.playerModel.size) {
              dataBase.playerModel.size += 2;
              dataBase.playerModel.setPoints();
-            if( dataBase.playerModel.getLocation().getX() <  panel.getDimension().getWidth())  dataBase.playerModel.setLocation(new Point2D.Double
+            if( dataBase.playerModel.getLocation().getX() <  dataBase.gamePanelModel.getDimension().getWidth())  dataBase.playerModel.setLocation(new Point2D.Double
                     ( dataBase.playerModel.getLocation().getX() - 1,  dataBase.playerModel.getLocation().getY() - 1));
         }
 
-        if( dataBase.playerModel.size > panel.getDimension().getWidth()) v1();
+        if( dataBase.playerModel.size > dataBase.gamePanelModel.getDimension().getWidth()) v1();
     }
     private void v1(){
-        if(panel.getDimension().getWidth() >= 1 && panel.getDimension().getHeight() >= 1){
+        if(dataBase.gamePanelModel.getDimension().getWidth() >= 1 && dataBase.gamePanelModel.getDimension().getHeight() >= 1){
 
-            panel.setDimension(new Dimension((int) (panel.getDimension().getWidth() - 0.1),
-                    (int) (panel.getDimension().getHeight()  - 0.1)));
-            panel.setSize(panel.getDimension());
+            dataBase.gamePanelModel.getDimension().setSize(new Dimension((int) (dataBase.gamePanelModel.getDimension().getWidth() - 0.1),
+                    (int) (dataBase.gamePanelModel.getDimension().getHeight()  - 0.1)));
         }
-        if(panel.getDimension().getHeight() <= 1 || panel.getDimension().getWidth() <= 1){
+        if(dataBase.gamePanelModel.getDimension().getHeight() <= 1 || dataBase.gamePanelModel.getDimension().getWidth() <= 1){
             t.stop();
             gameOver();
-            panel.game.dispose();
+            Game.getGame().dispose();
         }
     }
 
@@ -693,7 +671,7 @@ public class Update {
         view.stop();
         time.stop();
         over = true;
-        PlayerModel.setPlayer( null);
+        PlayerModel.defuse();
         Sound.sound().stop();
 
         new GameOver(this);
@@ -721,22 +699,26 @@ public class Update {
         }
     }
     private void moveLeft(){
-        panel.setLoc(new Point((int) (panel.getLoc().getX() - n), (int) panel.getLoc().getY()));
-        panel.setDimension(new Dimension((int) (panel.getDimension().getWidth() + n/2), (int) panel.getDimension().getHeight()));
+        dataBase.gamePanelModel.setLoc(new Point((int) (dataBase.gamePanelModel.getLoc().getX() - n), (int) dataBase.gamePanelModel.getLoc().getY()));
+        dataBase.gamePanelModel.setDimension(new Dimension((int) (dataBase.gamePanelModel.getDimension().getWidth() + n/2),
+                (int) dataBase.gamePanelModel.getDimension().getHeight()));
 
     }
     private void moveRight(){
-        panel.setLoc(new Point((int) (panel.getLoc().getX() + n/2), (int) panel.getLoc().getY()));
-        panel.setDimension(new Dimension((int) (panel.getDimension().getWidth() + n), (int) panel.getDimension().getHeight()));
+        dataBase.gamePanelModel.setLoc(new Point((int) (dataBase.gamePanelModel.getLoc().getX() + n/2), (int) dataBase.gamePanelModel.getLoc().getY()));
+        dataBase.gamePanelModel.setDimension (new Dimension((int) (dataBase.gamePanelModel.getDimension().getWidth() + n),
+                (int) dataBase.gamePanelModel.getDimension().getHeight()));
     }
     private void moveUp(){
-        panel.setLoc(new Point((int) (panel.getLoc().getX() ), (int) panel.getLoc().getY()- n));
-        panel.setDimension(new Dimension((int)(panel.getDimension().getWidth()), (int)panel.getDimension().getHeight()+ n/2));
+        dataBase.gamePanelModel.setLoc(new Point((int) dataBase.gamePanelModel.getLoc().getX(), (int) (dataBase.gamePanelModel.getLoc().getY()- n)));
+        dataBase.gamePanelModel.setDimension (new Dimension((int) dataBase.gamePanelModel.getDimension().getWidth(),
+                (int) (dataBase.gamePanelModel.getDimension().getHeight()+ n/2)));
 
     }
     private void moveDown(){
-        panel.setLoc(new Point((int) (panel.getLoc().getX() ), (int) panel.getLoc().getY() +  n/2));
-        panel.setDimension(new Dimension((int)(panel.getDimension().getWidth()), (int)panel.getDimension().getHeight()+ n));
+        dataBase.gamePanelModel.setLoc(new Point((int) dataBase.gamePanelModel.getLoc().getX(), (int) (dataBase.gamePanelModel.getLoc().getY() +  n/2)));
+        dataBase.gamePanelModel.setDimension (new Dimension((int) dataBase.gamePanelModel.getDimension().getWidth(),
+                (int) (dataBase.gamePanelModel.getDimension().getHeight()+ n)));
     }
 
     public double getSecond() {

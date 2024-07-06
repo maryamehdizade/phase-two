@@ -253,6 +253,6 @@ public class SkillTree extends JFrame {
     }
 
     public static void main(String[] args) {
-        new SkillTree(new Menu());
+        new SkillTree(Menu.getMenu());
     }
 }

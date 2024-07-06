@@ -1,12 +1,12 @@
 package view.charactersView;
 
 import view.drawable.Drawable;
-import view.pages.GamePanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.Constant.BULLET_SIZE;
+import static controller.constants.EntityConstants.BULLET_SIZE;
+
 
 public class BulletView implements Drawable {
     private Point2D loc;

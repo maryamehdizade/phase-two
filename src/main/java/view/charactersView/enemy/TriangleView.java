@@ -5,7 +5,7 @@ import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.Constant.TRI_SIZE;
+import static controller.constants.EntityConstants.TRI_SIZE;
 
 public class TriangleView implements Drawable {
     private double x1, y1, x2, y2, x3, y3;

@@ -23,7 +23,7 @@ public class SkillTreeHandler {
             skiilTree();
             store();
             
-            if(panel.update.over)stop();
+//            if(update.over)stop();
 
         });
         time.start();

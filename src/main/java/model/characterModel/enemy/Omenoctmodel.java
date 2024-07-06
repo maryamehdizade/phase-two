@@ -6,9 +6,8 @@ import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-import static controller.Constant.OMENOCT_SIZE;
-import static controller.Constant.RECT_SIZE;
 import static controller.Util.setEntityLoc;
+import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
 public class Omenoctmodel extends Enemy implements Movable {
     private double speed = 1;
