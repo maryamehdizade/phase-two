@@ -64,43 +64,42 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
-//            if(Menu.getMenu().proteus){
-//                if(dataBase.getGamePanelModel().proteusCount == 0) {
-//                    if( dataBase.playerModel.getXp() >= 100) {
+            if(Menu.getMenu().proteus){
+                if(dataBase.getGamePanelModel().proteusCount == 0) {
+                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
                         dataBase.handler.proteus = true;
                         dataBase.getGamePanelModel().proteusCount ++;
                          dataBase.playerModel.setLevelUp( dataBase.playerModel.getLevelUp() + 1);
 
-//                    }
-//                }
-//                todo
-//            }
+                    }
+                }
+            }
         }
         if(keyCode == KeyEvent.VK_C){
-//            if(Menu.getMenu().aceso){
-//                if(dataBase.getGamePanelModel().acesoCount == 0) {
-//                    if( dataBase.playerModel.getXp() >= 100) {
+            if(Menu.getMenu().aceso){
+                if(dataBase.getGamePanelModel().acesoCount == 0) {
+                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
                         dataBase.handler.aceso = true;
                         dataBase.getGamePanelModel().heal ++;
                         dataBase.getGamePanelModel().acesoCount ++;
-//                    }
-//                }
-//            }
+                    }
+                }
+            }
         }
         if(keyCode == KeyEvent.VK_R){
-//            if(Menu.getMenu().ares){
-//                if(dataBase.getGamePanelModel().aresCount == 0) {
-//                    if( dataBase.playerModel.getXp() >= 100) {
+            if(Menu.getMenu().ares){
+                if(dataBase.getGamePanelModel().aresCount == 0) {
+                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
                         dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
                         dataBase.handler.ares = true;
                         dataBase.getGamePanelModel().aresCount++;
                     }
-//                }
-//            }
-//        }
+                }
+            }
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package view.pages;
 
+import controller.DataBase;
 import controller.Update;
 
 import javax.swing.*;
@@ -38,9 +39,7 @@ public class GameOver extends JFrame {
         button.setBackground(Color.gray);
         button.setLocation(50,140);
         button.addActionListener(e -> {
-            dispose();
-            Game.getGame().dispose();
-            Menu.getMenu().setVisible(true);
+            startOver();
         });
 
         JLabel vic = new JLabel("victory!");
@@ -53,6 +52,14 @@ public class GameOver extends JFrame {
         }
         add(button);
         add(xp);
+    }
+    private void startOver(){
+        dispose();
+        Game.getGame().dispose();
+        Game.getGame().remove();
+        Update.getUpdate().remove();
+        DataBase.getDataBase().remove();
+        Menu.getMenu().setVisible(true);
     }
 }
 

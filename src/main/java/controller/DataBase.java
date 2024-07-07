@@ -45,4 +45,7 @@ public class DataBase {
     public GamePanelModel getGamePanelModel() {
         return gamePanelModel;
     }
+    public void remove(){
+        dataBase = null;
+    }
 }

@@ -21,6 +21,9 @@ public  class Game extends JFrame {
         }
         return game;
     }
+    public void remove(){
+        game = null;
+    }
 
     JPanel panel ;
     int y = 2;

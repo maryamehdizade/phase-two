@@ -26,6 +26,7 @@ import java.util.Random;
 
 import static controller.Controller.*;
 import static controller.Util.*;
+import static controller.constants.AttackConstants.*;
 import static controller.constants.EntityConstants.BALL_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
@@ -39,6 +40,9 @@ public class Update {
             update = new Update();
         }
         return update;
+    }
+    public void remove(){
+        update = null;
     }
 
     public GamePanel panel;
@@ -668,8 +672,8 @@ public class Update {
     }
     private void reduceHp(Movable movable){
         int w = 0;
-        if(movable instanceof TriangleModel)w = 10;
-        else if(movable instanceof RectangleModel)w = 6;
+        if(movable instanceof TriangleModel)w = TRI_POWER;
+        else if(movable instanceof RectangleModel)w = REC_POWER;
          dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
         if( dataBase.playerModel.getHp() <= 0){
             gameOver();
