@@ -14,52 +14,36 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public  class GamePanel extends JPanel {
-    public SkillTreeHandler handler;
     public PlayerView playerView;
     private ArrayList<Drawable> drawables = new ArrayList<>();
-    public boolean victory = false;
-    public Random random = new Random();
-    public boolean wave1 = true;
-    public int heal = 0;
-    public boolean start = false;
-    public boolean wave2 = false;
-    public boolean wave3 = false;
-    public boolean empower = false;
-    public int wave = 1;
-    public int phase, second;
-    public int bound ;
-    public int enemies = 0;
-    public int aresCount ;
-    public int acesoCount ;
-    public int proteusCount ;
+
     private boolean proteus;
     private boolean aceso;
     private boolean ares;
-//    public Game game;
+    private int wave;
+    private int second;
 
-
-    int power = 5;
-    public int count = 0;
     String id;
 
     public GamePanel(String id){
 
         this.id = id;
         Sound.sound().wave();
-//        this.game = Game.getGame();
-        bound = Menu.getMenu().bound;
 
         setBackground(new Color(0, 0, 0));
         setFocusable(true);
         setLayout(null);
         requestFocus();
 
+        Menu menu = Menu.getMenu();
+        aceso = menu.aceso;
+        ares = menu.ares;
+        proteus = menu.proteus;
 
-        handler = new SkillTreeHandler(this);
-        MyListner listner = new MyListner(this);
+        MyListner listener = new MyListner(this);
 
-        addKeyListener(listner);
-        addMouseListener(listner);
+        addKeyListener(listener);
+        addMouseListener(listener);
 
     }
 
@@ -83,32 +67,23 @@ public  class GamePanel extends JPanel {
                 , 0, 20);
 
         repaint();
-        // TODO
     }
 
 
 
-    public boolean isVictory() {
-        return victory;
-    }
 
-    public int getPower() {
-        return power;
-    }
 
-    public void setPower(int power) {
-        this.power = power;
-    }
 
-    public boolean isProteus() {
-        return proteus;
-    }
-
-    public void setProteus(boolean proteus) {
-        this.proteus = proteus;
-    }
 
     public ArrayList<Drawable> getDrawables() {
         return drawables;
+    }
+
+    public void setWave(int wave) {
+        this.wave = wave;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
     }
 }

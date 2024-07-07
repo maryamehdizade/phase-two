@@ -45,6 +45,9 @@ public class Controller  {
     public static GamePanel creatGamePanel(GamePanelModel g){
         return new GamePanel(g.getId());
     }
+//    public static GamePanelModel findGamePanelModel(GamePanel g){
+//
+//    }
 
     public static TriangleView createTriangleView(TriangleModel t){
         return new TriangleView(t.getId(), t.getX1(), t.getY1(), t.getX2(), t.getY2(), t.getX3(), t.getY3());

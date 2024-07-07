@@ -1,26 +1,49 @@
 package model;
 
 import controller.DataBase;
+import controller.SkillTreeHandler;
 import model.characterModel.PlayerModel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Random;
 import java.util.UUID;
 
+import static controller.constants.AttackConstants.EPSILON_POWER;
 import static controller.constants.Constant.MIN_SIZE;
 import static controller.constants.EntityConstants.BALL_SIZE;
 
 public class GamePanelModel {
+
     String id;
     Point loc;
+    public boolean victory = false;
+    public Random random = new Random();
+    public boolean wave1 = true;
+    public int heal = 0;
+    public boolean proteus,ares,aceso;
+    public boolean start = false;
+    public boolean wave2 = false;
+    public boolean wave3 = false;
+    public boolean empower = false;
+    public int wave = 1;
+    public int phase, second;
+
+    public int enemies = 0;
+    public int aresCount ;
+    public int acesoCount ;
+    public int proteusCount ;
+    public int power;
     private Dimension dimension;
    public PlayerModel playerModel;
-//    DataBase dataBase;
 
     public GamePanelModel(Point location, Dimension dimension) {
+        power = EPSILON_POWER;
         this.dimension = dimension;
         this.id = UUID.randomUUID().toString();
         this.loc = location;
+
+
     }
     public void shrinkage(){
         xmin();
@@ -73,5 +96,13 @@ public class GamePanelModel {
 
     public void setDimension(Dimension dimension) {
         this.dimension = dimension;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 }

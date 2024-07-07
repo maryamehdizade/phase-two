@@ -1,3 +1,4 @@
+
 import view.pages.Menu;
 
 public class Main {

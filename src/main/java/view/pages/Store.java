@@ -15,7 +15,7 @@ public class Store extends JFrame  {
     private JButton slaughter = new JButton("slaughter : 200xp");
     private JButton slumber = new JButton("slumber : 150xp");
     private JButton dismay = new JButton("dismay: 120xp");
-    private Dimension size = new Dimension(280,30);
+    private Dimension size = new Dimension(220, 100);
     Color color = new Color(100,0,0);
     private JPanel main = new JPanel();
     int x1 = 20;
@@ -28,15 +28,19 @@ public class Store extends JFrame  {
     private int font = 22;
 
     public Store(GamePanel panel) {
+
+        update.model.stop();
+        update.view.stop();
+        update.time.stop();
+
         this.panel = panel;
 
         setSize(500, 500);
-        setLocation(((panel.getWidth())), (panel.getHeight() / 2));
         setResizable(false);
         setBackground(Color.black);
         setUndecorated(true);
         setVisible(true);
-        setSize(301,201);
+        setSize(501, 501);
         requestFocus();
         setFocusable(false);
 
@@ -86,7 +90,7 @@ public class Store extends JFrame  {
 
 
         banish.setSize(size);
-        banish.setLocation(10, 130);
+        banish.setLocation(x1, y3);
         banish.setBackground(color);
         banish.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         banish.addActionListener(e -> {
@@ -100,21 +104,21 @@ public class Store extends JFrame  {
         });
 
         empower.setSize(size);
-        empower.setLocation(10, 80);
+        empower.setLocation(x1, y2);
         empower.setBackground(color);
         empower.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         empower.addActionListener(e -> {
             if(panel. playerView.getXp() >= 75){
                 panel. playerView.setXp(panel. playerView.getXp() - 75);
                 update.dataBase.setXp(panel.playerView.getXp());
-                panel.empower = true;
+                update.dataBase.getGamePanelModel().empower = true;
             }
             start();
         });
 
 
         heal.setSize(size);
-        heal.setLocation(10, 30);
+        heal.setLocation(x1, y1);
         heal.setBackground(color);
         heal.setFont(new Font("TimesRoman", Font.PLAIN, 22));
         heal.addActionListener(e -> {
@@ -151,6 +155,7 @@ public class Store extends JFrame  {
         dispose();
         update.view.start();
         update.model.start();
+        update.time.start();
     }
 
 }

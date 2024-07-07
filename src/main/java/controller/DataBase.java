@@ -17,12 +17,15 @@ public class DataBase {
     public PlayerModel playerModel;
 
     private static DataBase dataBase;
+    public SkillTreeHandler handler;
     private DataBase(){
 
         gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION);
         playerModel = PlayerModel.getPlayer();
         gamePanelModel.playerModel = playerModel;
         movables.add(playerModel);
+
+        handler = new SkillTreeHandler(gamePanelModel);
     }
     public void setXp(int xp){
         playerModel.setXp(xp);
@@ -32,9 +35,14 @@ public class DataBase {
     }
 
     public static DataBase getDataBase() {
-        if(dataBase == null)dataBase = new DataBase();
+        if(dataBase == null){
+            System.out.println("creating database");
+            dataBase = new DataBase();
+        }
         return dataBase;
     }
 
-
+    public GamePanelModel getGamePanelModel() {
+        return gamePanelModel;
+    }
 }

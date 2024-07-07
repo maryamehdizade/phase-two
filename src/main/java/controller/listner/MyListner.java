@@ -2,6 +2,7 @@ package controller.listner;
 
 import controller.DataBase;
 import controller.Update;
+import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import view.pages.GamePanel;
 import view.pages.Menu;
@@ -19,7 +20,7 @@ public class MyListner implements KeyListener, MouseListener {
     DataBase dataBase;
     GamePanel panel;
 //    Update update = Update.getUpdate();
-    
+
     public MyListner(GamePanel panel){
         this.panel = panel;
         dataBase = DataBase.getDataBase();
@@ -37,9 +38,7 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setdForce(true);
         }
         if(keyCode == KeyEvent.VK_SPACE){
-//            update.model.stop();
-//            update.view.stop();
-//            update.time.stop();
+
             new Store(panel);
         }
     }
@@ -65,44 +64,43 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
-            if(Menu.getMenu().proteus){
-                if(panel.proteusCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
+//            if(Menu.getMenu().proteus){
+//                if(dataBase.getGamePanelModel().proteusCount == 0) {
+//                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
-                        panel.handler.proteus = true;
-                        panel.proteusCount ++;
+                        dataBase.handler.proteus = true;
+                        dataBase.getGamePanelModel().proteusCount ++;
                          dataBase.playerModel.setLevelUp( dataBase.playerModel.getLevelUp() + 1);
-                        panel.setProteus(true);
-                    }
-                }
+
+//                    }
+//                }
 //                todo
-            }
+//            }
         }
         if(keyCode == KeyEvent.VK_C){
-            if(Menu.getMenu().aceso){
-                if(panel.acesoCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
+//            if(Menu.getMenu().aceso){
+//                if(dataBase.getGamePanelModel().acesoCount == 0) {
+//                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
-                        panel.handler.aceso = true;
-                        panel.heal ++;
-                        panel.acesoCount ++;
-
-                    }
-                }
-            }
+                        dataBase.handler.aceso = true;
+                        dataBase.getGamePanelModel().heal ++;
+                        dataBase.getGamePanelModel().acesoCount ++;
+//                    }
+//                }
+//            }
         }
         if(keyCode == KeyEvent.VK_R){
-            if(Menu.getMenu().ares){
-                if(panel.aresCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
+//            if(Menu.getMenu().ares){
+//                if(dataBase.getGamePanelModel().aresCount == 0) {
+//                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
-                        panel.setPower(panel.getPower() + 2);
-                        panel.handler.ares = true;
-                        panel.aresCount++;
+                        dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
+                        dataBase.handler.ares = true;
+                        dataBase.getGamePanelModel().aresCount++;
                     }
-                }
-            }
-        }
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -110,7 +108,7 @@ public class MyListner implements KeyListener, MouseListener {
         int targetX = e.getX();
         int targetY = e.getY();
         int n = 0;
-        if(panel.empower)n = 2;
+        if(dataBase.getGamePanelModel().empower)n = 2;
         for (int i = -1; i < n; i++) {
             BulletModel model = new BulletModel(playerCenter( dataBase.playerModel), targetX + i * n * 10,
                     targetY + i * n * 10);

@@ -1,10 +1,12 @@
 package controller;
 
+import model.GamePanelModel;
 import view.pages.GamePanel;
 
 import javax.swing.*;
 
 public class SkillTreeHandler {
+    private SkillTreeHandler handler;
 
     private double aresSec = 0;
     private double acesoSec = 0;
@@ -15,8 +17,8 @@ public class SkillTreeHandler {
     public boolean proteus;
     public boolean acesoC;
     private Timer time;
-    private GamePanel panel;
-    public SkillTreeHandler(GamePanel panel){
+    private GamePanelModel panel;
+    public SkillTreeHandler(GamePanelModel panel){
         this.panel = panel;
         
         time = new Timer(100, e -> {
@@ -78,4 +80,7 @@ public class SkillTreeHandler {
     void stop(){
         time.stop();
     }
+
+
+
 }

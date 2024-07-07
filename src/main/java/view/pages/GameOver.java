@@ -48,7 +48,7 @@ public class GameOver extends JFrame {
         vic.setSize(100,50);
         vic.setBackground(Color.black);
 
-        if(update.panel.isVictory()){
+        if(update.dataBase.getGamePanelModel().victory){
             add(vic);
         }
         add(button);

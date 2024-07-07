@@ -13,6 +13,8 @@ import static controller.constants.EntityConstants.BALL_SIZE;
 public final class PlayerModel implements Movable {
     
     private double panelW,panelH;
+    public int shoots;
+    public int successShoots;
     private int xp = 0;
     private int hp = 100;
     public double size = 20;
