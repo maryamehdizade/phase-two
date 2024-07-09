@@ -4,6 +4,7 @@ import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
+import model.characterModel.enemy.Omenoctmodel;
 import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
@@ -11,6 +12,7 @@ import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
 import view.charactersView.enemy.CollectableView;
+import view.charactersView.enemy.OmenoctView;
 import view.charactersView.enemy.RectangleView;
 import view.charactersView.enemy.TriangleView;
 import view.drawable.Drawable;
@@ -27,6 +29,7 @@ import java.util.Random;
 import static controller.Controller.*;
 import static controller.Util.*;
 import static controller.constants.AttackConstants.*;
+import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
@@ -41,7 +44,7 @@ public class Update {
         }
         return update;
     }
-    public void remove(){
+    public static void remove(){
         update = null;
     }
 
@@ -89,16 +92,16 @@ public class Update {
 
     }
     public void updateView(){
-
         updatePanelDrawables();
     }
     private void updatePanelDrawables(){
         updatePanel();
         for(Drawable d: panel.getDrawables()){
             if(d instanceof PlayerView)updatePlayerView((PlayerView) d);
-            if(d instanceof RectangleView)updateRectangleView((RectangleView) d);
-            if(d instanceof TriangleView)updateTrianglesView((TriangleView) d);
-            if(d instanceof BulletView)updateBulletsView((BulletView) d);
+            else if(d instanceof RectangleView)updateRectangleView((RectangleView) d);
+            else if(d instanceof TriangleView)updateTrianglesView((TriangleView) d);
+            else if(d instanceof BulletView)updateBulletsView((BulletView) d);
+            else if(d instanceof OmenoctView)updateOmenoctView((OmenoctView) d);
         }
 
     }
@@ -143,6 +146,19 @@ public class Update {
         p.setxPoints(dataBase.playerModel.getxPoints());
         p.setyPoints(dataBase.playerModel.getyPoints());
     }
+    private void updateOmenoctView(OmenoctView o){
+        for (Movable movable : dataBase.movables) {
+            if (movable instanceof Omenoctmodel) {
+                if (movable.getId().equals(o.getId())) {
+
+                    o.setLoc(movable.getLoc());
+                    o.setxPoints(movable.getxPoints());
+                    o.setyPoints(movable.getyPoints());
+                    o.setHp(movable.getHp());
+                }
+            }
+        }
+    }
     private void updatePanel(){
         panel.setSize(panelModel.getDimension());
         panel.setLocation(panelModel.getLoc());
@@ -153,9 +169,17 @@ public class Update {
 
     //model
     public void updateModel() {
-        epsilonCheck();
-        updateBullets();
-        phaseOne();
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable m = dataBase.movables.get(i);
+            if (m instanceof TriangleModel) updateTriangles(m);
+            else if (m instanceof PlayerModel) epsilonCheck();
+            else if (m instanceof BulletModel) updateBullets(m);
+            else if (m instanceof RectangleModel) updateRecs(m);
+            else if (m instanceof Omenoctmodel) updateOmenoct(m);
+        }
+
+        addingEnemies();
+        if (Game.getGame().getPhase() == 0) phaseOne();
         updateCollectable();
 
         victory();
@@ -180,10 +204,9 @@ public class Update {
         panelModel.shrinkage();
     }
     private void phaseOne(){
-        updateRecs();
-        updateTriangles();
+//        updateRecs();
+//        updateTriangles();
         waveCheck();
-        addingEnemies();
         Wave();
     }
     private void phaseTwo(){
@@ -233,15 +256,23 @@ public class Update {
                     (panelModel.wave == 3 && panelModel.enemies <= 20)) {
                 Sound.sound().entrance();
 
-                Movable n;
-                if(panelModel.random.nextInt(0,2) == 1) {
-                    n = new TriangleModel();
+                Movable n ;
+                if(Game.getGame().getPhase() == 0) {
+                    if (panelModel.random.nextInt(0, 2) == 1) {
+                        n = new TriangleModel();
 
-                    panel.getDrawables().add(createTriangleView((TriangleModel) n));
+                        panel.getDrawables().add(createTriangleView((TriangleModel) n));
+                    } else {
+
+                        n = new RectangleModel();
+                        panel.getDrawables().add(createRectView((RectangleModel) n));
+                    }
                 }else{
-
-                    n = new RectangleModel();
-                    panel.getDrawables().add(createRectView((RectangleModel) n));
+//                    if (panelModel.random.nextInt(0, 2) == 1){
+                        n = new Omenoctmodel();
+                        System.out.println("omenoct");
+                        panel.getDrawables().add(createOmenoctView((Omenoctmodel) n));
+//                    }
                 }
                 dataBase.movables.add(n);
                 panelModel.enemies ++;
@@ -268,53 +299,62 @@ public class Update {
             }
         }
     }
-    private void updateRecs(){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            if(dataBase.movables.get(i) instanceof RectangleModel) {
+    private void updateRecs(Movable m){
+//        for (int i = 0; i < dataBase.movables.size(); i++) {
+//            if(dataBase.movables.get(i) instanceof RectangleModel) {
                 if (new Random().nextDouble(0, 50) <= 1) {
-                    dataBase.movables.get(i).setSpeed(2);
+                    m.setSpeed(2);
                 }
-                if (second % 2 == 0) dataBase.movables.get(i).setSpeed(1);
-                dataBase.movables.get(i).move();
-                checkCollision(dataBase.movables.get(i));
-            }
-        }
+                if (second % 2 == 0) m.setSpeed(1);
+                m.move();
+                checkCollision(m);
+//            }
+//        }
     }
-    private void updateBullets(){
-        for (int i = 0; i <  dataBase.movables.size(); i++) {
-            if(dataBase.movables.get(i) instanceof BulletModel) {
+    private void updateBullets(Movable m){
+//        for (int i = 0; i <  dataBase.movables.size(); i++) {
+//            if(dataBase.movables.get(i) instanceof BulletModel) {
 
-                dataBase.movables.get(i).setPanelH(panel.getHeight());
-                dataBase.movables.get(i).setPanelW(panel.getWidth());
+                m.setPanelH(panel.getHeight());
+                m.setPanelW(panel.getWidth());
 
-                int a = dataBase.movables.get(i).move();
+                int a = m.move();
                 if (a == 1) moveLeft();
                 else if (a == 2) moveRight();
                 else if (a == 3) moveUp();
                 else if (a == 4) moveDown();
 
                 if (a != 0) {
-                    impact(bulletCenter((BulletModel) dataBase.movables.get(i)), 50);
-                    removeBullet(i);
+                    impact(bulletCenter((BulletModel) m), 50);
+                    removeBullet((BulletModel) m);
                 }else{
-                    checkCollision(dataBase.movables.get(i));
+                    checkCollision(m);
                 }
 
-            }
-        }
+//            }
+//        }
     }
 
-    private void updateTriangles(){
-        for (int i = 0; i <  dataBase.movables.size() ; i++) {
-            if (distance(dataBase.movables.get(i).getLoc().getX(), dataBase.movables.get(i).getLoc().getY()
+    private void updateTriangles(Movable m){
+//        for (int i = 0; i <  dataBase.movables.size() ; i++) {
+//            if(m instanceof RectangleModel)
+            if (distance(m.getLoc().getX(), m.getLoc().getY()
                     , dataBase.playerModel.getLoc().getX(), dataBase.playerModel.getLoc().getY()) >= 200) {
-                dataBase.movables.get(i).setSpeed(2);
+                m.setSpeed(2);
             } else {
-                dataBase.movables.get(i).setSpeed(1);
+                m.setSpeed(1);
             }
-            dataBase.movables.get(i).move();
-            checkCollision(dataBase.movables.get(i));
-        }
+            m.move();
+            checkCollision(m);
+//        }
+    }
+    private void updateOmenoct(Movable m) {
+//        for (int i = 0; i <  dataBase.movables.size() ; i++) {
+        m.setPanelW(panel.getWidth());
+        m.setPanelH(panel.getHeight());
+        m.move();
+        checkCollision(m);
+//        }
     }
     private void updateEpsilon(){
          dataBase.playerModel.setPanelH(panel.getHeight());
@@ -423,12 +463,12 @@ public class Update {
     }
     private void checkBulletCollisions(BulletModel movable){
         for (int i = 0; i < dataBase.movables.size(); i++) {
-            if(!dataBase.movables.get(i).equals(movable)){
+//            if(!dataBase.movables.get(i).equals(movable)){
                 if(dataBase.movables.get(i) instanceof RectangleModel)
                     bulletRecCollision((RectangleModel) dataBase.movables.get(i), (BulletModel) movable);
                 else if(dataBase.movables.get(i) instanceof TriangleModel)
                     bulletTriangleCollision((TriangleModel) dataBase.movables.get(i), (BulletModel) movable);
-            }
+//            }
         }
     }
     private void checkTriCollisions(TriangleModel movable){
@@ -580,7 +620,7 @@ public class Update {
         for (int i = 0; i < dataBase.movables.size(); i ++) {
             Movable m =  dataBase.movables.get(i);
             if (!(m instanceof BulletModel)) {
-
+//                System.out.println(m.getLoc() + m.getId());
                 double x = 0;
                 double y = 0;
                 if (m instanceof RectangleModel) {
@@ -656,11 +696,19 @@ public class Update {
         }
         if(panelModel.getDimension().getHeight() <= 1 || panelModel.getDimension().getWidth() <= 1){
             t.stop();
-            gameOver();
-            Game.getGame().dispose();
+//            gameOver();
+            initiatePhase2();
+            
         }
     }
 
+    private void initiatePhase2(){
+        Game.getGame().setPhase(1);
+        panelModel.setDimension(PANEL_DIMENSION);
+//        Update.remove();
+//        DataBase.remove();
+        
+    }
     private void death(Movable movable){
         int n = 1;
         if(movable instanceof TriangleModel)n = 2;

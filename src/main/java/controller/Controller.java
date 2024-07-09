@@ -4,17 +4,18 @@ import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
+import model.characterModel.enemy.Omenoctmodel;
 import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
 import view.charactersView.enemy.CollectableView;
+import view.charactersView.enemy.OmenoctView;
 import view.charactersView.enemy.RectangleView;
 import view.charactersView.enemy.TriangleView;
 import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
-import java.util.Objects;
 
 public class Controller  {
 
@@ -48,9 +49,12 @@ public class Controller  {
 //    public static GamePanelModel findGamePanelModel(GamePanel g){
 //
 //    }
+    public static OmenoctView createOmenoctView(Omenoctmodel omenoctmodel){
+        return new OmenoctView(omenoctmodel.getId(), omenoctmodel.getLoc());
+    }
 
     public static TriangleView createTriangleView(TriangleModel t){
-        return new TriangleView(t.getId(), t.getX1(), t.getY1(), t.getX2(), t.getY2(), t.getX3(), t.getY3());
+        return new TriangleView(t.getId());
     }
 
 

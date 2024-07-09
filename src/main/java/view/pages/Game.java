@@ -28,6 +28,7 @@ public  class Game extends JFrame {
     JPanel panel ;
     int y = 2;
     private Sound sound;
+    private int phase = 1 ;
 
 
     private Game() {
@@ -48,5 +49,13 @@ public  class Game extends JFrame {
         sound = Sound.sound();
         sound.start();
 
+    }
+
+    public void setPhase(int phase) {
+        this.phase = phase;
+    }
+
+    public int getPhase() {
+        return phase;
     }
 }

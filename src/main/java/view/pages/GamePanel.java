@@ -53,9 +53,6 @@ public  class GamePanel extends JPanel {
 
         super.paintComponent(g);
 
-        for(Drawable d : drawables)d.draw(g);
-
-
         g.setColor(new Color(133, 186, 83));
         String ability = "";
         if(aceso)ability = "aceso";
@@ -65,6 +62,8 @@ public  class GamePanel extends JPanel {
         g.drawString("xp:" + playerView.getXp() + "          " + "hp:" + playerView.getHp()
                 + "             " + second + "             wave:" + wave + "        skill tree:" + ability
                 , 0, 20);
+
+        for(Drawable d : drawables)d.draw(g);
 
         repaint();
     }

@@ -12,13 +12,15 @@ import static controller.constants.Constant.PANEL_LOCATION;
 
 public class DataBase {
     GamePanelModel gamePanelModel;
-    public ArrayList<Movable> movables = new ArrayList<>();
+    public ArrayList<Movable> movables;
     ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public PlayerModel playerModel;
 
     private static DataBase dataBase;
     public SkillTreeHandler handler;
     private DataBase(){
+
+        movables = new ArrayList<>();
 
         gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION);
         playerModel = PlayerModel.getPlayer();
@@ -45,7 +47,7 @@ public class DataBase {
     public GamePanelModel getGamePanelModel() {
         return gamePanelModel;
     }
-    public void remove(){
+    public static void remove(){
         dataBase = null;
     }
 }
