@@ -1,12 +1,13 @@
 package model.characterModel;
 
+import model.movement.Collidable;
 import model.movement.Movable;
 import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-public class BulletModel implements Movable {
+public class BulletModel implements Movable, Collidable {
     private double panelW,panelH;
     private Point2D loc;
     private double dx;
@@ -51,6 +52,11 @@ public class BulletModel implements Movable {
     @Override
     public int[] getyPoints() {
         return new int[0];
+    }
+
+    @Override
+    public boolean solid() {
+        return false;
     }
 
     @Override
@@ -107,6 +113,11 @@ public class BulletModel implements Movable {
 
     public void setPanelW(double panelW) {
         this.panelW = panelW;
+    }
+
+    @Override
+    public boolean collides() {
+        return true;
     }
 
     public void setPanelH(double panelH) {

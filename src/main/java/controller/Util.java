@@ -85,6 +85,10 @@ public class Util {
         return Math.pow(Math.pow((x - x1), 2) + Math.pow((y - y1), 2), 0.5);
     }
 
+    public static double distance(Point2D a, Point2D b){
+        return Math.pow(Math.pow((a.getX() - b.getX()), 2) + Math.pow((a.getY() - b.getY()), 2), 0.5);
+    }
+
     public static Point2D playerCenter(PlayerModel playerModel) {
         return new Point2D.Double(playerModel.getLocation().getX() + BALL_SIZE / 2.0, playerModel.getLocation().getY() + BALL_SIZE / 2.0);
     }
@@ -97,5 +101,8 @@ public class Util {
     }
     public static Point2D bulletCenter(BulletModel t) {
         return new Point2D.Double(t.getLoc().getX() + BULLET_SIZE/2.0, t.getLoc().getY() + BULLET_SIZE/2.0);
+    }
+    public static Point2D centerLoc(Movable movable){
+        return new Point2D.Double(movable.getLoc().getX() + movable.size()/2, movable.getLoc().getY() + movable.size()/2);
     }
 }

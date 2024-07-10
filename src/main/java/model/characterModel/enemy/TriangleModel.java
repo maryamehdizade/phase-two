@@ -29,6 +29,11 @@ public class TriangleModel extends Enemy implements Movable {
     }
 
     @Override
+    public boolean solid() {
+        return true;
+    }
+
+    @Override
     public int move() {
         if(!impact) {
              m = Math.atan2((playerModel.getLocation().getY() - y1), (playerModel.getLocation().getX() - x1));
@@ -52,7 +57,7 @@ public class TriangleModel extends Enemy implements Movable {
         xPoints = new int[]{(int) x1, (int) x3, (int) x2};
         yPoints = new int[]{(int) y1, (int) y3, (int) y2};
 
-        loc = new Point2D.Double((x1 + x2 + x3)/3, (y1 + y2 + y3)/3);
+        loc = new Point2D.Double(x1, y1 );
 
         return 0;
     }
@@ -89,6 +94,11 @@ public class TriangleModel extends Enemy implements Movable {
     @Override
     public void setPanelW(double panelW) {
 
+    }
+
+    @Override
+    public boolean collides() {
+        return true;
     }
 
     @Override

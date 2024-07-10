@@ -1,5 +1,6 @@
 package model.characterModel;
 
+import model.movement.Collidable;
 import model.movement.Movable;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import static controller.Util.addVector;
 import static controller.constants.EntityConstants.BALL_SIZE;
 
 
-public final class PlayerModel implements Movable {
+public final class PlayerModel implements Movable, Collidable {
     
     private double panelW,panelH;
     public int shoots;
@@ -61,7 +62,10 @@ public final class PlayerModel implements Movable {
     }
 
 
-
+    @Override
+    public boolean solid() {
+        return false;
+    }
 
     @Override
     public int move() {
@@ -274,6 +278,16 @@ public final class PlayerModel implements Movable {
 
     public void setPanelW(double panelW) {
         this.panelW = panelW;
+    }
+
+    @Override
+    public boolean collides() {
+        return true;
+    }
+
+    @Override
+    public boolean doesMeleeAtack() {
+        return true;
     }
 
     public void setPanelH(double panelH) {

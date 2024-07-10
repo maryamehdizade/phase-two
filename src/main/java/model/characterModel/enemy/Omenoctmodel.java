@@ -179,6 +179,11 @@ public class Omenoctmodel extends Enemy implements Movable {
     }
 
     @Override
+    public boolean collides() {
+        return true;
+    }
+
+    @Override
     public void setPanelH(double panelH) {
         this.panelH = panelH;
     }

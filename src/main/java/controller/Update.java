@@ -459,6 +459,8 @@ public class Update {
             checkRectColiisions((RectangleModel) movable);
         } else if (movable instanceof TriangleModel) {
             checkTriCollisions((TriangleModel) movable);
+        }else if (movable instanceof Omenoctmodel){
+
         }
     }
     private void checkBulletCollisions(BulletModel movable){

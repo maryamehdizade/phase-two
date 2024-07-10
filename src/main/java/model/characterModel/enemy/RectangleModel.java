@@ -127,6 +127,11 @@ public class RectangleModel extends Enemy  implements Movable {
     }
 
     @Override
+    public boolean collides() {
+        return true;
+    }
+
+    @Override
     public void setPanelH(double panelH) {
 
     }
