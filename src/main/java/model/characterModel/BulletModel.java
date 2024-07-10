@@ -120,6 +120,11 @@ public class BulletModel implements Movable, Collidable {
         return true;
     }
 
+    @Override
+    public boolean doesMeleeAtack() {
+        return false;
+    }
+
     public void setPanelH(double panelH) {
         this.panelH = panelH;
     }

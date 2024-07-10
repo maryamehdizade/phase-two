@@ -5,8 +5,9 @@ import model.movement.Movable;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-import static controller.Util.setEntityLoc;
+import static controller.Util.Util.setEntityLoc;
 import static controller.constants.EntityConstants.TRI_SIZE;
+import static controller.constants.AttackConstants.*;
 
 public class TriangleModel extends Enemy implements Movable {
 
@@ -62,6 +63,9 @@ public class TriangleModel extends Enemy implements Movable {
         return 0;
     }
     void createTriangle(){
+        collectables = 2;
+        collectablesXp = 5;
+        meleePower = TRI_MELEE_POWER;
         double x;
         double y;
 
@@ -98,6 +102,11 @@ public class TriangleModel extends Enemy implements Movable {
 
     @Override
     public boolean collides() {
+        return true;
+    }
+
+    @Override
+    public boolean doesMeleeAtack() {
         return true;
     }
 

@@ -1,14 +1,16 @@
 package model.characterModel.enemy;
+import model.movement.Collidable;
 import model.movement.Movable;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.UUID;
 
-import static controller.Util.setEntityLoc;
+import static controller.Util.Util.setEntityLoc;
 import static controller.constants.EntityConstants.RECT_SIZE;
+import static controller.constants.AttackConstants.*;
 
-public class RectangleModel extends Enemy  implements Movable {
+public class RectangleModel extends Enemy  implements Movable, Collidable {
     private int hp = 10;
     private Random random = new Random();
     private int[] xPoints;
@@ -23,6 +25,10 @@ public class RectangleModel extends Enemy  implements Movable {
     }
     public void createRecs(){
 
+        collectables = 1;
+        collectablesXp = 5;
+        meleePower = REC_MELEE_POWER;
+
         loc = setEntityLoc();
 
         xPoints = new int[]{(int) loc.getX(), (int) (loc.getX() + RECT_SIZE),(int) (loc.getX() + RECT_SIZE), (int) loc.getX()};
@@ -32,6 +38,11 @@ public class RectangleModel extends Enemy  implements Movable {
          xvelocity = (Math.cos(m) * 2) * speed;
          yvelocity = (Math.sin(m) * 2) * speed;
 
+    }
+
+    @Override
+    public boolean solid() {
+        return false;
     }
 
     @Override
@@ -128,6 +139,11 @@ public class RectangleModel extends Enemy  implements Movable {
 
     @Override
     public boolean collides() {
+        return true;
+    }
+
+    @Override
+    public boolean doesMeleeAtack() {
         return true;
     }
 

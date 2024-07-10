@@ -1,8 +1,6 @@
 package controller.listner;
 
 import controller.DataBase;
-import controller.Update;
-import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import view.pages.GamePanel;
 import view.pages.Menu;
@@ -14,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import static controller.Controller.createBulletView;
-import static controller.Util.playerCenter;
+import static controller.Util.Util.playerCenter;
 
 public class MyListner implements KeyListener, MouseListener {
     DataBase dataBase;

@@ -8,6 +8,10 @@ public class Enemy {
     PlayerModel playerModel = PlayerModel.getPlayer();
     double xvelocity;
     double yvelocity;
+    public int collectables;
+    public int collectablesXp;
+    public int meleePower;
+    public int rangedPower;
     double speed = 1;
     double m;
     void findPlayer(Point2D loc){

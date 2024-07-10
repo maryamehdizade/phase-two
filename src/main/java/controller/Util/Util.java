@@ -1,4 +1,4 @@
-package controller;
+package controller.Util;
 
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -78,6 +78,10 @@ public class Util {
         }
         return null;
     }
+    public static Point2D collisionPoint(Point2D a, Point2D b){
+        return new Point2D.Double((a.getX() + b.getX())/2.0, (a.getY() + b.getY())/2.0);
+    }
+
     public static Point2D addVector(Point2D a, Point2D b) {
         return new Point2D.Double(a.getX() + b.getX(), a.getY() + b.getY());
     }

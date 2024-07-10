@@ -1,13 +1,8 @@
 package view.pages;
 
-import controller.Minimize;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
-import static controller.Util.setEntityLoc;
-import static controller.constants.EntityConstants.OMENOCT_SIZE;
 import static view.pages.Game.getGame;
 
 public class Menu extends JFrame {

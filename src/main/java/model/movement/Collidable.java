@@ -7,14 +7,15 @@ import model.characterModel.enemy.Enemy;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
-import static controller.Util.*;
+import static controller.Util.Util.*;
+import static controller.constants.ImpactConstants.IMPACT_RANGE;
+import static model.movement.Impact.impact;
+import static model.movement.Util.CollisionUtil.*;
 
 public interface Collidable {
     default void collision(Movable m) {
-//        ArrayList<Movable> movables = DataBase.getDataBase().movables;
-        int power = DataBase.getDataBase().getGamePanelModel().getPower();
+
         Movable n = (Movable) this;
         if (m != n) {
             if (n.isCircular()) {
@@ -23,34 +24,40 @@ public interface Collidable {
                         if (m instanceof Enemy) {
                             if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
                                 //reduce m hp and remove bullet
+                                injured(m);
+                                removeBullet((BulletModel) n);
                             }
                         }
                     } else if (!(m instanceof BulletModel)) {
                         if (m.collides() && n.collides()) {
                             if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
                                 //impact
+                                impact(collisionPoint(centerLoc(m),centerLoc(n)), IMPACT_RANGE);
                             }
                         }
                     }
                 } else {
-                    // m is enemy or player model   n can be bullet model or round enemy
                     if (n instanceof BulletModel) {
                         if (m instanceof Enemy) {
                             Polygon t = new Polygon(m.getxPoints(), m.getyPoints(), m.getyPoints().length);
                             if (t.contains(centerLoc(n))) {
                                 //impact and reduce m hp
+                                injured(m);
+                                impact(centerLoc(n), IMPACT_RANGE);
                             }
                         }
                     } else {
                         for (int i = 0; i < m.getxPoints().length; i++) {
                             if (distance(centerLoc(n),
                                     new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i])) <= n.size() / 2.0) {
-                                //impact
                                 if (m instanceof PlayerModel || n instanceof PlayerModel) {
                                     if (m.doesMeleeAtack()) {
                                         //reduce n hp
+                                        if(n instanceof PlayerModel)reduceHp((Enemy) m);
+                                        else injured(n);
                                     }
                                 }
+                                impact(new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]),IMPACT_RANGE);
                             }
                         }
 
@@ -59,28 +66,63 @@ public interface Collidable {
             } else {
                 if (!m.isCircular()) {
 
-                    if(m.collides() && n.collides()){
+                    if (m.collides() && n.collides()) {
                         boolean impact = false;
-                        Polygon p = new Polygon(n.getxPoints(), n.getyPoints(), n.getyPoints().length);
-                        for (int i = 0; i < m.getyPoints().length; i++) {
-                            if(p.contains(m.getxPoints()[i], m.getyPoints()[i])){
-                                if(m instanceof PlayerModel || n instanceof PlayerModel){
-                                    //reduce n hp
+                        Point2D collisionPoint = new Point2D.Double(0,0);
+                        if(!(n instanceof PlayerModel)) {
+                            Polygon p = new Polygon(n.getxPoints(), n.getyPoints(), n.getyPoints().length);
+                            for (int i = 0; i < m.getyPoints().length; i++) {
+                                if (p.contains(m.getxPoints()[i], m.getyPoints()[i])) {
+                                    if (m instanceof PlayerModel) {
+                                        //reduce n hp
+                                        injured(n);
+                                    }
+                                    impact = true;
+                                    collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
                                 }
-                                impact = true;
+                            }
+                        }else{
+                            for (int i = 0; i < m.getyPoints().length; i++) {
+                                if (distance(centerLoc(n), new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]))<=((PlayerModel) n).size/2.0) {
+                                        //reduce n hp
+                                    reduceHp((Enemy) m);
+                                    impact = true;
+                                    collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
+                                }else if(distance(centerLoc(m), centerLoc(n)) <= m.size()/2.0 + ((PlayerModel) n).size /2.0){
+                                    impact = true;
+                                    collisionPoint = collisionPoint(centerLoc(m), centerLoc(n));
+                                }
+
                             }
                         }
-                        p = new Polygon(m.getxPoints(), m.getyPoints(), m.getyPoints().length);
-                        for (int i = 0; i < n.getyPoints().length; i++) {
-                            if(p.contains(n.getxPoints()[i], n.getyPoints()[i])){
-                                if(m instanceof PlayerModel || n instanceof PlayerModel){
-                                    //reduce m hp
+                        if (!(m instanceof PlayerModel)) {
+                            Polygon p = new Polygon(m.getxPoints(), m.getyPoints(), m.getyPoints().length);
+                            for (int i = 0; i < n.getyPoints().length; i++) {
+                                if (p.contains(n.getxPoints()[i], n.getyPoints()[i])) {
+                                    if (n instanceof PlayerModel) {
+                                        //reduce m hp
+                                        injured(m);
+                                    }
+                                    impact = true;
+                                    collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);
                                 }
-                                impact = true;
+                            }
+                        } else {
+                            for (int i = 0; i < n.getyPoints().length; i++) {
+                                if (distance(centerLoc(m), new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i])) <= m.size() / 2.0) {
+                                    reduceHp((Enemy) n);
+                                    impact = true;
+                                    collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);
+                                }else if(distance(centerLoc(m), centerLoc(n)) <= m.size()/2.0 + n.size() /2.0){
+                                    impact = true;
+                                    collisionPoint = collisionPoint(centerLoc(m), centerLoc(n));
+                                }
+
+
                             }
                         }
-                        if(impact){
-                            //impact
+                        if (impact) {
+                            impact (collisionPoint, IMPACT_RANGE);
                         }
                     }
                 }

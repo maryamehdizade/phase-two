@@ -5,8 +5,6 @@ import controller.Update;
 import javax.swing.*;
 import java.awt.*;
 
-import static controller.Util.playerCenter;
-
 public class Store extends JFrame  {
     private GamePanel panel;
     private JButton empower = new JButton("Empower : 75xp");

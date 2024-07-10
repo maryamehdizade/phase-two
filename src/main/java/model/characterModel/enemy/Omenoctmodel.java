@@ -1,16 +1,17 @@
 package model.characterModel.enemy;
 
+import model.movement.Collidable;
 import model.movement.Movable;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 import java.util.UUID;
 
-import static controller.Util.setEntityLoc;
+import static controller.Util.Util.setEntityLoc;
+import static controller.constants.AttackConstants.*;
 import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
-public class Omenoctmodel extends Enemy implements Movable {
+public class Omenoctmodel extends Enemy implements Movable, Collidable {
     private double speed = 1;
     private int hp = 20;
     private int[] xPoints;
@@ -30,6 +31,10 @@ public class Omenoctmodel extends Enemy implements Movable {
         createOmenoct();
     }
     private void createOmenoct(){
+        collectables = 8;
+        collectablesXp = 4;
+        meleePower = OMENOCT_MELEE_POWER;
+        rangedPower = OMENOCT_RANGED_POWER;
         Point2D startLoc = setEntityLoc();
         x = startLoc.getX();
         y = startLoc.getY();
@@ -43,6 +48,11 @@ public class Omenoctmodel extends Enemy implements Movable {
 
         findNearestWall();
 
+    }
+
+    @Override
+    public boolean solid() {
+        return false;
     }
 
     @Override
@@ -180,6 +190,11 @@ public class Omenoctmodel extends Enemy implements Movable {
 
     @Override
     public boolean collides() {
+        return true;
+    }
+
+    @Override
+    public boolean doesMeleeAtack() {
         return true;
     }
 

@@ -7,6 +7,7 @@ import model.characterModel.enemy.CollectableModel;
 import model.characterModel.enemy.Omenoctmodel;
 import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
+import model.movement.Collidable;
 import model.movement.Movable;
 import sound.Sound;
 import view.charactersView.BulletView;
@@ -27,12 +28,13 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import static controller.Controller.*;
-import static controller.Util.*;
+import static controller.Util.Util.*;
 import static controller.constants.AttackConstants.*;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
+import static model.movement.Impact.impact;
 
 public class Update {
     private static Update update;
@@ -441,231 +443,227 @@ public class Update {
                     Math.abs(c.getLoc().getY() - dataBase.playerModel.getLocation().getY()) <= 13) {
 
                 dataBase.collectableModels.get(i).timer.stop();
+                dataBase.playerModel.setXp(dataBase.playerModel.getXp() + c.getCreator().collectablesXp);
 
-
-                removeCollectable(dataBase.collectableModels.get(i));
+                removeCollectable(c);
                 dataBase.collectableModels.remove(i);
 
-                dataBase.playerModel.setXp(dataBase.playerModel.getXp() + 5);
+
 
             }
         }
     }
 
     private void checkCollision(Movable movable){
-        if (movable instanceof BulletModel) {
-            checkBulletCollisions((BulletModel) movable);
-        } else if (movable instanceof RectangleModel) {
-            checkRectColiisions((RectangleModel) movable);
-        } else if (movable instanceof TriangleModel) {
-            checkTriCollisions((TriangleModel) movable);
-        }else if (movable instanceof Omenoctmodel){
-
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Collidable c = (Collidable) dataBase.movables.get(i);
+            c.collision(movable);
         }
     }
-    private void checkBulletCollisions(BulletModel movable){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-//            if(!dataBase.movables.get(i).equals(movable)){
-                if(dataBase.movables.get(i) instanceof RectangleModel)
-                    bulletRecCollision((RectangleModel) dataBase.movables.get(i), (BulletModel) movable);
-                else if(dataBase.movables.get(i) instanceof TriangleModel)
-                    bulletTriangleCollision((TriangleModel) dataBase.movables.get(i), (BulletModel) movable);
+//    private void checkBulletCollisions(BulletModel movable){
+//        for (int i = 0; i < dataBase.movables.size(); i++) {
+////            if(!dataBase.movables.get(i).equals(movable)){
+//                if(dataBase.movables.get(i) instanceof RectangleModel)
+//                    bulletRecCollision((RectangleModel) dataBase.movables.get(i), (BulletModel) movable);
+//                else if(dataBase.movables.get(i) instanceof TriangleModel)
+//                    bulletTriangleCollision((TriangleModel) dataBase.movables.get(i), (BulletModel) movable);
+////            }
+//        }
+//    }
+//    private void checkTriCollisions(TriangleModel movable){
+//        for (int i = 0; i < dataBase.movables.size(); i++) {
+//            if (!dataBase.movables.get(i).equals(movable)) {
+//                if (dataBase.movables.get(i) instanceof PlayerModel)
+//                    triangleEpsilonCollosion((TriangleModel) movable);
+//                else if (dataBase.movables.get(i) instanceof TriangleModel)
+//                    traingleTriangleCollision((TriangleModel) dataBase.movables.get(i), (TriangleModel) movable);
 //            }
-        }
-    }
-    private void checkTriCollisions(TriangleModel movable){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            if (!dataBase.movables.get(i).equals(movable)) {
-                if (dataBase.movables.get(i) instanceof PlayerModel)
-                    triangleEpsilonCollosion((TriangleModel) movable);
-                else if (dataBase.movables.get(i) instanceof TriangleModel)
-                    traingleTriangleCollision((TriangleModel) dataBase.movables.get(i), (TriangleModel) movable);
-            }
-        }
-    }
-    private void checkRectColiisions(RectangleModel movable){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            if(!dataBase.movables.get(i).equals(movable)){
-                if(dataBase.movables.get(i) instanceof PlayerModel)
-                    rectEpsilonCollision((RectangleModel) movable);
-                else if(dataBase.movables.get(i) instanceof TriangleModel)
-                    rectangleTriangleCollision((TriangleModel) dataBase.movables.get(i), (RectangleModel) movable);
-                else  if(dataBase.movables.get(i) instanceof RectangleModel)
-                    rectRectCollision((RectangleModel) dataBase.movables.get(i), (RectangleModel) movable);
-            }
-        }
-    }
-    private void bulletRecCollision(RectangleModel r, BulletModel b){
-            Polygon rec = new Polygon(r.getxPoints(),
-                    r.getyPoints(), 4);
-            if (rec.contains(bulletCenter(b))) {
-                removeBullet(b);
+//        }
+//    }
+//    private void checkRectColiisions(RectangleModel movable){
+//        for (int i = 0; i < dataBase.movables.size(); i++) {
+//            if(!dataBase.movables.get(i).equals(movable)){
+//                if(dataBase.movables.get(i) instanceof PlayerModel)
+//                    rectEpsilonCollision((RectangleModel) movable);
+//                else if(dataBase.movables.get(i) instanceof TriangleModel)
+//                    rectangleTriangleCollision((TriangleModel) dataBase.movables.get(i), (RectangleModel) movable);
+//                else  if(dataBase.movables.get(i) instanceof RectangleModel)
+//                    rectRectCollision((RectangleModel) dataBase.movables.get(i), (RectangleModel) movable);
+//            }
+//        }
+//    }
+//    private void bulletRecCollision(RectangleModel r, BulletModel b){
+//            Polygon rec = new Polygon(r.getxPoints(),
+//                    r.getyPoints(), 4);
+//            if (rec.contains(bulletCenter(b))) {
+//                removeBullet(b);
+//
+//                injured(r);
+//                impact(bulletCenter(b), 50);
+//            }
+//    }
+//    private void rectRectCollision(RectangleModel r,RectangleModel movable) {
+//        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
+//
+//        for (int j = 0; j < 4; j++) {
+//            if (rec.contains(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]))) {
+//
+//                impact(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]), 50);
+//            }
+//        }
+//    }
+//    private void rectEpsilonCollision(RectangleModel movable){
+//        collision = ert( dataBase.playerModel, movable);
+//        collision2 = er( dataBase.playerModel,movable);
+//        if(collision != null){
+//            reduceHp(movable);
+//
+//            impact(collision, 50);
+//        }else if(collision2 != null)
+//            impact(collision2, 50);
+//
+//        Polygon rec = new Polygon(movable.getxPoints(),
+//                movable.getyPoints(), 4);
+//
+//        if(panelModel.proteus){
+//            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
+//                if(rec.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
+//                    injured(movable);
+//                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
+//                }
+//            }
+//
+//        }
+//    }
+//
+//    private void rectangleTriangleCollision(TriangleModel t, RectangleModel movable) {
+//        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
+//
+//        for (int j = 0; j < 3; j++) {
+//            if (rec.contains(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]))) {
+//
+//                impact(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]), 50);
+//            }
+//        }
+//    }
+//    private void triangleEpsilonCollosion(TriangleModel movable){
+//        collision = ert( dataBase.playerModel, movable);
+//        collision2 = et( dataBase.playerModel, movable);
+//        if (collision != null) {
+//            reduceHp(movable);
+//            impact(collision, 50);
+//        }else if(collision2 != null)
+//            impact(collision2, 50);
+//
+//        Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
+//
+//        if(panelModel.proteus){
+//            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
+//                if(tri.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
+//                    injured(movable);
+//                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
+//                }
+//            }
+//        }
+//    }
+//    private void traingleTriangleCollision(TriangleModel t, TriangleModel movable) {
+//        Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
+//
+//        for (int j = 0; j < 3; j++) {
+//            if (tri.contains(new Point2D.Double(t.getxPoints()[j],
+//                    t.getyPoints()[j]))) {
+//
+//                impact(new Point2D.Double(t.getxPoints()[j],
+//                        t.getyPoints()[j]), 50);
+//            }
+//        }
+//    }
+//    private void bulletTriangleCollision(TriangleModel t, BulletModel b) {
+//        Polygon rec = new Polygon(t.getxPoints(),
+//                t.getyPoints(), 3);
+//
+//        if (rec.contains(bulletCenter(b))) {
+//
+//            removeBullet(b);
+//
+//            injured(t);
+//
+//            impact(bulletCenter(b), 50);
+//        }
+//    }
+//    private void injured(Movable r){
+//        Sound.sound().injured();
+//        r.setHp(r.getHp() - panelModel.power);
+//        if (r.getHp() <= 0) {
+//
+//            entityDeath(r);
+//        }
+//    }
+//
+//    private void entityDeath(Movable m) {
+//        Sound.sound().death();
+//        dataBase.movables.remove(m);
+//        removeEntity(m);
+//        death(m);
+//    }
+//    private void removeEntity(Movable m){
+//        for (int i = 0; i < panel.getDrawables().size(); i++) {
+//            if(panel.getDrawables().get(i).getId().equals(m.getId())){
+//                panel.getDrawables().remove(i);
+//                break;
+//            }
+//        }
+//    }
 
-                injured(r);
-                impact(bulletCenter(b), 50);
-            }
-    }
-    private void rectRectCollision(RectangleModel r,RectangleModel movable) {
-        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
-
-        for (int j = 0; j < 4; j++) {
-            if (rec.contains(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]))) {
-
-                impact(new Point2D.Double(r.getxPoints()[j], r.getyPoints()[j]), 50);
-            }
-        }
-    }
-    private void rectEpsilonCollision(RectangleModel movable){
-        collision = ert( dataBase.playerModel, movable);
-        collision2 = er( dataBase.playerModel,movable);
-        if(collision != null){
-            reduceHp(movable);
-
-            impact(collision, 50);
-        }else if(collision2 != null)
-            impact(collision2, 50);
-
-        Polygon rec = new Polygon(movable.getxPoints(),
-                movable.getyPoints(), 4);
-
-        if(panelModel.proteus){
-            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
-                if(rec.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
-                    injured(movable);
-                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
-                }
-            }
-
-        }
-    }
-    private void injured(Movable r){
-        Sound.sound().injured();
-        r.setHp(r.getHp() - panelModel.power);
-        if (r.getHp() <= 0) {
-
-            entityDeath(r);
-        }
-    }
-
-    private void rectangleTriangleCollision(TriangleModel t, RectangleModel movable) {
-        Polygon rec = new Polygon(movable.getxPoints(), movable.getyPoints(), 4);
-
-        for (int j = 0; j < 3; j++) {
-            if (rec.contains(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]))) {
-
-                impact(new Point2D.Double(t.getxPoints()[j], t.getyPoints()[j]), 50);
-            }
-        }
-    }
-    private void triangleEpsilonCollosion(TriangleModel movable){
-        collision = ert( dataBase.playerModel, movable);
-        collision2 = et( dataBase.playerModel, movable);
-        if (collision != null) {
-            reduceHp(movable);
-            impact(collision, 50);
-        }else if(collision2 != null)
-            impact(collision2, 50);
-
-        Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
-
-        if(panelModel.proteus){
-            for (int i = 0; i <  dataBase.playerModel.getLevelUp(); i++) {
-                if(tri.contains( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i])){
-                    injured(movable);
-                    impact(new Point2D.Double( dataBase.playerModel.getxPoints()[i],  dataBase.playerModel.getyPoints()[i]), 50);
-                }
-            }
-        }
-    }
-    private void traingleTriangleCollision(TriangleModel t, TriangleModel movable) {
-        Polygon tri = new Polygon(movable.getxPoints(), movable.getyPoints(), 3);
-
-        for (int j = 0; j < 3; j++) {
-            if (tri.contains(new Point2D.Double(t.getxPoints()[j],
-                    t.getyPoints()[j]))) {
-
-                impact(new Point2D.Double(t.getxPoints()[j],
-                        t.getyPoints()[j]), 50);
-            }
-        }
-    }
-    private void bulletTriangleCollision(TriangleModel t, BulletModel b) {
-            Polygon rec = new Polygon(t.getxPoints(),
-                    t.getyPoints(), 3);
-
-            if (rec.contains(bulletCenter(b))) {
-
-                removeBullet(b);
-
-                injured(t);
-
-                impact(bulletCenter(b), 50);
-            }
-    }
-    private void entityDeath(Movable m) {
-        Sound.sound().death();
-        dataBase.movables.remove(m);
-        removeEntity(m);
-        death(m);
-    }
-    private void removeEntity(Movable m){
-        for (int i = 0; i < panel.getDrawables().size(); i++) {
-            if(panel.getDrawables().get(i).getId().equals(m.getId())){
-                panel.getDrawables().remove(i);
-                break;
-            }
-        }
-    }
-
-
-    public void impact(Point2D point, double r){
-        for (int i = 0; i < dataBase.movables.size(); i ++) {
-            Movable m =  dataBase.movables.get(i);
-            if (!(m instanceof BulletModel)) {
-//                System.out.println(m.getLoc() + m.getId());
-                double x = 0;
-                double y = 0;
-                if (m instanceof RectangleModel) {
-                    x = Math.abs(rectCenter((RectangleModel) m).getX() - point.getX());
-                    y = Math.abs(rectCenter((RectangleModel) m).getY() - point.getY());
-                } else if (m instanceof TriangleModel) {
-                    x = Math.abs(m.getLoc().getX() - point.getX());
-                    y = Math.abs(m.getLoc().getY() - point.getY());
-                } else if (m instanceof PlayerModel) {
-                    x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
-                    y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
-                }
-                if (x <= r && y <= r) {
-                    double speed = distance(x, y, point.getX(), point.getY()) / 500;
-                    m.setImpact(true);
-                    setSpeed(point, m, impactV / speed);
-                }
-            }
-        }
-    }
-    private void setSpeed(Point2D point, Movable m, double impactV){
-        double a = -point.getY() + m.getLoc().getY();
-        double b = -point.getX() + m.getLoc().getX();
-
-        if(b != 0){
-            double angel = Math.atan(a/b);
-            if(b < 0){
-                m.setXvelocity(-impactV*Math.cos(angel));
-                if(a < 0)m.setYvelocity(-impactV*Math.sin(angel));
-                else m.setYvelocity(impactV*Math.sin(angel));
-            }
-            else{
-                m.setXvelocity(impactV*Math.cos(angel));
-                if(a < 0) m.setYvelocity(impactV*Math.sin(angel));
-                else m.setYvelocity(-impactV*Math.sin(angel));
-            }
-
-        }else if(a >= 0){
-            m.setYvelocity(impactV);
-        }else if(a < 0){
-            m.setYvelocity(-impactV);
-        }
-    }
+//
+//    public void impact(Point2D point, double r){
+//        for (int i = 0; i < dataBase.movables.size(); i ++) {
+//            Movable m =  dataBase.movables.get(i);
+//            if (!(m instanceof BulletModel)) {
+////                System.out.println(m.getLoc() + m.getId());
+//                double x = 0;
+//                double y = 0;
+//                if (m instanceof RectangleModel) {
+//                    x = Math.abs(rectCenter((RectangleModel) m).getX() - point.getX());
+//                    y = Math.abs(rectCenter((RectangleModel) m).getY() - point.getY());
+//                } else if (m instanceof TriangleModel) {
+//                    x = Math.abs(m.getLoc().getX() - point.getX());
+//                    y = Math.abs(m.getLoc().getY() - point.getY());
+//                } else if (m instanceof PlayerModel) {
+//                    x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
+//                    y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
+//                }
+//                if (x <= r && y <= r) {
+//                    double speed = distance(x, y, point.getX(), point.getY()) / 500;
+//                    m.setImpact(true);
+//                    setSpeed(point, m, impactV / speed);
+//                }
+//            }
+//        }
+//    }
+//    private void setSpeed(Point2D point, Movable m, double impactV){
+//        double a = -point.getY() + m.getLoc().getY();
+//        double b = -point.getX() + m.getLoc().getX();
+//
+//        if(b != 0){
+//            double angel = Math.atan(a/b);
+//            if(b < 0){
+//                m.setXvelocity(-impactV*Math.cos(angel));
+//                if(a < 0)m.setYvelocity(-impactV*Math.sin(angel));
+//                else m.setYvelocity(impactV*Math.sin(angel));
+//            }
+//            else{
+//                m.setXvelocity(impactV*Math.cos(angel));
+//                if(a < 0) m.setYvelocity(impactV*Math.sin(angel));
+//                else m.setYvelocity(-impactV*Math.sin(angel));
+//            }
+//
+//        }else if(a >= 0){
+//            m.setYvelocity(impactV);
+//        }else if(a < 0){
+//            m.setYvelocity(-impactV);
+//        }
+//    }
     Timer t;
     private void victory() {
         if (panelModel.victory) {
@@ -711,25 +709,25 @@ public class Update {
 //        DataBase.remove();
         
     }
-    private void death(Movable movable){
-        int n = 1;
-        if(movable instanceof TriangleModel)n = 2;
-        for (int i = 0; i < n; i++) {
-            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*10, i *10)));
-            dataBase.collectableModels.add(c);
-            panel.getDrawables().add(createCollectableView(c));
-        }
-    }
-    private void reduceHp(Movable movable){
-        int w = 0;
-        if(movable instanceof TriangleModel)w = TRI_POWER;
-        else if(movable instanceof RectangleModel)w = REC_POWER;
-         dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
-        if( dataBase.playerModel.getHp() <= 0){
-            gameOver();
-        }
-    }
-    private void gameOver(){
+//    private void death(Movable movable){
+//        int n = 1;
+//        if(movable instanceof TriangleModel)n = 2;
+//        for (int i = 0; i < n; i++) {
+//            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*10, i *10)));
+//            dataBase.collectableModels.add(c);
+//            panel.getDrawables().add(createCollectableView(c));
+//        }
+//    }
+//    private void reduceHp(Movable movable){
+//        int w = 0;
+//        if(movable instanceof TriangleModel)w = TRI_POWER;
+//        else if(movable instanceof RectangleModel)w = REC_POWER;
+//         dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
+//        if( dataBase.playerModel.getHp() <= 0){
+//            gameOver();
+//        }
+//    }
+    public void gameOver(){
         if(!panelModel.victory)Sound.sound().Losing();
         model.stop();
         view.stop();

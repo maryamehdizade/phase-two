@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-import static controller.Util.addVector;
+import static controller.Util.Util.addVector;
 import static controller.constants.EntityConstants.BALL_SIZE;
 
 

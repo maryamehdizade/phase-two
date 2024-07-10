@@ -5,6 +5,9 @@ import java.awt.geom.Point2D;
 import java.util.UUID;
 
 public class CollectableModel {
+    private Enemy creator;
+
+
     private Point2D loc;
     String id;
     private int second = 0;
@@ -29,4 +32,12 @@ public class CollectableModel {
     public int getSecond() {
         return second;
     }
+    public Enemy getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Enemy creator) {
+        this.creator = creator;
+    }
+
 }

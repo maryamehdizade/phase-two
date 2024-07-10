@@ -13,7 +13,7 @@ import static controller.constants.Constant.PANEL_LOCATION;
 public class DataBase {
     GamePanelModel gamePanelModel;
     public ArrayList<Movable> movables;
-    ArrayList<CollectableModel> collectableModels = new ArrayList<>();
+    public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public PlayerModel playerModel;
 
     private static DataBase dataBase;
