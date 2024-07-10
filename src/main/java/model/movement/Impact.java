@@ -17,19 +17,9 @@ public class Impact {
         for (int i = 0; i < dataBase.movables.size(); i ++) {
             Movable m =  dataBase.movables.get(i);
             if (!(m instanceof BulletModel)) {
-//                System.out.println(m.getLoc() + m.getId());
-                double x = 0;
-                double y = 0;
-                if (m instanceof RectangleModel) {
-                    x = Math.abs(rectCenter((RectangleModel) m).getX() - point.getX());
-                    y = Math.abs(rectCenter((RectangleModel) m).getY() - point.getY());
-                } else if (m instanceof TriangleModel) {
-                    x = Math.abs(m.getLoc().getX() - point.getX());
-                    y = Math.abs(m.getLoc().getY() - point.getY());
-                } else if (m instanceof PlayerModel) {
-                    x = Math.abs(playerCenter(((PlayerModel) m)).getX() - point.getX());
-                    y = Math.abs(playerCenter(((PlayerModel) m)).getY() - point.getY());
-                }
+                double x = Math.abs(centerLoc( m).getX() - point.getX());
+                double y = Math.abs(centerLoc(m).getY() - point.getY());
+
                 if (x <= r && y <= r) {
                     double speed = distance(x, y, point.getX(), point.getY()) / 500;
                     m.setImpact(true);

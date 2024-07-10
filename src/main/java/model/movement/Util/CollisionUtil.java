@@ -24,8 +24,8 @@ public class CollisionUtil {
     private static GamePanelModel panelModel;
     private static DataBase dataBase;
     static Update update;
-    public CollisionUtil(){
-        update = Update.getUpdate();
+    public CollisionUtil(Update update){
+        this.update = update;
         this.panel = update.panel;
         dataBase = DataBase.getDataBase();
         panelModel = dataBase.getGamePanelModel();
@@ -57,7 +57,7 @@ public class CollisionUtil {
         Enemy e = (Enemy) movable;
         int n = e.collectables;
         for (int i = 0; i < n; i++) {
-            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*10, i *10)));
+            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*6, i *6)));
             c.setCreator(e);
             dataBase.collectableModels.add(c);
             panel.getDrawables().add(createCollectableView(c));

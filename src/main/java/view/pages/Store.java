@@ -5,6 +5,8 @@ import controller.Update;
 import javax.swing.*;
 import java.awt.*;
 
+import static model.movement.Impact.impact;
+
 public class Store extends JFrame  {
     private GamePanel panel;
     private JButton empower = new JButton("Empower : 75xp");
@@ -95,7 +97,7 @@ public class Store extends JFrame  {
             if(panel. playerView.getXp() >= 100){
                 panel. playerView.setXp(panel. playerView.getXp() - 100);
                 update.dataBase.setXp(panel.playerView.getXp());
-                update.impact(panel.playerView.getLoc(), 200);
+                impact(panel.playerView.getLoc(), 200);
 
             }
             start();

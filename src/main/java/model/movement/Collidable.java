@@ -24,8 +24,9 @@ public interface Collidable {
                         if (m instanceof Enemy) {
                             if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
                                 //reduce m hp and remove bullet
-                                injured(m);
                                 removeBullet((BulletModel) n);
+                                injured(m);
+
                             }
                         }
                     } else if (!(m instanceof BulletModel)) {
@@ -42,8 +43,10 @@ public interface Collidable {
                             Polygon t = new Polygon(m.getxPoints(), m.getyPoints(), m.getyPoints().length);
                             if (t.contains(centerLoc(n))) {
                                 //impact and reduce m hp
+                                removeBullet((BulletModel) n);
                                 injured(m);
                                 impact(centerLoc(n), IMPACT_RANGE);
+
                             }
                         }
                     } else {
@@ -58,6 +61,8 @@ public interface Collidable {
                                     }
                                 }
                                 impact(new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]),IMPACT_RANGE);
+                            }else if(distance(centerLoc(m), centerLoc(n)) <= m.size()/2.0 + n.size() /2.0){
+                                impact(collisionPoint(centerLoc(m), centerLoc(n)), IMPACT_RANGE);
                             }
                         }
 

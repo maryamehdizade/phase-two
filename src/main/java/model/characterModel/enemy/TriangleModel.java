@@ -1,5 +1,6 @@
 package model.characterModel.enemy;
 
+import model.movement.Collidable;
 import model.movement.Movable;
 
 import java.awt.geom.Point2D;
@@ -9,7 +10,7 @@ import static controller.Util.Util.setEntityLoc;
 import static controller.constants.EntityConstants.TRI_SIZE;
 import static controller.constants.AttackConstants.*;
 
-public class TriangleModel extends Enemy implements Movable {
+public class TriangleModel extends Enemy implements Movable, Collidable {
 
     private double x1, y1, x2, y2, x3, y3;
     private int[] xPoints;

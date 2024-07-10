@@ -107,6 +107,6 @@ public class Util {
         return new Point2D.Double(t.getLoc().getX() + BULLET_SIZE/2.0, t.getLoc().getY() + BULLET_SIZE/2.0);
     }
     public static Point2D centerLoc(Movable movable){
-        return new Point2D.Double(movable.getLoc().getX() + movable.size()/2, movable.getLoc().getY() + movable.size()/2);
+        return new Point2D.Double(movable.getLoc().getX() + movable.size()/2.0, movable.getLoc().getY() + movable.size()/2.0);
     }
 }

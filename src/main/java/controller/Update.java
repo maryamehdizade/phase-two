@@ -9,6 +9,7 @@ import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import model.movement.Collidable;
 import model.movement.Movable;
+import model.movement.Util.CollisionUtil;
 import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
@@ -91,6 +92,8 @@ public class Update {
 
         time = new Timer(1000,e -> second += 1);
         time.start();
+
+        new CollisionUtil(this);
 
     }
     public void updateView(){
