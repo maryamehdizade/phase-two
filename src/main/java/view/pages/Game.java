@@ -28,7 +28,7 @@ public  class Game extends JFrame {
     JPanel panel ;
     int y = 2;
     private Sound sound;
-    private int phase ;
+    private int phase = 1 ;
 
 
     private Game() {
