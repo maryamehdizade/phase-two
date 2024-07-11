@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.UUID;
 import static controller.Util.Util.setEntityLoc;
 import static controller.constants.AttackConstants.*;
+import static controller.constants.CollectableConstans.*;
 import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
 public class Omenoctmodel extends Enemy implements Movable, Collidable {
@@ -33,8 +34,8 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     }
 
     private void createOmenoct() {
-        collectables = 8;
-        collectablesXp = 4;
+        collectables = omenoct;
+        collectablesXp = omenoct_xp;
         meleePower = OMENOCT_MELEE_POWER;
         rangedPower = OMENOCT_RANGED_POWER;
         Point2D startLoc = setEntityLoc();

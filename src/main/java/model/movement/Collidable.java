@@ -44,6 +44,7 @@ public interface Collidable {
                             Polygon t = new Polygon(m.getxPoints(), m.getyPoints(), m.getyPoints().length);
                             if (t.contains(centerLoc(n))) {
                                 //impact and reduce m hp
+
                                 removeBullet((BulletModel) n);
                                 injured(m);
                                 impact(centerLoc(n), IMPACT_RANGE);

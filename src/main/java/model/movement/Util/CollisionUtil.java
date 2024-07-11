@@ -17,6 +17,8 @@ import java.awt.geom.Point2D;
 import static controller.Controller.createCollectableView;
 import static controller.Util.Util.addVector;
 import static controller.constants.AttackConstants.*;
+import static controller.constants.Constant.FRAME_DIMENSION;
+import static controller.constants.Constant.MAX_SIZE;
 import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
 public class CollisionUtil {
@@ -74,6 +76,7 @@ public class CollisionUtil {
     private static void entityDeath(Movable m) {
         Sound.sound().death();
         dataBase.movables.remove(m);
+        if(m instanceof NecropickModel)((NecropickModel) m).timer.stop();
         removeEntity(m);
         death(m);
     }
@@ -133,26 +136,34 @@ public class CollisionUtil {
 
     private static final int n = 20;
     public static void moveLeft(){
-        panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() - n), (int) panelModel.getLoc().getY()));
-        panelModel.setDimension(new Dimension((int) (panelModel.getDimension().getWidth() + n/2),
-                (int) panelModel.getDimension().getHeight()));
+        if((panelModel.getLoc().getX() - n) >=0 && (panelModel.getDimension().getWidth() + n / 2.0) <= MAX_SIZE.getWidth()) {
+            panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() - n), (int) panelModel.getLoc().getY()));
+            panelModel.setDimension(new Dimension((int) (panelModel.getDimension().getWidth() + n / 2),
+                    (int) panelModel.getDimension().getHeight()));
+        }
 
     }
     public static void moveRight(){
-        panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() + n/2), (int) panelModel.getLoc().getY()));
-        panelModel.setDimension (new Dimension((int) (panelModel.getDimension().getWidth() + n),
-                (int) panelModel.getDimension().getHeight()));
+        if((panelModel.getLoc().getX() + n/2) <= FRAME_DIMENSION.getWidth() && (panelModel.getDimension().getWidth() + n) <=MAX_SIZE.getWidth()) {
+            panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() + n / 2), (int) panelModel.getLoc().getY()));
+            panelModel.setDimension(new Dimension((int) (panelModel.getDimension().getWidth() + n),
+                    (int) panelModel.getDimension().getHeight()));
+        }
     }
     public static void moveUp(){
-        panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY()- n)));
-        panelModel.setDimension (new Dimension((int) panelModel.getDimension().getWidth(),
-                (int) (panelModel.getDimension().getHeight()+ n/2)));
+        if(panelModel.getLoc().getY()- n >= 0 && panelModel.getDimension().getHeight()+ n/2 <= MAX_SIZE.getHeight()) {
+            panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY() - n)));
+            panelModel.setDimension(new Dimension((int) panelModel.getDimension().getWidth(),
+                    (int) (panelModel.getDimension().getHeight() + n / 2)));
+        }
 
     }
     public static void moveDown(){
-        panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY() +  n/2)));
-        panelModel.setDimension (new Dimension((int) panelModel.getDimension().getWidth(),
-                (int) (panelModel.getDimension().getHeight()+ n)));
+        if(panelModel.getLoc().getY() +  n/2 <= FRAME_DIMENSION.getHeight() && panelModel.getDimension().getHeight()+ n<= MAX_SIZE.getHeight()) {
+            panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY() + n / 2)));
+            panelModel.setDimension(new Dimension((int) panelModel.getDimension().getWidth(),
+                    (int) (panelModel.getDimension().getHeight() + n)));
+        }
     }
 
 }

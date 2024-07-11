@@ -43,6 +43,7 @@ public final class PlayerModel implements Movable, Collidable {
 
     public static PlayerModel getPlayer() {
         if(player == null){
+            System.out.println("creating player");
             player = new PlayerModel(new Point2D.Double(350,350));
         }
         return player;

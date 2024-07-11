@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Constant {
 
-    public static final Dimension PANEL_DIMENSION = new Dimension(800,800);
+    public static final Dimension PANEL_DIMENSION = new Dimension(700,700);
     public static final Point PANEL_LOCATION = new Point(100,20);
     public static final Dimension MAX_SIZE = new Dimension(800,800);
     public static final Dimension MIN_SIZE = new Dimension(300,300);

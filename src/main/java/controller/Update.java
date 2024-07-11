@@ -100,6 +100,7 @@ public class Update {
             else if(d instanceof BulletView)updateBulletsView((BulletView) d);
             else if(d instanceof OmenoctView)updateOmenoctView((OmenoctView) d);
             else if(d instanceof EnemyBulletView)updateEnemyBulletView((EnemyBulletView) d);
+            else if(d instanceof NecropicklView)updateNecroView((NecropicklView) d);
         }
 
     }
@@ -172,6 +173,16 @@ public class Update {
 
         }
     }
+    private void updateNecroView(NecropicklView n){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable d = dataBase.movables.get(i);
+            if(d instanceof NecropickModel && d.getId().equals(n.getId())){
+                n.setLoc(d.getLoc());
+                n.visible = ((NecropickModel) d).visible;
+                n.setHp(d.getHp());
+            }
+        }
+    }
 
     //model
     public void updateModel() {
@@ -182,11 +193,11 @@ public class Update {
             else if (m instanceof BulletModel) updateBullets(m);
             else if (m instanceof RectangleModel) updateRecs(m);
             else if (m instanceof Omenoctmodel) updateOmenoct(m);
+            else if(m instanceof NecropickModel)updateNecro((NecropickModel) m);
 
             updateEnemyBullet();
         }
-
-        addingEnemies();
+        if(!zz) addingEnemies();
         if (Game.getGame().getPhase() == 0) phaseOne();
         updateCollectable();
 
@@ -216,13 +227,9 @@ public class Update {
         Wave();
         bound = Waves.bound;
     }
-    private void phaseTwo(){
-
+    private void phaseTwo() {
     }
-
-
-
-
+    boolean zz;
     private void addingEnemies(){
         if (random.nextDouble(0, bound) < 1) {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
@@ -233,20 +240,22 @@ public class Update {
                 if(Game.getGame().getPhase() == 0) {
                     if (panelModel.random.nextInt(0, 2) == 1) {
                         n = new TriangleModel();
-
                         panel.getDrawables().add(createTriangleView((TriangleModel) n));
                     } else {
-
                         n = new RectangleModel();
                         panel.getDrawables().add(createRectView((RectangleModel) n));
                     }
                 }else{
-//                    if (panelModel.random.nextInt(0, 2) == 1){
+                    if (panelModel.random.nextInt(0, 2) == 1){
                         n = new Omenoctmodel();
                         panel.getDrawables().add(createOmenoctView((Omenoctmodel) n));
-//                    }
+                    }else {
+                        n = new NecropickModel();
+                        panel.getDrawables().add(createNecroView((NecropickModel) n));
+                        zz = true;
+                    }
                 }
-                dataBase.movables.add(n);
+                System.out.println(dataBase.movables.add(n));
                 panelModel.enemies ++;
             }
             panelModel.start = true;
@@ -337,19 +346,19 @@ public class Update {
             EnemyBullets e = dataBase.enemyBullets.get(j);
             e.move();
             e.collision(dataBase.playerModel);
-            if (e.getLoc().getX() + panel.getLocation().getX() <= 10 ||
-                    e.getLoc().getY() + panel.getLocation().getY() >= FRAME_DIMENSION.getHeight() - 10) {
-                dataBase.enemyBullets.remove(e);
+            if (bulletIsOutSideOfFrame(e, panel)) {
                 for (int i = 0; i < panel.getDrawables().size(); i++) {
                     Drawable a = panel.getDrawables().get(i);
                     if (a instanceof EnemyBulletView) {
                         if (a.getId().equals(e.getId())) {
+                            System.out.println("r");
                             panel.getDrawables().remove(a);
                             break;
                         }
 
                     }
                 }
+                dataBase.enemyBullets.remove(e);
             }
         }
     }
@@ -357,6 +366,30 @@ public class Update {
          dataBase.playerModel.setPanelH(panel.getHeight());
          dataBase.playerModel.setPanelW(panel.getWidth());
          dataBase.playerModel.setPoints();
+
+    }
+    private void updateNecro(NecropickModel necro){
+
+        if(necro.sec % 8 == 0 && necro.sec != 0){
+            necro.visible = false;
+            necro.collides = false;
+            necro.bullets = 0;
+            necro.sec = 0;
+        }else if(necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible){
+            necro.findPlayer(necro.getLoc());
+            necro.visible = true;
+            necro.collides = true;
+            necro.sec = 0;
+        }
+        if(necro.visible){
+            if(necro.bullets < 8 && Math.random() < 0.001) {
+                EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(Math.random()*700, 600*Math.random()), necro);
+                dataBase.enemyBullets.add(e);
+                panel.getDrawables().add(createEnemyBulletView(e));
+                necro.bullets ++;
+            }
+        }
+        checkCollision(necro);
 
     }
 
@@ -431,6 +464,7 @@ public class Update {
 
         }
     }
+
     private void getC(){
         for (int i = 0; i <  dataBase.collectableModels.size(); i++) {
             CollectableModel c = dataBase.collectableModels.get(i);

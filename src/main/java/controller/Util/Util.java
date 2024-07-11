@@ -2,9 +2,11 @@ package controller.Util;
 
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
+import model.characterModel.enemy.EnemyBullets;
 import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
+import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -21,14 +23,14 @@ public class Util {
         if(r == 0) {
             x = random.nextDouble(20,500);
             if(Math.floor(Math.random()*2) == 0){
-                y = 20 ;
+                y = 0 ;
             }else{
                 y =500;
             }
         }else {
             y = random.nextDouble(20, 500);
             if(Math.floor(Math.random()*2) == 0){
-                x = 20;
+                x = 0;
             }else{
                 x = 800;
             }
@@ -36,47 +38,10 @@ public class Util {
         }
         return new Point2D.Double(x, y);
     }
-
-
     // collisions
-    public static Point2D ert(PlayerModel model, Movable m) {
-        if (m instanceof RectangleModel) {
-            for (int i = 0; i < 4; i++) {
-                if (distance(playerCenter(model).getX(), playerCenter(model).getY()
-                        , m.getxPoints()[i], m.getyPoints()[i])
-                        <= (BALL_SIZE ) / 2.0) {
-                    return new Point2D.Double((playerCenter(model).getX() + rectCenter((RectangleModel) m).getX()) / 2.0,
-                            (playerCenter(model).getY() + rectCenter((RectangleModel) m).getY()) / 2.0);
-                }
-            }
-
-        } else if (m instanceof TriangleModel) {
-            for (int i = 0; i < 3; i++) {
-                if (distance(playerCenter(model).getX(), playerCenter(model).getY() ,
-                        m.getxPoints()[i], m.getyPoints()[i])
-                        <= (BALL_SIZE) / 2.0) {
-                    return new Point2D.Double((playerCenter(model).getX() + triangleCenter((TriangleModel) m).getX()) / 2.0,
-                            (playerCenter(model).getY() + triangleCenter((TriangleModel) m).getY()) / 2.0);
-                }
-            }
-        }
-        return null;
-    }
-    public static Point2D er(PlayerModel m, RectangleModel r){
-        if(distance(m.getLocation().getX(), m.getLocation().getY(), r.getLoc().getX(), r.getLoc().getY())
-                <= BALL_SIZE/2.0 + RECT_SIZE/2.0){
-            return new Point2D.Double((playerCenter(m).getX() + rectCenter(r).getX())/2.0,
-                    (playerCenter(m).getY() + rectCenter(r).getY())/2.0);
-        }
-        return null;
-    }
-    public static Point2D et(PlayerModel m, TriangleModel r){
-        if(distance(m.getLocation().getX(), m.getLocation().getY(), r.getLoc().getX(), r.getLoc().getY())
-                <= BALL_SIZE/2.0 + TRI_SIZE/2.5){
-            return new Point2D.Double((playerCenter(m).getX() + triangleCenter(r).getX())/2.0,
-                    (playerCenter(m).getY() + triangleCenter(r).getY())/2.0);
-        }
-        return null;
+    public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanel panel){
+    return e.getLoc().getX() + panel.getLocation().getX() <= 10 ||
+            e.getLoc().getY() + panel.getLocation().getY() >= FRAME_DIMENSION.getHeight() - 10;
     }
     public static Point2D collisionPoint(Point2D a, Point2D b){
         return new Point2D.Double((a.getX() + b.getX())/2.0, (a.getY() + b.getY())/2.0);

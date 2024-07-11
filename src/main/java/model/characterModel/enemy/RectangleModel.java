@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import static controller.Util.Util.setEntityLoc;
+import static controller.constants.CollectableConstans.*;
 import static controller.constants.EntityConstants.RECT_SIZE;
 import static controller.constants.AttackConstants.*;
 
@@ -25,8 +26,8 @@ public class RectangleModel extends Enemy  implements Movable, Collidable {
     }
     public void createRecs(){
 
-        collectables = 1;
-        collectablesXp = 5;
+        collectables = rec;
+        collectablesXp = rec_xp;
         meleePower = REC_MELEE_POWER;
 
         loc = setEntityLoc();

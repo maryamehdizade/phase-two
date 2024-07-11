@@ -49,7 +49,9 @@ public class Controller  {
     public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){
         return new EnemyBulletView(enemyBullets.getId(), enemyBullets.getLoc());
     }
-
+    public static NecropicklView createNecroView(NecropickModel n){
+        return new NecropicklView(n.getLoc(), n.getId());
+    }
     public static TriangleView createTriangleView(TriangleModel t){
         return new TriangleView(t.getId());
     }
