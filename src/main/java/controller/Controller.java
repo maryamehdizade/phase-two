@@ -3,16 +3,10 @@ package controller;
 import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
-import model.characterModel.enemy.CollectableModel;
-import model.characterModel.enemy.Omenoctmodel;
-import model.characterModel.enemy.RectangleModel;
-import model.characterModel.enemy.TriangleModel;
+import model.characterModel.enemy.*;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
-import view.charactersView.enemy.CollectableView;
-import view.charactersView.enemy.OmenoctView;
-import view.charactersView.enemy.RectangleView;
-import view.charactersView.enemy.TriangleView;
+import view.charactersView.enemy.*;
 import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
@@ -51,6 +45,9 @@ public class Controller  {
 //    }
     public static OmenoctView createOmenoctView(Omenoctmodel omenoctmodel){
         return new OmenoctView(omenoctmodel.getId(), omenoctmodel.getLoc());
+    }
+    public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){
+        return new EnemyBulletView(enemyBullets.getId(), enemyBullets.getLoc());
     }
 
     public static TriangleView createTriangleView(TriangleModel t){

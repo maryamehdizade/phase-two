@@ -2,6 +2,7 @@ package controller.constants;
 
 public class EntityConstants {
     public static final int BALL_SIZE = 20;
+    public static final int ENEMY_BULLET_SIZE = 8;
     public static final int BULLET_SIZE = 8;
     public static final int RECT_SIZE = 30;
     public static final int OMENOCT_SIZE = 60;

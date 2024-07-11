@@ -38,7 +38,7 @@ public final class PlayerModel implements Movable, Collidable {
     private int[] yPoints = new int[0];
     private int levelUp = 0;
     private static PlayerModel player;
-    private JFrame frame;
+    private JPanel panel;
     private String id;
 
     public static PlayerModel getPlayer() {
@@ -137,12 +137,12 @@ public final class PlayerModel implements Movable, Collidable {
     }
 
 
-    public JFrame getFrame() {
-        return frame;
+    public JPanel getPanel() {
+        return panel;
     }
 
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
+    public void setPanel(JPanel panel) {
+        this.panel = panel;
     }
 
     @Override

@@ -1,7 +1,7 @@
-package controller;
+package controller.Util;
 
+import controller.DataBase;
 import model.GamePanelModel;
-import view.pages.GamePanel;
 
 import javax.swing.*;
 

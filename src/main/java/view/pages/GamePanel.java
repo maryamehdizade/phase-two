@@ -1,7 +1,5 @@
 package view.pages;
 
-import controller.SkillTreeHandler;
-import controller.Update;
 import controller.listner.MyListner;
 import sound.Sound;
 import view.charactersView.PlayerView;
@@ -9,9 +7,7 @@ import view.drawable.Drawable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 public  class GamePanel extends JPanel {
     public PlayerView playerView;

@@ -1,8 +1,10 @@
 package controller;
 
+import controller.Util.SkillTreeHandler;
 import model.GamePanelModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
+import model.characterModel.enemy.EnemyBullets;
 import model.movement.Movable;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class DataBase {
     public ArrayList<Movable> movables;
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public PlayerModel playerModel;
+    public ArrayList<EnemyBullets> enemyBullets = new ArrayList<>();
 
     private static DataBase dataBase;
     public SkillTreeHandler handler;

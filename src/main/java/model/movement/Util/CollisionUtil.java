@@ -13,6 +13,7 @@ import sound.Sound;
 import view.charactersView.BulletView;
 import view.pages.GamePanel;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import static controller.Controller.createCollectableView;
@@ -89,4 +90,29 @@ public class CollisionUtil {
                     removeBullet(i);
         }
     }
+
+    private static final int n = 20;
+    public static void moveLeft(){
+        panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() - n), (int) panelModel.getLoc().getY()));
+        panelModel.setDimension(new Dimension((int) (panelModel.getDimension().getWidth() + n/2),
+                (int) panelModel.getDimension().getHeight()));
+
+    }
+    public static void moveRight(){
+        panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() + n/2), (int) panelModel.getLoc().getY()));
+        panelModel.setDimension (new Dimension((int) (panelModel.getDimension().getWidth() + n),
+                (int) panelModel.getDimension().getHeight()));
+    }
+    public static void moveUp(){
+        panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY()- n)));
+        panelModel.setDimension (new Dimension((int) panelModel.getDimension().getWidth(),
+                (int) (panelModel.getDimension().getHeight()+ n/2)));
+
+    }
+    public static void moveDown(){
+        panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY() +  n/2)));
+        panelModel.setDimension (new Dimension((int) panelModel.getDimension().getWidth(),
+                (int) (panelModel.getDimension().getHeight()+ n)));
+    }
+
 }

@@ -1,7 +1,5 @@
 package model;
 
-import controller.DataBase;
-import controller.SkillTreeHandler;
 import model.characterModel.PlayerModel;
 
 import java.awt.*;

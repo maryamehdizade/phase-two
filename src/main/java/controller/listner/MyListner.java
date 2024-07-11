@@ -62,17 +62,17 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
-            if(Menu.getMenu().proteus){
-                if(dataBase.getGamePanelModel().proteusCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
+//            if(Menu.getMenu().proteus){
+//                if(dataBase.getGamePanelModel().proteusCount == 0) {
+//                    if( dataBase.playerModel.getXp() >= 100) {
                          dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
                         dataBase.handler.proteus = true;
                         dataBase.getGamePanelModel().proteusCount ++;
                          dataBase.playerModel.setLevelUp( dataBase.playerModel.getLevelUp() + 1);
 
-                    }
-                }
-            }
+//                    }
+//                }
+//            }
         }
         if(keyCode == KeyEvent.VK_C){
             if(Menu.getMenu().aceso){
