@@ -144,7 +144,8 @@ public class CollisionUtil {
 
     }
     public static void moveRight(){
-        if((panelModel.getLoc().getX() + n/2) <= FRAME_DIMENSION.getWidth() && (panelModel.getDimension().getWidth() + n) <=MAX_SIZE.getWidth()) {
+        if((panelModel.getLoc().getX() + n/2 + panelModel.getDimension().getWidth()) <= FRAME_DIMENSION.getWidth() &&
+                (panelModel.getDimension().getWidth() + n) <=MAX_SIZE.getWidth()) {
             panelModel.setLoc(new Point((int) (panelModel.getLoc().getX() + n / 2), (int) panelModel.getLoc().getY()));
             panelModel.setDimension(new Dimension((int) (panelModel.getDimension().getWidth() + n),
                     (int) panelModel.getDimension().getHeight()));
@@ -159,7 +160,7 @@ public class CollisionUtil {
 
     }
     public static void moveDown(){
-        if(panelModel.getLoc().getY() +  n/2 <= FRAME_DIMENSION.getHeight() && panelModel.getDimension().getHeight()+ n<= MAX_SIZE.getHeight()) {
+        if(panelModel.getLoc().getY() +  n/2 + panelModel.getDimension().getHeight() <= FRAME_DIMENSION.getHeight() && panelModel.getDimension().getHeight()+ n<= MAX_SIZE.getHeight()) {
             panelModel.setLoc(new Point((int) panelModel.getLoc().getX(), (int) (panelModel.getLoc().getY() + n / 2)));
             panelModel.setDimension(new Dimension((int) panelModel.getDimension().getWidth(),
                     (int) (panelModel.getDimension().getHeight() + n)));

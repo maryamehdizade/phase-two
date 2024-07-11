@@ -255,7 +255,7 @@ public class Update {
                         zz = true;
                     }
                 }
-                System.out.println(dataBase.movables.add(n));
+                dataBase.movables.add(n);
                 panelModel.enemies ++;
             }
             panelModel.start = true;
