@@ -155,7 +155,6 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
             destination = new Point2D.Double(xx, y);
             xWall = true;
         }
-        System.out.println(destination);
     }
 
 

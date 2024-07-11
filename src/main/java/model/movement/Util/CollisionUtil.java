@@ -4,10 +4,7 @@ import controller.DataBase;
 import controller.Update;
 import model.GamePanelModel;
 import model.characterModel.BulletModel;
-import model.characterModel.enemy.CollectableModel;
-import model.characterModel.enemy.Enemy;
-import model.characterModel.enemy.RectangleModel;
-import model.characterModel.enemy.TriangleModel;
+import model.characterModel.enemy.*;
 import model.movement.Movable;
 import sound.Sound;
 import view.charactersView.BulletView;
@@ -19,6 +16,7 @@ import java.awt.geom.Point2D;
 import static controller.Controller.createCollectableView;
 import static controller.Util.Util.addVector;
 import static controller.constants.AttackConstants.*;
+import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
 public class CollisionUtil {
     private static GamePanel panel;
@@ -37,6 +35,38 @@ public class CollisionUtil {
         r.setHp(r.getHp() - panelModel.power);
         if (r.getHp() <= 0) {
             entityDeath(r);
+        }
+    }
+    public static void checkLeftOmenocts(){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable o = dataBase.movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getX() < 1){
+                injured(o);
+            }
+        }
+    }
+    public static void checkRightOmenocts(){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable o = dataBase.movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE + 5 > panel.getWidth()){
+                injured(o);
+            }
+        }
+    }
+    public static void checkDownOmenocts(){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable o = dataBase.movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE + 5 > panel.getHeight()){
+                injured(o);
+            }
+        }
+    }
+    public static void checkTopOmenocts(){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable o = dataBase.movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getY() < 1){
+                injured(o);
+            }
         }
     }
 

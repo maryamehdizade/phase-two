@@ -27,6 +27,7 @@ import static controller.Util.Waves.*;
 import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
+import static controller.constants.EntityConstants.OMENOCT_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
 import static model.movement.Impact.impact;
@@ -283,10 +284,22 @@ public class Update {
         m.setPanelW(panel.getWidth());
 
         int a = m.move();
-        if (a == 1) moveLeft();
-        else if (a == 2) moveRight();
-        else if (a == 3) moveUp();
-        else if (a == 4) moveDown();
+        if (a == 1) {
+            moveLeft();
+           checkLeftOmenocts();
+        }
+        else if (a == 2) {
+            moveRight();
+            checkRightOmenocts();
+        }
+        else if (a == 3) {
+            moveUp();
+            checkTopOmenocts();
+        }
+        else if (a == 4) {
+            moveDown();
+            checkDownOmenocts();
+        }
 
         if (a != 0) {
             impact(bulletCenter((BulletModel) m), 50);
@@ -332,7 +345,6 @@ public class Update {
                     Drawable a = panel.getDrawables().get(i);
                     if (a instanceof EnemyBulletView) {
                         if (a.getId().equals(e.getId())) {
-                            System.out.println("removed");
                             panel.getDrawables().remove(a);
                             break;
                         }
