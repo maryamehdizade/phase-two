@@ -4,6 +4,7 @@ import controller.DataBase;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.Enemy;
+import model.characterModel.enemy.EnemyBullets;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -130,6 +131,15 @@ public interface Collidable {
                             impact (collisionPoint, IMPACT_RANGE);
                         }
                     }
+                }
+            }
+        }
+
+        if(n instanceof EnemyBullets && m instanceof PlayerModel){
+            if(m.isCircular()){
+                if(distance(centerLoc(m), centerLoc(n)) <= m.size()+n.size()){
+                    removeEnemyBullet((EnemyBullets) n);
+                    reduceHp((EnemyBullets) n);
                 }
             }
         }

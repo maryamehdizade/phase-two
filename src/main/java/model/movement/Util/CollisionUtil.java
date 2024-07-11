@@ -8,6 +8,7 @@ import model.characterModel.enemy.*;
 import model.movement.Movable;
 import sound.Sound;
 import view.charactersView.BulletView;
+import view.charactersView.enemy.EnemyBulletView;
 import view.pages.GamePanel;
 
 import java.awt.*;
@@ -101,24 +102,33 @@ public class CollisionUtil {
             update.gameOver();
         }
     }
-    public static void removeBullet(int i) {
+    public static void reduceHp(EnemyBullets bullet){
+        int w = bullet.creator.rangedPower;
+        dataBase.playerModel.setHp(dataBase.playerModel.getHp() - w);
+        if( dataBase.playerModel.getHp() <= 0){
+            update.gameOver();
+        }
+    }
 
-//        panel.getDrawables().remove(i);
+    public static void removeBullet(BulletModel bulletModel){
         for (int j = 0; j < panel.getDrawables().size(); j++) {
             if(panel.getDrawables().get(j) instanceof BulletView)
-                if (panel.getDrawables().get(j).getId().equals(dataBase.movables.get(i).getId())) {
+                if (panel.getDrawables().get(j).getId().equals(bulletModel.getId())) {
                     panel.getDrawables().remove(j);
                     break;
                 }
         }
-        dataBase.movables.remove(i);
+        dataBase.movables.remove(bulletModel);
     }
-    public static void removeBullet(BulletModel bulletModel){
-        for (int i = 0; i <  dataBase.movables.size(); i++) {
-            if(dataBase.movables.get(i) instanceof BulletModel)
-                if( dataBase.movables.get(i).getId().equals(bulletModel.getId()))
-                    removeBullet(i);
+    public static void removeEnemyBullet(EnemyBullets e){
+        for (int i = 0; i < panel.getDrawables().size(); i++) {
+            if(panel.getDrawables().get(i) instanceof EnemyBulletView)
+                if (panel.getDrawables().get(i).getId().equals(e.getId())) {
+                    panel.getDrawables().remove(i);
+                    break;
+                }
         }
+        dataBase.enemyBullets.remove(e);
     }
 
     private static final int n = 20;

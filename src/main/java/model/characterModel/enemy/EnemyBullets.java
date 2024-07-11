@@ -19,9 +19,12 @@ public class EnemyBullets implements Movable, Collidable {
     private int speed = 1;
     public Enemy creator;
 
-    public EnemyBullets(Point2D loc) {
-        this.id = UUID.randomUUID().toString();
+
+    public EnemyBullets(Point2D loc, Point2D target, Enemy creator) {
         this.loc = loc;
+        this.target = target;
+        this.creator = creator;
+        id = UUID.randomUUID().toString();
     }
 
     @Override
@@ -31,7 +34,7 @@ public class EnemyBullets implements Movable, Collidable {
 
     @Override
     public int move() {
-        m = Math.atan2(target.getX(), target.getY());
+        m = Math.atan2(target.getY() - loc.getY(), target.getX() - loc.getX());
         xvelocity = (Math.cos(m) ) * speed/2;
         yvelocity = (Math.sin(m) ) * speed/2;
 

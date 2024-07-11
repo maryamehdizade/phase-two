@@ -327,9 +327,7 @@ public class Update {
         checkCollision(m);
 
         if (random.nextDouble(0,100) < 0.5) {
-            EnemyBullets b = new EnemyBullets(m.getLoc());
-            b.setTarget(dataBase.playerModel.getLocation());
-            b.creator = (Enemy) m;
+            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.playerModel), (Enemy) m);
             dataBase.enemyBullets.add(b);
             panel.getDrawables().add(createEnemyBulletView(b));
         }
@@ -338,6 +336,7 @@ public class Update {
         for (int j = 0; j < dataBase.enemyBullets.size(); j++) {
             EnemyBullets e = dataBase.enemyBullets.get(j);
             e.move();
+            e.collision(dataBase.playerModel);
             if (e.getLoc().getX() + panel.getLocation().getX() <= 10 ||
                     e.getLoc().getY() + panel.getLocation().getY() >= FRAME_DIMENSION.getHeight() - 10) {
                 dataBase.enemyBullets.remove(e);
