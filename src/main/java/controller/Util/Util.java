@@ -1,5 +1,6 @@
 package controller.Util;
 
+import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.EnemyBullets;
@@ -39,9 +40,13 @@ public class Util {
         return new Point2D.Double(x, y);
     }
     // collisions
-    public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanel panel){
-    return e.getLoc().getX() + panel.getLocation().getX() <= 10 ||
-            e.getLoc().getY() + panel.getLocation().getY() >= FRAME_DIMENSION.getHeight() - 10;
+    public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
+    return e.getLoc().getX() + panel.getLoc().getX() <= 10 ||
+            e.getLoc().getY() + panel.getLoc().getY() >= FRAME_DIMENSION.getHeight() - 10;
+    }
+    public static boolean bulletIsOutSideOfPanel(EnemyBullets e, GamePanelModel panel){
+        return e.getLoc().getX() <= 0 || e.getLoc().getY()>= panel.getDimension().getHeight() ||
+                e.getLoc().getX() >= panel.getDimension().getWidth() || e.getLoc().getY() >= panel.getDimension().getHeight();
     }
     public static Point2D collisionPoint(Point2D a, Point2D b){
         return new Point2D.Double((a.getX() + b.getX())/2.0, (a.getY() + b.getY())/2.0);

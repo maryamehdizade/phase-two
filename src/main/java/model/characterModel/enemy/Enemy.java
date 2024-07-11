@@ -14,6 +14,7 @@ public class Enemy {
     public int rangedPower;
     double speed = 1;
     double m;
+    boolean solid;
     void findPlayer(Point2D loc){
         m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
         setVel();

@@ -18,23 +18,26 @@ public class EnemyBullets implements Movable, Collidable {
     private double m;
     private int speed = 1;
     public Enemy creator;
+    public boolean solid;
 
 
-    public EnemyBullets(Point2D loc, Point2D target, Enemy creator) {
+    public EnemyBullets(Point2D loc, Point2D target, Enemy creator, boolean solid) {
+        this.solid = solid;
         this.loc = loc;
         this.target = target;
         this.creator = creator;
         id = UUID.randomUUID().toString();
+        m = Math.atan2(target.getY() - loc.getY(), target.getX() - loc.getX());
     }
 
     @Override
-    public boolean solid() {
+    public boolean hasWieght() {
         return false;
     }
 
     @Override
     public int move() {
-        m = Math.atan2(target.getY() - loc.getY(), target.getX() - loc.getX());
+
         xvelocity = (Math.cos(m) ) * speed/2;
         yvelocity = (Math.sin(m) ) * speed/2;
 

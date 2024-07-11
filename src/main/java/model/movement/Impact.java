@@ -16,7 +16,7 @@ public class Impact {
     public static void impact(Point2D point, double r){
         for (int i = 0; i < dataBase.movables.size(); i ++) {
             Movable m =  dataBase.movables.get(i);
-            if (!(m instanceof BulletModel) && !m.solid()) {
+            if (!(m instanceof BulletModel) && !m.hasWieght()) {
                 double x = Math.abs(centerLoc( m).getX() - point.getX());
                 double y = Math.abs(centerLoc(m).getY() - point.getY());
 

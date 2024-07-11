@@ -55,7 +55,7 @@ public class BulletModel implements Movable, Collidable {
     }
 
     @Override
-    public boolean solid() {
+    public boolean hasWieght() {
         return false;
     }
 

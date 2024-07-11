@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 import static controller.constants.EntityConstants.*;
 
 public interface Movable {
-    boolean solid();
+    boolean hasWieght();
     int move();
 
     void move(double velocity);

@@ -197,7 +197,7 @@ public class Update {
 
             updateEnemyBullet();
         }
-        if(!zz) addingEnemies();
+        addingEnemies();
         if (Game.getGame().getPhase() == 0) phaseOne();
         updateCollectable();
 
@@ -229,7 +229,7 @@ public class Update {
     }
     private void phaseTwo() {
     }
-    boolean zz;
+
     private void addingEnemies(){
         if (random.nextDouble(0, bound) < 1) {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
@@ -252,7 +252,6 @@ public class Update {
                     }else {
                         n = new NecropickModel();
                         panel.getDrawables().add(createNecroView((NecropickModel) n));
-                        zz = true;
                     }
                 }
                 dataBase.movables.add(n);
@@ -336,7 +335,7 @@ public class Update {
         checkCollision(m);
 
         if (random.nextDouble(0,100) < 0.5) {
-            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.playerModel), (Enemy) m);
+            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.playerModel), (Enemy) m, false);
             dataBase.enemyBullets.add(b);
             panel.getDrawables().add(createEnemyBulletView(b));
         }
@@ -346,12 +345,13 @@ public class Update {
             EnemyBullets e = dataBase.enemyBullets.get(j);
             e.move();
             e.collision(dataBase.playerModel);
-            if (bulletIsOutSideOfFrame(e, panel)) {
+            boolean x = bulletIsOutSideOfFrame(e, panelModel);
+            if(e.solid)x = bulletIsOutSideOfPanel(e,panelModel);
+            if (x) {
                 for (int i = 0; i < panel.getDrawables().size(); i++) {
                     Drawable a = panel.getDrawables().get(i);
                     if (a instanceof EnemyBulletView) {
                         if (a.getId().equals(e.getId())) {
-                            System.out.println("r");
                             panel.getDrawables().remove(a);
                             break;
                         }
@@ -383,7 +383,9 @@ public class Update {
         }
         if(necro.visible){
             if(necro.bullets < 8 && Math.random() < 0.001) {
-                EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(Math.random()*700, 600*Math.random()), necro);
+                EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(
+                        Math.random()*panelModel.getDimension().getWidth(),
+                        panelModel.getDimension().getHeight()*Math.random()), necro, true);
                 dataBase.enemyBullets.add(e);
                 panel.getDrawables().add(createEnemyBulletView(e));
                 necro.bullets ++;
