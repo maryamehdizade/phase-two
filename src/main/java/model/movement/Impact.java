@@ -2,9 +2,6 @@ package model.movement;
 
 import controller.DataBase;
 import model.characterModel.BulletModel;
-import model.characterModel.PlayerModel;
-import model.characterModel.enemy.RectangleModel;
-import model.characterModel.enemy.TriangleModel;
 
 import java.awt.geom.Point2D;
 
@@ -16,7 +13,7 @@ public class Impact {
     public static void impact(Point2D point, double r){
         for (int i = 0; i < dataBase.movables.size(); i ++) {
             Movable m =  dataBase.movables.get(i);
-            if (!(m instanceof BulletModel) && !m.hasWieght()) {
+            if (!(m instanceof BulletModel) && !m.rigidBody()) {
                 double x = Math.abs(centerLoc( m).getX() - point.getX());
                 double y = Math.abs(centerLoc(m).getY() - point.getY());
 

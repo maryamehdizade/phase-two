@@ -56,7 +56,7 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     private int count;
 
     @Override
-    public boolean hasWieght() {
+    public boolean rigidBody() {
         return false;
     }
 

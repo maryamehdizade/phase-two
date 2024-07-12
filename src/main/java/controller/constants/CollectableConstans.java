@@ -9,6 +9,8 @@ public class CollectableConstans {
     public static int omenoct = 8;
     public static int necro = 4;
     public static int necro_xp = 2;
+    public static int arch_xp = 6;
+    public static int arch = 5;
 
 
 }

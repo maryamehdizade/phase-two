@@ -1,4 +1,4 @@
-package model.movement.Util;
+package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
@@ -92,7 +92,7 @@ public class CollisionUtil {
         Enemy e = (Enemy) movable;
         int n = e.collectables;
         for (int i = 0; i < n; i++) {
-            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*6, i *6)));
+            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*4, i *4)));
             c.setCreator(e);
             dataBase.collectableModels.add(c);
             panel.getDrawables().add(createCollectableView(c));

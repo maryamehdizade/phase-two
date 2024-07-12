@@ -1,5 +1,7 @@
 package controller;
 
+import controller.Util.EnemyHandler;
+import controller.Util.Util;
 import controller.Util.Waves;
 import model.GamePanelModel;
 import model.characterModel.BulletModel;
@@ -7,7 +9,7 @@ import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
 import model.movement.Collidable;
 import model.movement.Movable;
-import model.movement.Util.CollisionUtil;
+import controller.Util.CollisionUtil;
 import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
@@ -22,16 +24,15 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 import static controller.Controller.*;
+import static controller.Util.EnemyHandler.addingEnemies;
 import static controller.Util.Util.*;
 import static controller.Util.Waves.*;
-import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
-import static controller.constants.EntityConstants.OMENOCT_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
 import static model.movement.Impact.impact;
-import static model.movement.Util.CollisionUtil.*;
+import static controller.Util.CollisionUtil.*;
 
 public class Update {
     private static Update update;
@@ -85,6 +86,8 @@ public class Update {
         time.start();
 
         new CollisionUtil(this);
+        new Util(dataBase.gamePanelModel);
+        new EnemyHandler(this);
         waves = new Waves(this);
 
     }
@@ -101,6 +104,7 @@ public class Update {
             else if(d instanceof OmenoctView)updateOmenoctView((OmenoctView) d);
             else if(d instanceof EnemyBulletView)updateEnemyBulletView((EnemyBulletView) d);
             else if(d instanceof NecropicklView)updateNecroView((NecropicklView) d);
+            else if(d instanceof ArchmireView)uodateArchView((ArchmireView) d);
         }
 
     }
@@ -183,6 +187,15 @@ public class Update {
             }
         }
     }
+    private void uodateArchView(ArchmireView a){
+        for (int i = 0; i < dataBase.movables.size(); i++) {
+            Movable d = dataBase.movables.get(i);
+            if(d instanceof ArchmireModel && d.getId().equals(a.getId())){
+                a.setLoc(d.getLoc());
+                a.setHp(d.getHp());
+            }
+        }
+    }
 
     //model
     public void updateModel() {
@@ -194,17 +207,15 @@ public class Update {
             else if (m instanceof RectangleModel) updateRecs(m);
             else if (m instanceof Omenoctmodel) updateOmenoct(m);
             else if(m instanceof NecropickModel)updateNecro((NecropickModel) m);
+            else if(m instanceof ArchmireModel)updateArchModel(m);
 
             updateEnemyBullet();
         }
         addingEnemies();
         if (Game.getGame().getPhase() == 0) phaseOne();
         updateCollectable();
-
         victory();
         timeCheck();
-
-
     }
     private void epsilonCheck(){
         updateEpsilon();
@@ -230,36 +241,7 @@ public class Update {
     private void phaseTwo() {
     }
 
-    private void addingEnemies(){
-        if (random.nextDouble(0, bound) < 1) {
-            if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
-                    (panelModel.wave == 3 && panelModel.enemies <= 20)) {
-                Sound.sound().entrance();
 
-                Movable n ;
-                if(Game.getGame().getPhase() == 0) {
-                    if (panelModel.random.nextInt(0, 2) == 1) {
-                        n = new TriangleModel();
-                        panel.getDrawables().add(createTriangleView((TriangleModel) n));
-                    } else {
-                        n = new RectangleModel();
-                        panel.getDrawables().add(createRectView((RectangleModel) n));
-                    }
-                }else{
-                    if (panelModel.random.nextInt(0, 2) == 1){
-                        n = new Omenoctmodel();
-                        panel.getDrawables().add(createOmenoctView((Omenoctmodel) n));
-                    }else {
-                        n = new NecropickModel();
-                        panel.getDrawables().add(createNecroView((NecropickModel) n));
-                    }
-                }
-                dataBase.movables.add(n);
-                panelModel.enemies ++;
-            }
-            panelModel.start = true;
-        }
-    }
     private void updateCollectable(){
         for (int i = 0; i < dataBase.collectableModels.size();i ++) {
             if (dataBase.collectableModels.get(i).getSecond() >= 10) {
@@ -290,33 +272,12 @@ public class Update {
     private void updateBullets(Movable m) {
         m.setPanelH(panel.getHeight());
         m.setPanelW(panel.getWidth());
-
         int a = m.move();
-        if (a == 1) {
-            moveLeft();
-           checkLeftOmenocts();
-        }
-        else if (a == 2) {
-            moveRight();
-            checkRightOmenocts();
-        }
-        else if (a == 3) {
-            moveUp();
-            checkTopOmenocts();
-        }
-        else if (a == 4) {
-            moveDown();
-            checkDownOmenocts();
-        }
-
-        if (a != 0) {
-            impact(bulletCenter((BulletModel) m), 50);
-            removeBullet((BulletModel) m);
-        } else {
-            checkCollision(m);
-        }
-
-    }
+        if (a == 1) {moveLeft();checkLeftOmenocts();}
+        else if (a == 2) {moveRight();checkRightOmenocts();}
+        else if (a == 3) {moveUp();checkTopOmenocts();}
+        else if (a == 4) {moveDown();checkDownOmenocts();}
+        if (a != 0) {impact(bulletCenter((BulletModel) m), 50);removeBullet((BulletModel) m);} else {checkCollision(m);}}
 
     private void updateTriangles(Movable m) {
         if (distance(m.getLoc().getX(), m.getLoc().getY()
@@ -346,7 +307,7 @@ public class Update {
             e.move();
             e.collision(dataBase.playerModel);
             boolean x = bulletIsOutSideOfFrame(e, panelModel);
-            if(e.solid)x = bulletIsOutSideOfPanel(e,panelModel);
+            if(e.rigidBody())x = bulletIsOutSideOfPanel(e,panelModel);
             if (x) {
                 for (int i = 0; i < panel.getDrawables().size(); i++) {
                     Drawable a = panel.getDrawables().get(i);
@@ -382,7 +343,7 @@ public class Update {
             necro.sec = 0;
         }
         if(necro.visible){
-            if(necro.bullets < 8 && Math.random() < 0.001) {
+            if(necro.bullets < 8 && Math.random() < 0.002) {
                 EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(
                         Math.random()*panelModel.getDimension().getWidth(),
                         panelModel.getDimension().getHeight()*Math.random()), necro, true);
@@ -393,6 +354,11 @@ public class Update {
         }
         checkCollision(necro);
 
+    }
+
+    private void updateArchModel(Movable arc){
+        arc.move();
+        checkCollision(arc);
     }
 
     private void moveEpsilon(){
@@ -490,6 +456,7 @@ public class Update {
             Collidable c = (Collidable) dataBase.movables.get(i);
             c.collision(movable);
         }
+
     }
 
     Timer t;

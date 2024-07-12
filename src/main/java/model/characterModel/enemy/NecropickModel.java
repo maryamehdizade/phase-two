@@ -96,7 +96,7 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
     }
 
     @Override
-    public boolean hasWieght() {
+    public boolean rigidBody() {
         return true;
     }
 

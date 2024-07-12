@@ -18,11 +18,11 @@ public class EnemyBullets implements Movable, Collidable {
     private double m;
     private int speed = 1;
     public Enemy creator;
-    public boolean solid;
+    public boolean rigidBody;
 
 
-    public EnemyBullets(Point2D loc, Point2D target, Enemy creator, boolean solid) {
-        this.solid = solid;
+    public EnemyBullets(Point2D loc, Point2D target, Enemy creator, boolean rigidBody) {
+        this.rigidBody = rigidBody;
         this.loc = loc;
         this.target = target;
         this.creator = creator;
@@ -31,8 +31,8 @@ public class EnemyBullets implements Movable, Collidable {
     }
 
     @Override
-    public boolean hasWieght() {
-        return false;
+    public boolean rigidBody() {
+        return rigidBody;
     }
 
     @Override

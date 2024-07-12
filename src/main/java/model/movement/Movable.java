@@ -2,17 +2,14 @@ package model.movement;
 
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
-import model.characterModel.enemy.NecropickModel;
-import model.characterModel.enemy.Omenoctmodel;
-import model.characterModel.enemy.RectangleModel;
-import model.characterModel.enemy.TriangleModel;
+import model.characterModel.enemy.*;
 
 import java.awt.geom.Point2D;
 
 import static controller.constants.EntityConstants.*;
 
 public interface Movable {
-    boolean hasWieght();
+    boolean rigidBody();
     int move();
 
     void move(double velocity);
@@ -41,6 +38,9 @@ public interface Movable {
             }
             case NecropickModel necropickModel -> {
                 return (int) NECROPICK_SIZE.getX();
+            }
+            case ArchmireModel archmireModel ->{
+                return ARCH_SIZE;
             }
             default -> {
                 return 0;

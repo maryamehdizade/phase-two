@@ -4,9 +4,11 @@ import model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
+import model.movement.Movable;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
 import view.charactersView.enemy.*;
+import view.drawable.Drawable;
 import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
@@ -45,6 +47,14 @@ public class Controller  {
 //    }
     public static OmenoctView createOmenoctView(Omenoctmodel omenoctmodel){
         return new OmenoctView(omenoctmodel.getId(), omenoctmodel.getLoc());
+    }
+    public static Drawable createEnemyView(Movable movable){
+        if(movable instanceof Omenoctmodel)return createOmenoctView((Omenoctmodel) movable);
+        else if(movable instanceof NecropickModel)return createNecroView((NecropickModel) movable);
+        else if(movable instanceof ArchmireModel) return new ArchmireView(movable.getLoc(),movable.getId());
+        else if (movable instanceof TriangleModel)return createTriangleView((TriangleModel) movable);
+        else if(movable instanceof RectangleModel)return createRectView((RectangleModel) movable);
+        return null;
     }
     public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){
         return new EnemyBulletView(enemyBullets.getId(), enemyBullets.getLoc());

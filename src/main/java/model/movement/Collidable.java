@@ -1,6 +1,5 @@
 package model.movement;
 
-import controller.DataBase;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.Enemy;
@@ -12,7 +11,7 @@ import java.awt.geom.Point2D;
 import static controller.Util.Util.*;
 import static controller.constants.ImpactConstants.IMPACT_RANGE;
 import static model.movement.Impact.impact;
-import static model.movement.Util.CollisionUtil.*;
+import static controller.Util.CollisionUtil.*;
 
 public interface Collidable {
     default void collision(Movable m) {

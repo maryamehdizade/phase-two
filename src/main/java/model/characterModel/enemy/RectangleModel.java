@@ -42,7 +42,7 @@ public class RectangleModel extends Enemy  implements Movable, Collidable {
     }
 
     @Override
-    public boolean hasWieght() {
+    public boolean rigidBody() {
         return false;
     }
 

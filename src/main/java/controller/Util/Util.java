@@ -16,6 +16,12 @@ import static controller.constants.Constant.*;
 import static controller.constants.EntityConstants.*;
 
 public class Util {
+    private static GamePanelModel model;
+
+    public Util(GamePanelModel model) {
+        this.model = model;
+    }
+
     public static Point2D setEntityLoc(){
         double x;
         double y;
@@ -39,7 +45,29 @@ public class Util {
         }
         return new Point2D.Double(x, y);
     }
-    // collisions
+    public static Point2D setEntityLoc2(){
+        double x;
+        double y;
+        double r = Math.floor(Math.random()*2);
+        Random random = new Random();
+        if(r == 0) {
+            x = random.nextDouble(-model.getLoc().getX(),FRAME_DIMENSION.getWidth() - model.getLoc().getX());
+            if(Math.floor(Math.random()*2) == 0){
+                y = 0 ;
+            }else{
+                y =500;
+            }
+        }else {
+            y = random.nextDouble(-model.getLoc().getY(),FRAME_DIMENSION.getHeight() - model.getLoc().getY());
+            if(Math.floor(Math.random()*2) == 0){
+                x = 0;
+            }else{
+                x = 800;
+            }
+
+        }
+        return new Point2D.Double(x, y);
+    }
     public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
     return e.getLoc().getX() + panel.getLoc().getX() <= 10 ||
             e.getLoc().getY() + panel.getLoc().getY() >= FRAME_DIMENSION.getHeight() - 10;
