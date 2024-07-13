@@ -340,10 +340,10 @@ public class Update {
             necro.bullets = 0;
             necro.sec = 0;
         }else if(necro.sec%2 == 0 && !necro.visible && necro.sec !=0 && Objects.equals(necro.preLoc, new Point2D.Double(0, 0))){
-            necro.findPlayer(necro.getLoc());
-            necro.preLoc = necro.getLoc();
+            necro.preLoc = necro.findPlayer();
         }
         else if(necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible){
+            necro.findPlayer(necro.getLoc());
             necro.visible = true;
             necro.collides = true;
             necro.sec = 0;

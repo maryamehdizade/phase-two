@@ -8,6 +8,7 @@ public class Enemy {
     PlayerModel playerModel = PlayerModel.getPlayer();
     double xvelocity;
     double yvelocity;
+    public double counter;
     public int collectables;
     public int collectablesXp;
     public int meleePower;

@@ -6,6 +6,7 @@ import model.movement.Movable;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -46,6 +47,15 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
     Random random = new Random();
     @Override
     public void findPlayer(Point2D loc) {
+        if(!Objects.equals(preLoc, new Point2D.Double(0, 0)))this.loc = preLoc;
+        else this.loc = findPlayer();
+
+        xPoints = new int[]{(int) this.loc.getX(), (int) (this.loc.getX() + NECROPICK_SIZE.getX()),
+                (int) this.loc.getX(), (int) (this.loc.getX() + NECROPICK_SIZE.getX())};
+        yPoints = new int[]{(int) this.loc.getY(), (int) this.loc.getY(),
+                (int) (this.loc.getY() + NECROPICK_SIZE.getX()), (int) (this.loc.getY() + NECROPICK_SIZE.getX())};
+    }
+    public Point2D findPlayer() {
         double x;
         double y;
         double r = 200;
@@ -55,17 +65,10 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
             y = random.nextDouble(PlayerModel.getPlayer().getLoc().getY() - r, PlayerModel.getPlayer().getLoc().getY() + r);
 
             if (distance(new Point2D.Double(x, y), PlayerModel.getPlayer().getLoc()) >= 70) {
-                this.loc = new Point2D.Double(x, y);
-
-                xPoints = new int[]{(int) this.loc.getX(), (int) (this.loc.getX() + NECROPICK_SIZE.getX()),
-                        (int) this.loc.getX(), (int) (this.loc.getX() + NECROPICK_SIZE.getX())};
-                yPoints = new int[]{(int) this.loc.getY(), (int) this.loc.getY(),
-                        (int) (this.loc.getY() + NECROPICK_SIZE.getX()), (int) (this.loc.getY() + NECROPICK_SIZE.getX())};
-                break;
+                return new Point2D.Double(x, y);
             }
         }
     }
-
     @Override
     public String getId() {
         return id;

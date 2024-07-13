@@ -40,6 +40,7 @@ public final class PlayerModel implements Movable, Collidable {
     private static PlayerModel player;
     private JPanel panel;
     private String id;
+    public double counter;
 
     public static PlayerModel getPlayer() {
         if(player == null){

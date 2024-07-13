@@ -4,6 +4,7 @@ import controller.DataBase;
 import controller.Update;
 import model.GamePanelModel;
 import model.characterModel.BulletModel;
+import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
 import model.movement.Movable;
 import sound.Sound;
@@ -36,9 +37,17 @@ public class CollisionUtil {
     public static void injured(Movable r){
         Sound.sound().injured();
         r.setHp(r.getHp() - panelModel.power);
-        if (r.getHp() <= 0) {
-            entityDeath(r);
-        }
+        checkDeath(r);
+    }
+    public static void aoeDamage(Movable r, ArchmireModel a){
+        if(!(r instanceof PlayerModel))Sound.sound().injured();
+        r.setHp(r.getHp() - a.getAoe());
+        checkDeath(r);
+    }
+    public static void drownDamage(Movable r, ArchmireModel a){
+        if(!(r instanceof PlayerModel))Sound.sound().injured();
+        r.setHp(r.getHp() - a.getDrown());
+        checkDeath(r);
     }
     public static void checkLeftOmenocts(){
         for (int i = 0; i < dataBase.movables.size(); i++) {
@@ -101,10 +110,15 @@ public class CollisionUtil {
     public static void reduceHp( Enemy movable){
         int w = movable.meleePower;
         dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
-        if( dataBase.playerModel.getHp() <= 0){
-            update.gameOver();
+        checkDeath(dataBase.playerModel);
+    }
+    private static void checkDeath(Movable r){
+        if (r.getHp() <= 0) {
+            if(r instanceof PlayerModel)update.gameOver();
+            else entityDeath(r);
         }
     }
+
     public static void reduceHp(EnemyBullets bullet){
         int w = bullet.creator.rangedPower;
         dataBase.playerModel.setHp(dataBase.playerModel.getHp() - w);
