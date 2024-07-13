@@ -70,7 +70,7 @@ public class Update {
         random = new Random();
 
         initialDataBase();
-        bound = 100;
+        bound = Menu.getMenu().bound;
 
         panel = creatGamePanel(panelModel);
         a = Menu.getMenu().aa;
@@ -193,6 +193,7 @@ public class Update {
             if(d instanceof ArchmireModel && d.getId().equals(a.getId())){
                 a.setLoc(d.getLoc());
                 a.setHp(d.getHp());
+                a.setTrace(((ArchmireModel) d).getTrace());
             }
         }
     }

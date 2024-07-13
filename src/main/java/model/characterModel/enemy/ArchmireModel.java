@@ -2,6 +2,7 @@ package model.characterModel.enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.UUID;
 import static controller.Util.Util.*;
 import static controller.constants.AttackConstants.*;
@@ -10,7 +11,7 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     private int hp = 30;
     private String id;
     private Point2D loc;
-    private int speed = 1000;
+    private int speed = 1;
     private double xvelocity;
     private double yvelocity;
     private int drown;
@@ -40,6 +41,7 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     public void setId(String id) {
         this.id = id;
     }
+    private ArrayList<Point2D> trace = new ArrayList<>();
     @Override
     public boolean rigidBody() {return false;}
 
@@ -54,6 +56,8 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
         xvelocity = (Math.cos(m) ) * speed;
         yvelocity = (Math.sin(m) ) * speed;
         loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        trace.add(loc);
+        if(trace.size() > 200)trace.remove(0);
         return 0;}
     @Override
     public void move(double velocity) {}
@@ -102,4 +106,9 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     }
     public int getAoe() {
         return aoe;
-    }}
+    }
+
+    public ArrayList<Point2D> getTrace() {
+        return trace;
+    }
+}

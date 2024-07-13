@@ -15,7 +15,6 @@ public class Impact {
         for (int i = 0; i < dataBase.movables.size(); i ++) {
             Movable m =  dataBase.movables.get(i);
             if (!(m instanceof BulletModel) && !m.solid()) {
-                if(m instanceof PlayerModel)System.out.println("imp");
                 double x = Math.abs(centerLoc( m).getX() - point.getX());
                 double y = Math.abs(centerLoc(m).getY() - point.getY());
 

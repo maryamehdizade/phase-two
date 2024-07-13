@@ -4,6 +4,7 @@ import view.drawable.Drawable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import static controller.constants.EntityConstants.ARCH_SIZE;
 
@@ -11,27 +12,33 @@ public class ArchmireView implements Drawable {
     private Point2D loc;
     private String id;
     private int hp;
-    private int traceDuration = 2000;
+//    private int traceDuration = 2000;
+    private ArrayList<Point2D > trace;
 
     public ArchmireView(Point2D loc, String id) {
         this.loc = loc;
         this.id = id;
+        trace = new ArrayList<>();
     }
 
     @Override
     public void draw(Graphics g) {
-        for (int i = 1; i < traceDuration/10; i++) {
-            int alpha =(traceDuration/10)/i;
-            alpha = Math.min(220, alpha);
-            g.setColor(new Color(157, 11, 32, alpha));
-            g.fillOval((int) (loc.getX() - i), (int) (loc.getY() - i), ARCH_SIZE,ARCH_SIZE);
+        for (int i = 1; i < trace.size(); i++) {
+            int alpha =trace.size()/i;
+            alpha = Math.min(180, alpha);
+            g.setColor(new Color(190, 11, 32, alpha));
+            g.fillOval((int) (trace.get(trace.size() - i - 1).getX()), (int) (trace.get(trace.size() - i - 1).getY()), ARCH_SIZE,ARCH_SIZE);
 
         }
 
-        g.setColor(new Color(122, 8, 25));
+        g.setColor(new Color(157, 11, 32));
         g.fillOval((int) loc.getX(), (int) loc.getY(),ARCH_SIZE,ARCH_SIZE);
         g.setColor(Color.black);
         g.drawString(String.valueOf(hp), (int) (loc.getX() + ARCH_SIZE/2), (int) (loc.getY() + ARCH_SIZE/2));
+    }
+
+    public void setTrace(ArrayList<Point2D> trace) {
+        this.trace = trace;
     }
 
     @Override
