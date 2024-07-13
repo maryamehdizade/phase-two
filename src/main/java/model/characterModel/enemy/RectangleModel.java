@@ -1,4 +1,5 @@
 package model.characterModel.enemy;
+import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 
@@ -11,7 +12,7 @@ import static controller.constants.CollectableConstans.*;
 import static controller.constants.EntityConstants.RECT_SIZE;
 import static controller.constants.AttackConstants.*;
 
-public class RectangleModel extends Enemy  implements Movable, Collidable {
+public class RectangleModel extends Enemy implements Movable, Collidable {
     private int hp = 10;
     private Random random = new Random();
     private int[] xPoints;

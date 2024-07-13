@@ -1,7 +1,7 @@
 package controller.Util;
 
 import controller.DataBase;
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 
 import javax.swing.*;
 
@@ -57,7 +57,7 @@ public class SkillTreeHandler {
         if(aceso){
             acesoSec += 0.1;
             if(acesoSec%1 >= 0  && acesoSec%1 <= 0.12)
-                DataBase.getDataBase().playerModel.setHp(DataBase.getDataBase().playerModel.getHp() + panel.heal);
+                DataBase.getDataBase().getGamePanelModel().playerModel.setHp(DataBase.getDataBase().getGamePanelModel().playerModel.getHp() + panel.heal);
             if(acesoSec >= 300){
                 panel.acesoCount = 0;
                 aceso = false;
@@ -65,7 +65,7 @@ public class SkillTreeHandler {
                 acesoSec = 0;
             }
         }else if(acesoC)
-               DataBase.getDataBase().playerModel.setHp(DataBase.getDataBase().playerModel.getHp() + panel.heal);
+               DataBase.getDataBase().getGamePanelModel().playerModel.setHp(DataBase.getDataBase().getGamePanelModel().playerModel.getHp() + panel.heal);
     }
     private void proteusCheck(){
         if(proteus){

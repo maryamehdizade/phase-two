@@ -1,13 +1,13 @@
 package model.characterModel;
 
+import model.model.Entity;
 import model.movement.Collidable;
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-public class BulletModel implements Movable, Collidable {
+public class BulletModel extends Entity implements Movable, Collidable {
     private double panelW,panelH;
     private Point2D loc;
     private double dx;

@@ -1,4 +1,5 @@
 package model.characterModel.enemy;
+import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 import javax.swing.*;
@@ -114,7 +115,7 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     }
 
     @Override
-    void findPlayer(Point2D loc) {
+    public void findPlayer(Point2D loc) {
         super.findPlayer(loc);
     }
 

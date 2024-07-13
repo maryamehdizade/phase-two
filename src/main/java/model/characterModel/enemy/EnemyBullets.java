@@ -1,5 +1,6 @@
 package model.characterModel.enemy;
 
+import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 

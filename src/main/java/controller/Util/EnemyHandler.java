@@ -2,7 +2,7 @@ package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import model.characterModel.enemy.*;
 import model.movement.Movable;
 import sound.Sound;
@@ -50,7 +50,7 @@ public class EnemyHandler {
                     }
                 }
                 panel.getDrawables().add(createEnemyView(n));
-                dataBase.movables.add(n);
+                dataBase.getGamePanelModel().movables.add(n);
                 panelModel.enemies ++;
             }
             panelModel.start = true;

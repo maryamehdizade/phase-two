@@ -2,10 +2,11 @@ package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
+import model.model.Enemy;
 import model.movement.Movable;
 import sound.Sound;
 import view.charactersView.BulletView;
@@ -17,7 +18,6 @@ import java.awt.geom.Point2D;
 
 import static controller.Controller.createCollectableView;
 import static controller.Util.Util.addVector;
-import static controller.constants.AttackConstants.*;
 import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.MAX_SIZE;
 import static controller.constants.EntityConstants.OMENOCT_SIZE;
@@ -50,33 +50,33 @@ public class CollisionUtil {
         checkDeath(r);
     }
     public static void checkLeftOmenocts(){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            Movable o = dataBase.movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getX() < 1){
+        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
+            Movable o = dataBase.getGamePanelModel().movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getX() == 0){
                 injured(o);
             }
         }
     }
     public static void checkRightOmenocts(){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            Movable o = dataBase.movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE + 5 > panel.getWidth()){
+        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
+            Movable o = dataBase.getGamePanelModel().movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE == panel.getWidth()){
                 injured(o);
             }
         }
     }
     public static void checkDownOmenocts(){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            Movable o = dataBase.movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE + 5 > panel.getHeight()){
+        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
+            Movable o = dataBase.getGamePanelModel().movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE == panel.getHeight()){
                 injured(o);
             }
         }
     }
     public static void checkTopOmenocts(){
-        for (int i = 0; i < dataBase.movables.size(); i++) {
-            Movable o = dataBase.movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getY() < 1){
+        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
+            Movable o = dataBase.getGamePanelModel().movables.get(i);
+            if(o instanceof Omenoctmodel && o.getLoc().getY() == 0){
                 injured(o);
             }
         }
@@ -84,7 +84,7 @@ public class CollisionUtil {
 
     private static void entityDeath(Movable m) {
         Sound.sound().death();
-        dataBase.movables.remove(m);
+        dataBase.getGamePanelModel().movables.remove(m);
         if(m instanceof NecropickModel)((NecropickModel) m).timer.stop();
         removeEntity(m);
         death(m);
@@ -109,8 +109,8 @@ public class CollisionUtil {
     }
     public static void reduceHp( Enemy movable){
         int w = movable.meleePower;
-        dataBase.playerModel.setHp( dataBase.playerModel.getHp() - w);
-        checkDeath(dataBase.playerModel);
+        dataBase.getGamePanelModel().playerModel.setHp( dataBase.getGamePanelModel().playerModel.getHp() - w);
+        checkDeath(dataBase.getGamePanelModel().playerModel);
     }
     private static void checkDeath(Movable r){
         if (r.getHp() <= 0) {
@@ -121,8 +121,8 @@ public class CollisionUtil {
 
     public static void reduceHp(EnemyBullets bullet){
         int w = bullet.creator.rangedPower;
-        dataBase.playerModel.setHp(dataBase.playerModel.getHp() - w);
-        if( dataBase.playerModel.getHp() <= 0){
+        dataBase.getGamePanelModel().playerModel.setHp(dataBase.getGamePanelModel().playerModel.getHp() - w);
+        if( dataBase.getGamePanelModel().playerModel.getHp() <= 0){
             update.gameOver();
         }
     }
@@ -135,7 +135,7 @@ public class CollisionUtil {
                     break;
                 }
         }
-        dataBase.movables.remove(bulletModel);
+        dataBase.getGamePanelModel().movables.remove(bulletModel);
     }
     public static void removeEnemyBullet(EnemyBullets e){
         for (int i = 0; i < panel.getDrawables().size(); i++) {

@@ -1,22 +1,22 @@
-package model.characterModel.enemy;
+package model.model;
 
 import model.characterModel.PlayerModel;
 
 import java.awt.geom.Point2D;
 
-public class Enemy {
-    PlayerModel playerModel = PlayerModel.getPlayer();
-    double xvelocity;
-    double yvelocity;
+public class Enemy extends Entity{
+    public PlayerModel playerModel = PlayerModel.getPlayer();
+    public double xvelocity;
+    public double yvelocity;
     public double counter;
     public int collectables;
     public int collectablesXp;
     public int meleePower;
     public int rangedPower;
-    double speed = 1;
-    double m;
-    boolean solid;
-    void findPlayer(Point2D loc){
+    public double speed = 1;
+    public double m;
+    public boolean solid;
+    public void findPlayer(Point2D loc){
         m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
         setVel();
     }

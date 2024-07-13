@@ -1,6 +1,7 @@
 package model.characterModel.enemy;
 
 import model.characterModel.PlayerModel;
+import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 
@@ -10,7 +11,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
-import static controller.Util.Util.centerLoc;
 import static controller.Util.Util.distance;
 import static controller.constants.CollectableConstans.*;
 import static controller.constants.AttackConstants.NECRO_RANGED;

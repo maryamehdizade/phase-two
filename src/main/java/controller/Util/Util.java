@@ -1,13 +1,12 @@
 package controller.Util;
 
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.EnemyBullets;
 import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
-import view.pages.GamePanel;
 
 import java.awt.geom.Point2D;
 import java.util.Random;

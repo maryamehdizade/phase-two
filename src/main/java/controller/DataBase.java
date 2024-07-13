@@ -1,7 +1,7 @@
 package controller;
 
 import controller.Util.SkillTreeHandler;
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
 import model.characterModel.enemy.EnemyBullets;
@@ -14,29 +14,22 @@ import static controller.constants.Constant.PANEL_LOCATION;
 
 public class DataBase {
     GamePanelModel gamePanelModel;
-    public ArrayList<Movable> movables;
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
-    public PlayerModel playerModel;
     public ArrayList<EnemyBullets> enemyBullets = new ArrayList<>();
 
     private static DataBase dataBase;
     public SkillTreeHandler handler;
     private DataBase(){
+        gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION,false,false);
 
-        movables = new ArrayList<>();
-
-        gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION);
-        playerModel = PlayerModel.getPlayer();
-        gamePanelModel.playerModel = playerModel;
-        movables.add(playerModel);
 
         handler = new SkillTreeHandler(gamePanelModel);
     }
     public void setXp(int xp){
-        playerModel.setXp(xp);
+        gamePanelModel.playerModel.setXp(xp);
     }
     public void setHp(int hp){
-        playerModel.setHp(hp);
+        gamePanelModel.playerModel.setHp(hp);
     }
 
     public static DataBase getDataBase() {

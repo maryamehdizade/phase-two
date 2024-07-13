@@ -27,16 +27,15 @@ public class MyListner implements KeyListener, MouseListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_A) {
-            dataBase.playerModel.setlForce(true);
+            dataBase.getGamePanelModel().playerModel.setlForce(true);
         } else if (keyCode == KeyEvent.VK_D) {
-             dataBase.playerModel.setrForce(true);
+             dataBase.getGamePanelModel().playerModel.setrForce(true);
         } else if (keyCode == KeyEvent.VK_W) {
-             dataBase.playerModel.setuForce(true);
+             dataBase.getGamePanelModel().playerModel.setuForce(true);
         } else if (keyCode == KeyEvent.VK_S) {
-             dataBase.playerModel.setdForce(true);
+             dataBase.getGamePanelModel().playerModel.setdForce(true);
         }
         if(keyCode == KeyEvent.VK_SPACE){
-
             new Store(panel);
         }
     }
@@ -46,29 +45,29 @@ public class MyListner implements KeyListener, MouseListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_D) {
-             dataBase.playerModel.setrForce(false);
-             dataBase.playerModel.setR0Force(true);
+             dataBase.getGamePanelModel().playerModel.setrForce(false);
+             dataBase.getGamePanelModel().playerModel.setR0Force(true);
         }
         if (keyCode == KeyEvent.VK_A) {
-             dataBase.playerModel.setlForce(false);
-             dataBase.playerModel.setL0Force(true);
+             dataBase.getGamePanelModel().playerModel.setlForce(false);
+             dataBase.getGamePanelModel().playerModel.setL0Force(true);
         }
         if (keyCode == KeyEvent.VK_S) {
-             dataBase.playerModel.setdForce(false);
-             dataBase.playerModel.setD0Force(true);
+             dataBase.getGamePanelModel().playerModel.setdForce(false);
+             dataBase.getGamePanelModel().playerModel.setD0Force(true);
         }
         if (keyCode == KeyEvent.VK_W) {
-             dataBase.playerModel.setuForce(false);
-             dataBase.playerModel.setU0Force(true);
+             dataBase.getGamePanelModel().playerModel.setuForce(false);
+             dataBase.getGamePanelModel().playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
 //            if(Menu.getMenu().proteus){
 //                if(dataBase.getGamePanelModel().proteusCount == 0) {
-//                    if( dataBase.playerModel.getXp() >= 100) {
-                         dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
+//                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.proteus = true;
                         dataBase.getGamePanelModel().proteusCount ++;
-                         dataBase.playerModel.setLevelUp( dataBase.playerModel.getLevelUp() + 1);
+                         dataBase.getGamePanelModel().playerModel.setLevelUp( dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
 
 //                    }
 //                }
@@ -77,8 +76,8 @@ public class MyListner implements KeyListener, MouseListener {
         if(keyCode == KeyEvent.VK_C){
             if(Menu.getMenu().aceso){
                 if(dataBase.getGamePanelModel().acesoCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
-                         dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
+                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.aceso = true;
                         dataBase.getGamePanelModel().heal ++;
                         dataBase.getGamePanelModel().acesoCount ++;
@@ -89,8 +88,8 @@ public class MyListner implements KeyListener, MouseListener {
         if(keyCode == KeyEvent.VK_R){
             if(Menu.getMenu().ares){
                 if(dataBase.getGamePanelModel().aresCount == 0) {
-                    if( dataBase.playerModel.getXp() >= 100) {
-                         dataBase.playerModel.setXp( dataBase.playerModel.getXp() -100);
+                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
                         dataBase.handler.ares = true;
                         dataBase.getGamePanelModel().aresCount++;
@@ -107,9 +106,9 @@ public class MyListner implements KeyListener, MouseListener {
         int n = 0;
         if(dataBase.getGamePanelModel().empower)n = 2;
         for (int i = -1; i < n; i++) {
-            BulletModel model = new BulletModel(playerCenter( dataBase.playerModel), targetX + i * n * 10,
+            BulletModel model = new BulletModel(playerCenter( dataBase.getGamePanelModel().playerModel), targetX + i * n * 10,
                     targetY + i * n * 10);
-            dataBase.movables.add(model);
+            dataBase.getGamePanelModel().movables.add(model);
             panel.getDrawables().add(createBulletView(model));
         }
 

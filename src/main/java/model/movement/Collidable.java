@@ -3,10 +3,10 @@ package model.movement;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.ArchmireModel;
-import model.characterModel.enemy.Enemy;
+import model.model.Enemy;
 import model.characterModel.enemy.EnemyBullets;
+import model.characterModel.enemy.WyrmModel;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -123,7 +123,7 @@ public interface Collidable {
                                         if (m.doesMeleeAtack()) {
                                             //reduce n hp
                                             if (n instanceof PlayerModel) reduceHp((Enemy) m);
-                                            else injured(n);
+                                            else if(!(n instanceof WyrmModel))injured(n);
                                         }
                                     }
                                     impact(new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]), IMPACT_RANGE);
@@ -146,7 +146,7 @@ public interface Collidable {
                                     if (p.contains(m.getxPoints()[i], m.getyPoints()[i])) {
                                         if (m instanceof PlayerModel) {
                                             //reduce n hp
-                                            injured(n);
+                                            if(!(n instanceof WyrmModel))injured(n);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
@@ -172,7 +172,7 @@ public interface Collidable {
                                     if (p.contains(n.getxPoints()[i], n.getyPoints()[i])) {
                                         if (n instanceof PlayerModel) {
                                             //reduce m hp
-                                            injured(m);
+                                            if(!(n instanceof WyrmModel))injured(m);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);

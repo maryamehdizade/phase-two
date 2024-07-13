@@ -1,5 +1,7 @@
 package model.characterModel.enemy;
 
+import model.model.Enemy;
+
 import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.util.UUID;

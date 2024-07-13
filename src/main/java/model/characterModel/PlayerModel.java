@@ -1,5 +1,6 @@
 package model.characterModel;
 
+import model.model.Entity;
 import model.movement.Collidable;
 import model.movement.Movable;
 
@@ -11,7 +12,7 @@ import static controller.Util.Util.addVector;
 import static controller.constants.EntityConstants.BALL_SIZE;
 
 
-public final class PlayerModel implements Movable, Collidable {
+public final class PlayerModel extends Entity implements Movable, Collidable {
     
     private double panelW,panelH;
     public int shoots;

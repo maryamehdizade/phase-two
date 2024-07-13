@@ -1,6 +1,6 @@
 package controller;
 
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;

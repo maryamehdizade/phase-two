@@ -2,7 +2,7 @@ package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
-import model.GamePanelModel;
+import model.model.GamePanelModel;
 import sound.Sound;
 
 public class Waves {
@@ -19,14 +19,14 @@ public class Waves {
     }
 
     public static void Wave() {
-        if (panelModel.enemies >= 10 && panelModel.wave1 && panelModel.start && dataBase.movables.size() == 1) {
+        if (panelModel.enemies >= 10 && panelModel.wave1 && panelModel.start && dataBase.getGamePanelModel().movables.size() == 1) {
 
             waveChange();
 
-        } else if (panelModel.enemies >= 15 && panelModel.wave2 && dataBase.movables.size() == 1) {
+        } else if (panelModel.enemies >= 15 && panelModel.wave2 && dataBase.getGamePanelModel().movables.size() == 1) {
             waveChange();
 
-        } else if (panelModel.wave == 3 && dataBase.movables.size() == 1 && panelModel.enemies >= 20) {
+        } else if (panelModel.wave == 3 && dataBase.getGamePanelModel().movables.size() == 1 && panelModel.enemies >= 20) {
             panelModel.victory = true;
         }
     }

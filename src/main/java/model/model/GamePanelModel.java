@@ -1,9 +1,11 @@
-package model;
+package model.model;
 
 import model.characterModel.PlayerModel;
+import model.movement.Movable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -32,10 +34,19 @@ public class GamePanelModel {
     public int acesoCount ;
     public int proteusCount ;
     public int power;
+    public boolean isometric;
+    public boolean rigidBody;
     private Dimension dimension;
    public PlayerModel playerModel;
+    public ArrayList<Movable> movables;
 
-    public GamePanelModel(Point location, Dimension dimension) {
+    public GamePanelModel(Point location, Dimension dimension, boolean rigidBody, boolean isometric) {
+        movables = new ArrayList<>();
+        playerModel = PlayerModel.getPlayer();
+        movables.add(playerModel);
+
+        this.rigidBody = rigidBody;
+        this.isometric= isometric;
         power = EPSILON_POWER;
         this.dimension = dimension;
         this.id = UUID.randomUUID().toString();
