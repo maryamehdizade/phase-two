@@ -36,6 +36,11 @@ public class EnemyBullets implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
 
         xvelocity = (Math.cos(m) ) * speed/2;

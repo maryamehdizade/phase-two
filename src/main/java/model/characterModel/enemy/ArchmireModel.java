@@ -10,7 +10,7 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     private int hp = 30;
     private String id;
     private Point2D loc;
-    private int speed = 2;
+    private int speed = 1000;
     private double xvelocity;
     private double yvelocity;
     private int drown;
@@ -42,6 +42,12 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     }
     @Override
     public boolean rigidBody() {return false;}
+
+    @Override
+    public boolean solid() {
+        return false;
+    }
+
     @Override
     public int move() {
         m = Math.atan2((playerModel.getLoc().getY() - loc.getY()), (playerModel.getLoc().getX() - loc.getX()));

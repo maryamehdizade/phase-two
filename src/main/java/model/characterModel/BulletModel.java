@@ -60,6 +60,11 @@ public class BulletModel implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
         loc = new Point2D.Double(loc.getX() + dx, loc.getY() + dy);
 

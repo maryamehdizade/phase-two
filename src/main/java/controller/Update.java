@@ -70,7 +70,7 @@ public class Update {
         random = new Random();
 
         initialDataBase();
-        bound = Menu.getMenu().bound;
+        bound = 100;
 
         panel = creatGamePanel(panelModel);
         a = Menu.getMenu().aa;

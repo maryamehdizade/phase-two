@@ -47,6 +47,11 @@ public class RectangleModel extends Enemy  implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
 
         if(!impact) {

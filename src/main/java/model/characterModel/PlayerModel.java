@@ -69,6 +69,11 @@ public final class PlayerModel implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
         if(impact){
              setLocation(new Point2D.Double( getLocation().getX() - xvelocity,

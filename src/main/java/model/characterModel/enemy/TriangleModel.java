@@ -37,6 +37,11 @@ public class TriangleModel extends Enemy implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
         if(!impact) {
              m = Math.atan2((playerModel.getLocation().getY() - y1), (playerModel.getLocation().getX() - x1));

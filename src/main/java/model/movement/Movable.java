@@ -10,6 +10,7 @@ import static controller.constants.EntityConstants.*;
 
 public interface Movable {
     boolean rigidBody();
+    boolean solid();
     int move();
 
     void move(double velocity);

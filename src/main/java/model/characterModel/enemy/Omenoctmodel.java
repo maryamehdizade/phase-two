@@ -61,6 +61,11 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return false;
+    }
+
+    @Override
     public int move() {
         findNearestWall();
 

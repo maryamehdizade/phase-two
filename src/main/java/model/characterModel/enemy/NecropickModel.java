@@ -101,6 +101,11 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
     }
 
     @Override
+    public boolean solid() {
+        return true;
+    }
+
+    @Override
     public int move() {
 
         return 0;
