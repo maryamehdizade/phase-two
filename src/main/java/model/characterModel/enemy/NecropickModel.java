@@ -26,6 +26,7 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
     public Timer timer;
     public int bullets;
     public boolean visible = true;
+    public Point2D preLoc = new Point2D.Double();
 
     public NecropickModel() {
         id = UUID.randomUUID().toString();

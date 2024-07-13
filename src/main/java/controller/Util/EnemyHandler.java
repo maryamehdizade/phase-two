@@ -15,6 +15,7 @@ import static controller.Controller.createEnemyView;
 
 public class EnemyHandler {
     private static DataBase dataBase;
+    static boolean z = false;
     private static GamePanelModel panelModel;
     private static GamePanel panel;
     private static int bound;
@@ -29,32 +30,34 @@ public class EnemyHandler {
     }
 
     public static void addingEnemies(){
-        if (random.nextDouble(0, bound) < 1) {
-            if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
-                    (panelModel.wave == 3 && panelModel.enemies <= 20)) {
-                Sound.sound().entrance();
-                Movable n ;
-                if(Game.getGame().getPhase() == 0) {
-                    if (panelModel.random.nextInt(0, 2) == 1) {
-                        n = new TriangleModel();
+        if(!z) {
+            if (random.nextDouble(0, bound) < 1) {
+                if ((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
+                        (panelModel.wave == 3 && panelModel.enemies <= 20)) {
+                    Sound.sound().entrance();
+                    Movable n;
+                    if (Game.getGame().getPhase() == 0) {
+                        if (panelModel.random.nextInt(0, 2) == 1) {
+                            n = new TriangleModel();
+                        } else {
+                            n = new RectangleModel();
+                        }
                     } else {
-                        n = new RectangleModel();
+                        if (panelModel.random.nextInt(0, 2) == 1) {
+                            n = new Omenoctmodel();
+                        } else if (panelModel.random.nextInt(0, 2) == 1) {
+                            n = new NecropickModel();
+                            z = true;
+                        } else {
+                            n = new ArchmireModel();
+                        }
                     }
-                }else{
-                    if (panelModel.random.nextInt(0, 2) == 1){
-                        n = new Omenoctmodel();
-                    }else if (panelModel.random.nextInt(0, 2) == 1){
-                        n = new NecropickModel();
-                    }else{
-                        n = new ArchmireModel();
-                        System.out.println("arc");
-                    }
+                    panel.getDrawables().add(createEnemyView(n));
+                    dataBase.movables.add(n);
+                    panelModel.enemies++;
                 }
-                panel.getDrawables().add(createEnemyView(n));
-                dataBase.movables.add(n);
-                panelModel.enemies ++;
+                panelModel.start = true;
             }
-            panelModel.start = true;
         }
     }
 }

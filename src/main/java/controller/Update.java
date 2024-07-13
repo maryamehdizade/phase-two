@@ -22,6 +22,7 @@ import view.pages.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 import java.util.Random;
 import static controller.Controller.*;
 import static controller.Util.EnemyHandler.addingEnemies;
@@ -184,6 +185,7 @@ public class Update {
                 n.setLoc(d.getLoc());
                 n.visible = ((NecropickModel) d).visible;
                 n.setHp(d.getHp());
+                n.preLoc = ((NecropickModel) d).preLoc;
             }
         }
     }
@@ -337,14 +339,18 @@ public class Update {
             necro.collides = false;
             necro.bullets = 0;
             necro.sec = 0;
-        }else if(necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible){
+        }else if(necro.sec%2 == 0 && !necro.visible && necro.sec !=0 && Objects.equals(necro.preLoc, new Point2D.Double(0, 0))){
             necro.findPlayer(necro.getLoc());
+            necro.preLoc = necro.getLoc();
+        }
+        else if(necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible){
             necro.visible = true;
             necro.collides = true;
             necro.sec = 0;
+            necro.preLoc = new Point2D.Double();
         }
         if(necro.visible){
-            if(necro.bullets < 8 && Math.random() < 0.002) {
+            if(necro.bullets < 8 && Math.random() < 0.004) {
                 EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(
                         Math.random()*panelModel.getDimension().getWidth(),
                         panelModel.getDimension().getHeight()*Math.random()), necro, true);
