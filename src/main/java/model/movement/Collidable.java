@@ -19,52 +19,61 @@ import static controller.Util.CollisionUtil.*;
 public interface Collidable {
     default void collision(Movable m) {
         Movable n = (Movable) this;
-        if (n instanceof ArchmireModel) {
-            if (!(m instanceof BulletModel)&& m!=n) {
+        if (m instanceof ArchmireModel) {
+            if ( m!=n) {
                 if (distance(centerLoc(n), centerLoc(m)) <= Math.abs(n.size()/2)) {
-                    if(m instanceof Enemy) {
-                        Enemy e = (Enemy) m;
+                    if(n instanceof Enemy) {
+                        Enemy e = (Enemy) n;
                         e.counter += 0.1;
 
                         if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                            drownDamage(m, (ArchmireModel) n);
+                            drownDamage(n, (ArchmireModel) m);
                         }
                         if (distance(centerLoc(n), centerLoc(m)) > Math.abs(n.size() / 2))
                             e.counter = 0;
                     }
-                    else{
-                        PlayerModel e = (PlayerModel) m;
+                    else if(n instanceof PlayerModel){
+                        PlayerModel e = (PlayerModel) n;
                         e.counter += 0.1;
 
                         if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                            drownDamage(m, (ArchmireModel) n);
+                            drownDamage(n, (ArchmireModel) m);
                         }
                         if (distance(centerLoc(n), centerLoc(m)) > Math.abs(n.size() / 2))
                             e.counter = 0;
+                    }
+                }else if(n instanceof BulletModel){
+                    if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
+
+                        //reduce m hp and remove bullet
+                        removeBullet((BulletModel) n);
+                        injured(m);
+
                     }
                 }
                 else {
-                    for (int i = 0; i < ((ArchmireModel) n).getTrace().size(); i += n.size()/2) {
-                        boolean a = distance(addVector(((ArchmireModel) n).getTrace().get(i), new Point2D.Double(n.size() / 2, n.size() / 2))
-                                , centerLoc(m)) <= Math.abs( n.size()/2);
+                    for (int i = 0; i < ((ArchmireModel) m).getTrace().size(); i += m.size()/2) {
+                        boolean a = distance(addVector(((ArchmireModel) m).getTrace().get(i), new Point2D.Double(m.size() / 2,
+                                        m.size() / 2)), centerLoc(n)) <= Math.abs(n.size()/2);
+
                         if (a) {
-                            if(m instanceof Enemy) {
-                                Enemy e = (Enemy) m;
+                            if(n instanceof Enemy) {
+                                Enemy e = (Enemy) n;
                                 e.counter += 0.1;
                                 if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                                    aoeDamage(m, (ArchmireModel) n);
+                                    aoeDamage(n, (ArchmireModel) m);
                                 }
-                                if (distance(addVector(((ArchmireModel) n).getTrace().get(i), new Point2D.Double(ARCH_SIZE / 2, ARCH_SIZE / 2)),
-                                        centerLoc(m)) > Math.abs(n.size() / 2))
+                                if (distance(addVector(((ArchmireModel) m).getTrace().get(i), new Point2D.Double(ARCH_SIZE / 2,
+                                                ARCH_SIZE / 2)), centerLoc(n)) > Math.abs(n.size() / 2))
                                     e.counter = 0;
                             }else{
-                                PlayerModel e = (PlayerModel) m;
+                                PlayerModel e = (PlayerModel) n;
                                 e.counter += 0.1;
                                 if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                                    aoeDamage(m, (ArchmireModel) n);
+                                    aoeDamage(n, (ArchmireModel) m);
                                 }
-                                if (distance(addVector(((ArchmireModel) n).getTrace().get(i), new Point2D.Double(ARCH_SIZE / 2, ARCH_SIZE / 2)),
-                                        centerLoc(m)) > Math.abs(n.size() / 2))
+                                if (distance(addVector(((ArchmireModel) m).getTrace().get(i), new Point2D.Double(ARCH_SIZE / 2,
+                                                ARCH_SIZE / 2)), centerLoc(n)) > Math.abs(n.size() / 2))
                                     e.counter = 0;
                             }
                         }
@@ -78,6 +87,7 @@ public interface Collidable {
                         if (n instanceof BulletModel) {
                             if (m instanceof Enemy) {
                                 if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
+
                                     //reduce m hp and remove bullet
                                     removeBullet((BulletModel) n);
                                     injured(m);

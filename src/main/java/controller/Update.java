@@ -210,7 +210,7 @@ public class Update {
             else if (m instanceof RectangleModel) updateRecs(m);
             else if (m instanceof Omenoctmodel) updateOmenoct(m);
             else if(m instanceof NecropickModel)updateNecro((NecropickModel) m);
-            else if(m instanceof ArchmireModel)updateArchModel(m);
+            else if(m instanceof ArchmireModel)updateArchModel((ArchmireModel) m);
 
             updateEnemyBullet();
         }
@@ -363,7 +363,7 @@ public class Update {
 
     }
 
-    private void updateArchModel(Movable arc){
+    private void updateArchModel(ArchmireModel arc){
         arc.move();
         checkCollision(arc);
     }
@@ -463,7 +463,6 @@ public class Update {
             Collidable c = (Collidable) dataBase.movables.get(i);
             c.collision(movable);
         }
-
     }
 
     Timer t;
