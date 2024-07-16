@@ -24,6 +24,7 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
         createArch();
     }
     private void createArch(){
+        move = true;
         collectables = arch;
         collectablesXp = arch_xp;
         aoe = ARC_AOE;

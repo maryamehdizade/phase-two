@@ -94,6 +94,9 @@ public class Update {
                 if(dismaySec == 10){
                     dismaySec = 0;
                     dismay = false;
+                    for (Movable m:dataBase.gamePanelModel.movables) {
+                        if(m instanceof Enemy)((Enemy)m).move = true;
+                    }
                 }
             }
             second += 1;
@@ -106,6 +109,7 @@ public class Update {
         waves = new Waves(this);
 
     }
+    private boolean s=true;
     public void updateView(){
         updatePanelDrawables();
         Util.model = dataBase.gamePanelModel;
@@ -245,7 +249,7 @@ public class Update {
             if(dismay) {
                 for (Movable p :
                         dataBase.gamePanelModel.movables) {
-                    if (m.collides()&& distance(m.getLoc(),panelModel.playerModel.getLoc()) <= 100)
+                    if (p instanceof Enemy && m.collides() && distance(m.getLoc(),panelModel.playerModel.getLoc()) <= 100)
                         ((Enemy)p).move = false;
                 }
             }
@@ -274,8 +278,9 @@ public class Update {
         moveEpsilon();
     }
     private void timeCheck(){
-        if(second <= 1){
+        if(second <= 1 && s){
             initialGame();
+            s = false;
         }
         if(second >= 10) {
             panelModel.shrinkage();

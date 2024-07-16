@@ -71,7 +71,6 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     public int move() {
         if(move) {
             findNearestWall();
-
             if (!impact) {
                 if (!checkX() || !checkY()) {
                     findNearestWall();
@@ -85,14 +84,6 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
             if (count >= 10) {
                 impact = false;
             }
-
-
-//        System.out.print(loc.getX() + "    " + loc.getY());
-//        System.out.print("     d:  " + destination.getX() + "  " + destination.getY());
-//        System.out.print("     playre:  " + playerModel.getLocation().getX() + "   " + playerModel.getLocation().getY());
-//        System.out.println("      " + xvelocity + "    " + yvelocity);
-
-
             loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
 
             xPoints = new int[]{(int) loc.getX() + OMENOCT_SIZE / 3, (int) (loc.getX() + OMENOCT_SIZE * 2 / 3),
@@ -127,24 +118,6 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
         yvelocity = (Math.sin(m) ) * speed;
 
     }
-
-    private void verticalMovement() {
-
-        if ((int) loc.getY() > (int) destination.getY()) speed = -1;
-        else if ((int) loc.getY() < (int) destination.getY()) speed = 1;
-//        if(loc.getX() != destination.getX())speed *= -1;
-        yvelocity = speed * n;
-    }
-
-    private void horizonMovement() {
-        if ((int) loc.getX() > (int) destination.getX()) speed = -1;
-        else if ((int) loc.getX() < (int) destination.getX()) speed = 1;
-//    if(loc.getY()!= destination.getY()) speed *= -1;
-        xvelocity = speed * n;
-
-    }
-
-
     private void findNearestWall() {
         double xDis = loc.getX();
         double xDis2 = (panelW - loc.getX());

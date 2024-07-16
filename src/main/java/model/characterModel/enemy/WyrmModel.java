@@ -26,7 +26,7 @@ public class WyrmModel extends Enemy implements Movable, Collidable {
         createWrym();
     }
     private void createWrym(){
-//        move = true;
+        move = true;
         collectables = wyrm;
         collectablesXp = wyrm_xp;
         rangedPower = WYRM_RANGED;
@@ -80,38 +80,34 @@ public class WyrmModel extends Enemy implements Movable, Collidable {
 
     @Override
     public int move() {
-
-        if(distance(loc,playerModel.getLoc()) >= 250){
-            currentAngel = 0;
-            m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
-                    (playerModel.getLocation().getX() - loc.getX()));
-            xvelocity = (Math.cos( m)) * speed;
-            yvelocity = (Math.sin( m)) * speed;
-            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
-        }else if(distance(loc,playerModel.getLoc()) <= 100){
-            currentAngel = 0;
-            m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
-                    (playerModel.getLocation().getX() - loc.getX()));
-            xvelocity = (Math.cos( m)) * speed;
-            yvelocity = (Math.sin( m)) * speed;
-            loc = new Point2D.Double(loc.getX() - xvelocity, loc.getY() - yvelocity);
-
-        }
-        else {
-            double dis = distance(playerModel.getLocation(), loc);
-             xvelocity = 0;
-            yvelocity = 0;
-            if(currentAngel == 0){
-                currentAngel = Math.atan2(playerModel.getLocation().getY() - loc.getY(),
-                        loc.getX() - playerModel.getLocation().getX());
+        if(move) {
+            if (distance(loc, playerModel.getLoc()) >= 250) {
+                currentAngel = 0;
+                m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
+                        (playerModel.getLocation().getX() - loc.getX()));
+                xvelocity = (Math.cos(m)) * speed;
+                yvelocity = (Math.sin(m)) * speed;
+                loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            } else if (distance(loc, playerModel.getLoc()) <= 150) {
+                currentAngel = 0;
+                m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
+                        (playerModel.getLocation().getX() - loc.getX()));
+                xvelocity = (Math.cos(m)) * speed;
+                yvelocity = (Math.sin(m)) * speed;
+                loc = new Point2D.Double(loc.getX() - xvelocity, loc.getY() - yvelocity);
+            } else {
+                double dis = distance(playerModel.getLocation(), loc);
+                xvelocity = 0;
+                yvelocity = 0;
+                if (currentAngel == 0) {
+                    currentAngel = Math.atan2(playerModel.getLocation().getY() - loc.getY(),
+                            loc.getX() - playerModel.getLocation().getX());
+                }
+                loc = new Point2D.Double(playerModel.getLocation().getX() + dis * Math.cos(currentAngel),
+                        playerModel.getLocation().getY() - dis * Math.sin(currentAngel));
+                currentAngel += delta;
             }
-            loc = new Point2D.Double(playerModel.getLocation().getX() + dis*Math.cos(currentAngel),
-                    playerModel.getLocation().getY() - dis*Math.sin(currentAngel));
-            currentAngel += delta;
         }
-
-
-
         return 0;
     }
 

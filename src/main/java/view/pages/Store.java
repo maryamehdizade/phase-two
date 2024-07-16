@@ -80,11 +80,11 @@ public class Store extends JFrame  {
         dismay.setBackground(color);
         dismay.setFont(new Font("TimesRoman", Font.PLAIN, font));
         dismay.addActionListener(e -> {
-            if(panel. playerView.getXp() >= 120){
+//            if(panel. playerView.getXp() >= 120){
                 panel. playerView.setXp(panel.playerView.getXp() - 120);
                 update.dataBase.setXp(panel.playerView.getXp());
                 update.dismay = true;
-            }
+//            }
         });
 
 

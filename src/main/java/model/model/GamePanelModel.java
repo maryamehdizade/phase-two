@@ -60,7 +60,7 @@ public class GamePanelModel {
     public void xmin(){
         if( getDimension().width > MIN_SIZE.width) {
              getDimension().width -= 1;
-            if( getLoc().getX() < 200)  getLoc().setLocation( getLoc().getX() + 0.5,  getLoc().getY() );
+            if( getLoc().getX() < MIN_SIZE.getWidth())  getLoc().setLocation( getLoc().getX() + 0.5,  getLoc().getY() );
         }
         if( playerModel.getLocation().getX() + BALL_SIZE >  getDimension().getWidth()){
             playerModel.setLocation(
@@ -75,7 +75,7 @@ public class GamePanelModel {
     public void ymin(){
         if( getDimension().height > MIN_SIZE.height) {
              getDimension().height -= 1;
-            if( getLoc().getY() < 200)  getLoc().setLocation( getLoc().getX(),  getLoc().getY() + 0.5);
+            if( getLoc().getY() < MIN_SIZE.getHeight())  getLoc().setLocation( getLoc().getX(),  getLoc().getY() + 0.5);
         }
         if ( playerModel.getLocation().getY() + BALL_SIZE>  getDimension().getHeight()) {
             playerModel.setLocation(
