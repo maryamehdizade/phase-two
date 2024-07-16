@@ -48,7 +48,7 @@ public interface Collidable {
                         //reduce m hp and remove bullet
                         removeBullet((BulletModel) n);
                         injured(m);
-
+                        impact(centerLoc(n),IMPACT_RANGE);
                     }
                 }
                 else {
@@ -91,7 +91,7 @@ public interface Collidable {
                                     //reduce m hp and remove bullet
                                     removeBullet((BulletModel) n);
                                     injured(m);
-
+                                    impact(collisionPoint(centerLoc(m), centerLoc(n)),IMPACT_RANGE);
                                 }
                             }
                         } else if (!(m instanceof BulletModel)) {
@@ -206,6 +206,7 @@ public interface Collidable {
                     if (distance(centerLoc(m), centerLoc(n)) <= m.size() + n.size()) {
                         removeEnemyBullet((EnemyBullets) n);
                         reduceHp((EnemyBullets) n);
+                        impact(centerLoc(n),IMPACT_RANGE);
                     }
                 }
             }

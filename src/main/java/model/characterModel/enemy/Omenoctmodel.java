@@ -83,6 +83,7 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
             }
             if (count >= 10) {
                 impact = false;
+                count = 0;
             }
             loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
 

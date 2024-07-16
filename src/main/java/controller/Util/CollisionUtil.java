@@ -52,7 +52,7 @@ public class CollisionUtil {
     public static void checkLeftOmenocts(){
         for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
             Movable o = dataBase.getGamePanelModel().movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getX() == 0){
+            if(o instanceof Omenoctmodel && o.getLoc().getX() <= 0 &&o.getLoc().getX()>= -5){
                 injured(o);
             }
         }
@@ -60,7 +60,7 @@ public class CollisionUtil {
     public static void checkRightOmenocts(){
         for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
             Movable o = dataBase.getGamePanelModel().movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE == panel.getWidth()){
+            if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE >= panel.getWidth() -5 &&o.getLoc().getX() + OMENOCT_SIZE <= panel.getWidth() +5){
                 injured(o);
             }
         }
@@ -68,7 +68,7 @@ public class CollisionUtil {
     public static void checkDownOmenocts(){
         for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
             Movable o = dataBase.getGamePanelModel().movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE == panel.getHeight()){
+            if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE >= panel.getHeight()-5&&o.getLoc().getY() + OMENOCT_SIZE <= panel.getHeight()+5){
                 injured(o);
             }
         }
@@ -76,7 +76,7 @@ public class CollisionUtil {
     public static void checkTopOmenocts(){
         for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
             Movable o = dataBase.getGamePanelModel().movables.get(i);
-            if(o instanceof Omenoctmodel && o.getLoc().getY() == 0){
+            if(o instanceof Omenoctmodel && o.getLoc().getY() <= 0&&o.getLoc().getY()>=-5){
                 injured(o);
             }
         }
