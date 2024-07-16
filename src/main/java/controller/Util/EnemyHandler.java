@@ -41,15 +41,15 @@ public class EnemyHandler {
                         n = new RectangleModel();
                     }
                 }else{
-                    if (panelModel.random.nextInt(0, 2) == 1){
+                    if (panelModel.random.nextInt(0, 2) == 1)
                         n = new Omenoctmodel();
-                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                    else if (panelModel.random.nextInt(0, 2) == 1)
                         n = new NecropickModel();
-                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                    else if (panelModel.random.nextInt(0, 2) == 1)
                         n = new ArchmireModel();
-                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                    else if (panelModel.random.nextInt(0, 2) == 1)
                         n = new WyrmModel();
-                    }else n = new BarricadosModel();
+                    else n = new BarricadosModel();
                 }
                 panel.getDrawables().add(createEnemyView(n));
                 dataBase.getGamePanelModel().movables.add(n);

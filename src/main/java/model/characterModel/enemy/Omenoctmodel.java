@@ -155,13 +155,13 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
         if (x >= y) {
             double yy = 0;
             if (yDis2 < yDis) yy = (panelH - OMENOCT_SIZE);
-            destination = new Point2D.Double(x, yy);
+            destination = new Point2D.Double(playerModel.getLocation().getX(), yy);
 
             xWall = false;
         }else {
             double xx = 0;
             if (xDis2 < xDis) xx = (panelW - OMENOCT_SIZE);
-            destination = new Point2D.Double(xx, y);
+            destination = new Point2D.Double(xx, playerModel.getLocation().getY());
             xWall = true;
         }
     }
