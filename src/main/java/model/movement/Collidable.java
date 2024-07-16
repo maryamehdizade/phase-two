@@ -98,6 +98,7 @@ public interface Collidable {
                             if (m.collides() && n.collides()) {
                                 if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
                                     //impact
+
                                     impact(collisionPoint(centerLoc(m), centerLoc(n)), IMPACT_RANGE);
                                 }
                             }

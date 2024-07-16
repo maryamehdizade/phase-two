@@ -36,7 +36,7 @@ public class GamePanelModel {
     public boolean isometric;
     public boolean rigidBody;
     private Dimension dimension;
-   public PlayerModel playerModel;
+    public PlayerModel playerModel;
     public ArrayList<Movable> movables;
 
     public GamePanelModel(Point location, Dimension dimension, boolean rigidBody, boolean isometric) {

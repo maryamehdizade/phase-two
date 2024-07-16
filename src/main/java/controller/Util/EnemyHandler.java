@@ -33,24 +33,24 @@ public class EnemyHandler {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
                     (panelModel.wave == 3 && panelModel.enemies <= 20)) {
                 Sound.sound().entrance();
-                Movable n = new WyrmModel();
-//                if(Game.getGame().getPhase() == 0) {
-//                    if (panelModel.random.nextInt(0, 2) == 1) {
-//                        n = new TriangleModel();
-//                    } else {
-//                        n = new RectangleModel();
-//                    }
-//                }else{
-//                    if (panelModel.random.nextInt(0, 2) == 1){
-//                        n = new Omenoctmodel();
-//                    }else if (panelModel.random.nextInt(0, 2) == 1){
-//                        n = new NecropickModel();
-//                    }else if (panelModel.random.nextInt(0, 2) == 1){
-//                        n = new ArchmireModel();
-//                    }else{
-//                        n = new WyrmModel();
-//                    }
-//                }
+                Movable n ;
+                if(Game.getGame().getPhase() == 0) {
+                    if (panelModel.random.nextInt(0, 2) == 1) {
+                        n = new TriangleModel();
+                    } else {
+                        n = new RectangleModel();
+                    }
+                }else{
+                    if (panelModel.random.nextInt(0, 2) == 1){
+                        n = new Omenoctmodel();
+                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                        n = new NecropickModel();
+                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                        n = new ArchmireModel();
+                    }else if (panelModel.random.nextInt(0, 2) == 1){
+                        n = new WyrmModel();
+                    }else n = new BarricadosModel();
+                }
                 panel.getDrawables().add(createEnemyView(n));
                 dataBase.getGamePanelModel().movables.add(n);
                 panelModel.enemies ++;

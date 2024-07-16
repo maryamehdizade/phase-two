@@ -15,7 +15,7 @@ import static controller.constants.Constant.*;
 import static controller.constants.EntityConstants.*;
 
 public class Util {
-    private static GamePanelModel model;
+    public static GamePanelModel model;
 
     public Util(GamePanelModel model) {
         this.model = model;
@@ -67,6 +67,11 @@ public class Util {
         }
         return new Point2D.Double(x, y);
     }
+    public static Point2D setLoc(){
+        Random random = new Random();
+        return new Point2D.Double(random.nextDouble(0,model.getDimension().getWidth())
+                ,random.nextDouble(0,model.getDimension().getHeight()));
+    }
     public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
     return e.getLoc().getX() + panel.getLoc().getX() <= 10 ||
             e.getLoc().getY() + panel.getLoc().getY() >= FRAME_DIMENSION.getHeight() - 10;
@@ -94,12 +99,6 @@ public class Util {
         return new Point2D.Double(playerModel.getLocation().getX() + BALL_SIZE / 2.0, playerModel.getLocation().getY() + BALL_SIZE / 2.0);
     }
 
-    public static Point2D rectCenter(RectangleModel rectangleModel) {
-        return new Point2D.Double(rectangleModel.getLoc().getX() + RECT_SIZE / 2.0, rectangleModel.getLoc().getY() + RECT_SIZE / 2.0);
-    }
-    public static Point2D triangleCenter(TriangleModel t) {
-        return new Point2D.Double((t.getX1() + t.getX2() + t.getX3())/3.0 , (t.getY1() + t.getY2() + t.getY3())/3.0);
-    }
     public static Point2D bulletCenter(BulletModel t) {
         return new Point2D.Double(t.getLoc().getX() + BULLET_SIZE/2.0, t.getLoc().getY() + BULLET_SIZE/2.0);
     }

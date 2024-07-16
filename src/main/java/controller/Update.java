@@ -71,6 +71,7 @@ public class Update {
         dataBase = DataBase.getDataBase();
         panelModel = dataBase.getGamePanelModel();
     }
+    private Util util;
     public Update() {
         random = new Random();
 
@@ -100,13 +101,14 @@ public class Update {
         time.start();
 
         new CollisionUtil(this);
-        new Util(dataBase.gamePanelModel);
+        util = new Util(dataBase.gamePanelModel);
         new EnemyHandler(this);
         waves = new Waves(this);
 
     }
     public void updateView(){
         updatePanelDrawables();
+        Util.model = dataBase.gamePanelModel;
     }
     private void updatePanelDrawables(){
         updatePanel();
@@ -124,6 +126,7 @@ public class Update {
         }
 
     }
+
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
             if(movable instanceof RectangleModel) {
@@ -237,6 +240,7 @@ public class Update {
             else if(m instanceof NecropickModel)updateNecro((NecropickModel) m);
             else if(m instanceof ArchmireModel)updateArchModel((ArchmireModel) m);
             else if(m instanceof WyrmModel)updateWrym(m);
+            else if(m instanceof BarricadosModel)updateBar((BarricadosModel) m);
 
             if(dismay) {
                 for (Movable p :
@@ -252,6 +256,18 @@ public class Update {
         updateCollectable();
         victory();
         timeCheck();
+    }
+    private void updateBar(BarricadosModel b){
+        if(b.sec >=120){
+            b.timer.stop();
+            dataBase.gamePanelModel.movables.remove(b);
+            for (int i = 0; i < panel.getDrawables().size(); i++) {
+                Drawable d = panel.getDrawables().get(i);
+                if(d instanceof BarricadosView&&d.getId().equals(b.getId()))
+                    panel.getDrawables().remove(d);
+            }
+        }
+        checkCollision(b);
     }
     private void epsilonCheck(){
         updateEpsilon();
@@ -328,6 +344,12 @@ public class Update {
     private void updateWrym(Movable m){
         m.move();
         checkCollision(m);
+
+        if (random.nextDouble(0,100) < 0.5) {
+            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.gamePanelModel.playerModel), (Enemy) m, false);
+            dataBase.enemyBullets.add(b);
+            panel.getDrawables().add(createEnemyBulletView(b));
+        }
     }
     private void updateOmenoct(Movable m) {
         m.setPanelW(panel.getWidth());

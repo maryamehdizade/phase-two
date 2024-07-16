@@ -81,14 +81,23 @@ public class WyrmModel extends Enemy implements Movable, Collidable {
     @Override
     public int move() {
 
-        if(distance(loc,playerModel.getLoc()) >= 200){
+        if(distance(loc,playerModel.getLoc()) >= 250){
             currentAngel = 0;
             m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
                     (playerModel.getLocation().getX() - loc.getX()));
             xvelocity = (Math.cos( m)) * speed;
             yvelocity = (Math.sin( m)) * speed;
             loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
-        }else {
+        }else if(distance(loc,playerModel.getLoc()) <= 100){
+            currentAngel = 0;
+            m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),
+                    (playerModel.getLocation().getX() - loc.getX()));
+            xvelocity = (Math.cos( m)) * speed;
+            yvelocity = (Math.sin( m)) * speed;
+            loc = new Point2D.Double(loc.getX() - xvelocity, loc.getY() - yvelocity);
+
+        }
+        else {
             double dis = distance(playerModel.getLocation(), loc);
              xvelocity = 0;
             yvelocity = 0;

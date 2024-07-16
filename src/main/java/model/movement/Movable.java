@@ -3,6 +3,7 @@ package model.movement;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
+import view.charactersView.enemy.BarricadosView;
 
 import java.awt.geom.Point2D;
 
@@ -45,6 +46,9 @@ public interface Movable {
             }
             case WyrmModel wyrmModel ->{
                 return WRYM_SIZE;
+            }
+            case BarricadosModel n ->{
+                return BAR_SIZE;
             }
             default -> {
                 return 0;
