@@ -4,6 +4,7 @@ import controller.DataBase;
 import model.characterModel.BulletModel;
 import view.pages.GamePanel;
 import view.pages.Menu;
+import view.pages.SkillTree;
 import view.pages.Store;
 
 import java.awt.event.KeyEvent;
@@ -61,7 +62,7 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.getGamePanelModel().playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P){
-//            if(Menu.getMenu().proteus){
+//            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.proteus))){
 //                if(dataBase.getGamePanelModel().proteusCount == 0) {
 //                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
@@ -74,7 +75,7 @@ public class MyListner implements KeyListener, MouseListener {
 //            }
         }
         if(keyCode == KeyEvent.VK_C){
-            if(Menu.getMenu().aceso){
+            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
                 if(dataBase.getGamePanelModel().acesoCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
@@ -83,10 +84,14 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().acesoCount ++;
                     }
                 }
+            }else if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
+
+            }else if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
+
             }
         }
         if(keyCode == KeyEvent.VK_R){
-            if(Menu.getMenu().ares){
+            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.ares))){
                 if(dataBase.getGamePanelModel().aresCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);

@@ -43,6 +43,9 @@ public interface Movable {
             case ArchmireModel archmireModel ->{
                 return ARCH_SIZE;
             }
+            case WyrmModel wyrmModel ->{
+                return WRYM_SIZE;
+            }
             default -> {
                 return 0;
             }

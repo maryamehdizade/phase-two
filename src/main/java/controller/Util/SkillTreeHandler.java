@@ -6,13 +6,11 @@ import model.model.GamePanelModel;
 import javax.swing.*;
 
 public class SkillTreeHandler {
-    private SkillTreeHandler handler;
-
     private double aresSec = 0;
     private double acesoSec = 0;
     private double proteusSec = 0;
     private double empowerSec;
-    public boolean ares ;
+    public boolean ares;
     public boolean aceso;
     public boolean proteus;
     public boolean acesoC;
@@ -24,7 +22,6 @@ public class SkillTreeHandler {
         time = new Timer(100, e -> {
             skiilTree();
             store();
-            
 //            if(update.over)stop();
 
         });

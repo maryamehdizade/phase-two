@@ -39,7 +39,6 @@ public final class PlayerModel extends Entity implements Movable, Collidable {
     private int[] yPoints = new int[0];
     private int levelUp = 0;
     private static PlayerModel player;
-    private JPanel panel;
     private String id;
     public double counter;
 
@@ -144,14 +143,6 @@ public final class PlayerModel extends Entity implements Movable, Collidable {
         }
     }
 
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void setPanel(JPanel panel) {
-        this.panel = panel;
-    }
 
     @Override
     public void setSpeed(double speed) {

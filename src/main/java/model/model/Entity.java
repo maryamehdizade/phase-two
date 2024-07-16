@@ -1,9 +1,13 @@
 package model.model;
 
+import java.awt.geom.Point2D;
+
 public class Entity {
     public GamePanelModel mainPanel;
-    public Entity clone(GamePanelModel model){
-
-        return null;
+    public Point2D loc;
+    public int size;
+    public Point2D getLoc() {
+        return loc;
     }
+
 }

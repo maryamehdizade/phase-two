@@ -35,6 +35,7 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
     }
 
     private void createOmenoct() {
+        move = true;
         collectables = omenoct;
         collectablesXp = omenoct_xp;
         meleePower = OMENOCT_MELEE_POWER;
@@ -68,21 +69,22 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
 
     @Override
     public int move() {
-        findNearestWall();
+        if(move) {
+            findNearestWall();
 
-        if (!impact) {
-            if (!checkX() || !checkY()) {
-                findNearestWall();
-                findPlayer();
+            if (!impact) {
+                if (!checkX() || !checkY()) {
+                    findNearestWall();
+                    findPlayer();
+                }
+
             }
-
-        }
-        if (impact) {
-            count++;
-        }
-        if (count >= 10) {
-            impact = false;
-        }
+            if (impact) {
+                count++;
+            }
+            if (count >= 10) {
+                impact = false;
+            }
 
 
 //        System.out.print(loc.getX() + "    " + loc.getY());
@@ -91,17 +93,17 @@ public class Omenoctmodel extends Enemy implements Movable, Collidable {
 //        System.out.println("      " + xvelocity + "    " + yvelocity);
 
 
-        loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
 
-        xPoints = new int[]{(int) loc.getX() + OMENOCT_SIZE / 3, (int) (loc.getX() + OMENOCT_SIZE * 2 / 3),
-                (int) (loc.getX() + OMENOCT_SIZE), (int) (loc.getX() + OMENOCT_SIZE), (int) (loc.getX() + OMENOCT_SIZE * 2 / 3)
-                , (int) (loc.getX() + OMENOCT_SIZE / 3), (int) (loc.getX()), (int) (loc.getX())};
+            xPoints = new int[]{(int) loc.getX() + OMENOCT_SIZE / 3, (int) (loc.getX() + OMENOCT_SIZE * 2 / 3),
+                    (int) (loc.getX() + OMENOCT_SIZE), (int) (loc.getX() + OMENOCT_SIZE), (int) (loc.getX() + OMENOCT_SIZE * 2 / 3)
+                    , (int) (loc.getX() + OMENOCT_SIZE / 3), (int) (loc.getX()), (int) (loc.getX())};
 
-        yPoints = new int[]{(int) loc.getY(), (int) loc.getY(), (int) loc.getY() + OMENOCT_SIZE / 3,
-                (int) (loc.getY() + OMENOCT_SIZE * 2 / 3), (int) loc.getY() + OMENOCT_SIZE, (int) loc.getY() + OMENOCT_SIZE,
-                (int) (loc.getY() + OMENOCT_SIZE * 2 / 3), (int) (loc.getY() + OMENOCT_SIZE / 3)};
+            yPoints = new int[]{(int) loc.getY(), (int) loc.getY(), (int) loc.getY() + OMENOCT_SIZE / 3,
+                    (int) (loc.getY() + OMENOCT_SIZE * 2 / 3), (int) loc.getY() + OMENOCT_SIZE, (int) loc.getY() + OMENOCT_SIZE,
+                    (int) (loc.getY() + OMENOCT_SIZE * 2 / 3), (int) (loc.getY() + OMENOCT_SIZE / 3)};
 
-        return 0;
+        }return 0;
     }
 
     private boolean checkX() {

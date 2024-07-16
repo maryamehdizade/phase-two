@@ -54,6 +54,7 @@ public class Controller  {
         else if(movable instanceof ArchmireModel) return new ArchmireView(movable.getLoc(),movable.getId());
         else if (movable instanceof TriangleModel)return createTriangleView((TriangleModel) movable);
         else if(movable instanceof RectangleModel)return createRectView((RectangleModel) movable);
+        else if(movable instanceof WyrmModel)return new WyrmView(movable.getId(),movable.getLoc());
         return null;
     }
     public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){

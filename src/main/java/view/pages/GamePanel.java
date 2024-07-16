@@ -20,6 +20,8 @@ public  class GamePanel extends JPanel {
     private int second;
 
     String id;
+    Menu menu;
+    String ability;
 
     public GamePanel(String id){
 
@@ -31,10 +33,14 @@ public  class GamePanel extends JPanel {
         setLayout(null);
         requestFocus();
 
-        Menu menu = Menu.getMenu();
-        aceso = menu.aceso;
-        ares = menu.ares;
-        proteus = menu.proteus;
+        menu = Menu.getMenu();
+        for (String s :
+                menu.skills.keySet()) {
+            if(menu.skills.get(s)){
+                ability = s;
+                break;
+            }
+        }
 
         MyListner listener = new MyListner(this);
 
@@ -50,10 +56,6 @@ public  class GamePanel extends JPanel {
         super.paintComponent(g);
 
         g.setColor(new Color(133, 186, 83));
-        String ability = "";
-        if(aceso)ability = "aceso";
-        if(ares)ability = "ares";
-        if(proteus)ability = "proteus";
 
         g.drawString("xp:" + playerView.getXp() + "          " + "hp:" + playerView.getHp()
                 + "             " + second + "             wave:" + wave + "        skill tree:" + ability

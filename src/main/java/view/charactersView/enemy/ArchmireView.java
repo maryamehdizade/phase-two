@@ -1,11 +1,16 @@
 package view.charactersView.enemy;
 
+import model.characterModel.enemy.ArchmireModel;
+import model.model.GamePanelModel;
 import view.drawable.Drawable;
+import view.pages.GamePanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import static controller.Util.Util.addVector;
+import static controller.Util.Util.multiplyVector;
 import static controller.constants.EntityConstants.ARCH_SIZE;
 
 public class ArchmireView implements Drawable {
@@ -14,6 +19,7 @@ public class ArchmireView implements Drawable {
     private int hp;
 //    private int traceDuration = 2000;
     private ArrayList<Point2D > trace;
+    private GamePanel mainPanel;
 
     public ArchmireView(Point2D loc, String id) {
         this.loc = loc;
@@ -35,6 +41,25 @@ public class ArchmireView implements Drawable {
         g.fillOval((int) loc.getX(), (int) loc.getY(),ARCH_SIZE,ARCH_SIZE);
         g.setColor(Color.black);
         g.drawString(String.valueOf(hp), (int) (loc.getX() + ARCH_SIZE/2), (int) (loc.getY() + ARCH_SIZE/2));
+    }
+    public ArchmireView clone(GamePanel panel){
+        ArchmireView archmireView = new ArchmireView(loc,id);
+        archmireView.loc = addVector(addVector(mainPanel.getLocation(), loc),
+                multiplyVector(panel.getLocation(), new Point2D.Double(-1,-1)));
+
+        archmireView.setHp(hp);
+
+        for (int i = 0; i < trace.size(); i++) {
+            archmireView.trace.add(addVector(addVector(mainPanel.getLocation(), trace.get(i)),
+                    multiplyVector(panel.getLocation(), new Point2D.Double(-1,-1))));
+        }
+        new Thread(() -> {
+            while(true){
+                archmireView.loc = addVector(addVector(mainPanel.getLocation(), loc),
+                        multiplyVector(panel.getLocation(), new Point2D.Double(-1,-1)));
+            }
+        }).start();
+        return archmireView;
     }
 
     public void setTrace(ArrayList<Point2D> trace) {

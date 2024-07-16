@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 public class Enemy extends Entity{
     public PlayerModel playerModel = PlayerModel.getPlayer();
     public double xvelocity;
+    public boolean move;
     public double yvelocity;
     public double counter;
     public int collectables;

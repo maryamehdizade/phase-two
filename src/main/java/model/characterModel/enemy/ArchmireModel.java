@@ -1,5 +1,6 @@
 package model.characterModel.enemy;
 import model.model.Enemy;
+import model.model.GamePanelModel;
 import model.movement.Collidable;
 import model.movement.Movable;
 import java.awt.geom.Point2D;
@@ -17,6 +18,7 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
     private double yvelocity;
     private int drown;
     private int aoe;
+    public GamePanelModel mainPanel;
     public ArchmireModel() {
         id = UUID.randomUUID().toString();
         createArch();
@@ -51,14 +53,17 @@ public class ArchmireModel extends Enemy implements Movable, Collidable {
         return false;
     }
 
+
     @Override
     public int move() {
-        m = Math.atan2((playerModel.getLoc().getY() - loc.getY()), (playerModel.getLoc().getX() - loc.getX()));
-        xvelocity = (Math.cos(m) ) * speed;
-        yvelocity = (Math.sin(m) ) * speed;
-        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
-        trace.add(loc);
-        if(trace.size() > 200)trace.remove(0);
+        if(move) {
+            m = Math.atan2((playerModel.getLoc().getY() - loc.getY()), (playerModel.getLoc().getX() - loc.getX()));
+            xvelocity = (Math.cos(m)) * speed;
+            yvelocity = (Math.sin(m)) * speed;
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            trace.add(loc);
+            if (trace.size() > 200) trace.remove(0);
+        }
         return 0;}
     @Override
     public void move(double velocity) {}

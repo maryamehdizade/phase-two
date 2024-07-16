@@ -23,9 +23,7 @@ public class TriangleModel extends Enemy implements Movable, Collidable {
     private boolean impact;
 
     public TriangleModel() {
-
         this.id = UUID.randomUUID().toString();
-
         createTriangle();
     }
     public void findPlayer(Point2D loc){

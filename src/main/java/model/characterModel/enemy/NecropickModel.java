@@ -38,6 +38,7 @@ public class NecropickModel extends Enemy implements Movable, Collidable {
         timer.start();
     }
     private void createNecro(){
+        move = true;
         rangedPower = NECRO_RANGED;
         collectables = necro;
         collectablesXp = necro_xp;

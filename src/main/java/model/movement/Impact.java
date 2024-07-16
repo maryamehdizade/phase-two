@@ -3,6 +3,8 @@ package model.movement;
 import controller.DataBase;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
+import model.characterModel.enemy.ArchmireModel;
+import model.characterModel.enemy.WyrmModel;
 
 import java.awt.geom.Point2D;
 
@@ -27,26 +29,29 @@ public class Impact {
         }
     }
     private static void setSpeed(Point2D point, Movable m, double impactV){
-        double a = -point.getY() + m.getLoc().getY();
-        double b = -point.getX() + m.getLoc().getX();
+        if(m instanceof WyrmModel){
+            ((WyrmModel) m).delta *= -1;
+        }else {
+            double a = -point.getY() + m.getLoc().getY();
+            double b = -point.getX() + m.getLoc().getX();
 
-        if(b != 0){
-            double angel = Math.atan(a/b);
-            if(b < 0){
-                m.setXvelocity(-impactV*Math.cos(angel));
-                if(a < 0)m.setYvelocity(-impactV*Math.sin(angel));
-                else m.setYvelocity(impactV*Math.sin(angel));
-            }
-            else{
-                m.setXvelocity(impactV*Math.cos(angel));
-                if(a < 0) m.setYvelocity(impactV*Math.sin(angel));
-                else m.setYvelocity(-impactV*Math.sin(angel));
-            }
+            if (b != 0) {
+                double angel = Math.atan(a / b);
+                if (b < 0) {
+                    m.setXvelocity(-impactV * Math.cos(angel));
+                    if (a < 0) m.setYvelocity(-impactV * Math.sin(angel));
+                    else m.setYvelocity(impactV * Math.sin(angel));
+                } else {
+                    m.setXvelocity(impactV * Math.cos(angel));
+                    if (a < 0) m.setYvelocity(impactV * Math.sin(angel));
+                    else m.setYvelocity(-impactV * Math.sin(angel));
+                }
 
-        }else if(a >= 0){
-            m.setYvelocity(impactV);
-        }else if(a < 0){
-            m.setYvelocity(-impactV);
+            } else if (a >= 0) {
+                m.setYvelocity(impactV);
+            } else if (a < 0) {
+                m.setYvelocity(-impactV);
+            }
         }
     }
 

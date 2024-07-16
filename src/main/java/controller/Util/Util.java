@@ -106,4 +106,7 @@ public class Util {
     public static Point2D centerLoc(Movable movable){
         return new Point2D.Double(movable.getLoc().getX() + movable.size()/2.0, movable.getLoc().getY() + movable.size()/2.0);
     }
+    public static Point2D multiplyVector(Point2D a, Point2D b){
+        return new Point2D.Double(a.getX()*b.getX(), a.getY()*b.getY());
+    }
 }

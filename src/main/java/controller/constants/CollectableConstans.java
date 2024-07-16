@@ -11,6 +11,8 @@ public class CollectableConstans {
     public static int necro_xp = 2;
     public static int arch_xp = 6;
     public static int arch = 5;
+    public static int wyrm = 2;
+    public static int wyrm_xp = 8;
 
 
 }

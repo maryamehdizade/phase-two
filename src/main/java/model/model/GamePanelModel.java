@@ -21,7 +21,6 @@ public class GamePanelModel {
     public Random random = new Random();
     public boolean wave1 = true;
     public int heal = 0;
-    public boolean proteus,ares,aceso;
     public boolean start = false;
     public boolean wave2 = false;
     public boolean wave3 = false;

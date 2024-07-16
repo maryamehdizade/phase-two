@@ -10,4 +10,5 @@ public class AttackConstants {
     public static int OMENOCT_RANGED_POWER = 4;
     public static int DROWN = 10;
     public static int ARC_AOE = 2;
+    public static int WYRM_RANGED = 8;
 }

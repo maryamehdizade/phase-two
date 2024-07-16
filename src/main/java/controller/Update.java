@@ -46,6 +46,7 @@ public class Update {
         }
         return update;
     }
+    public boolean dismay;
     public static void remove(){
         update = null;
     }
@@ -59,6 +60,8 @@ public class Update {
     public double a ;
     public int bound ;
     private int second;
+    public int waveTime;
+    private int dismaySec;
     boolean over;
     public DataBase dataBase;
     private Waves waves;
@@ -84,7 +87,16 @@ public class Update {
         model.start();
 
 
-        time = new Timer(1000,e -> second += 1);
+        time = new Timer(1000,e -> {
+            if(dismay){
+                dismaySec++;
+                if(dismaySec == 10){
+                    dismaySec = 0;
+                    dismay = false;
+                }
+            }
+            second += 1;
+        });
         time.start();
 
         new CollisionUtil(this);
@@ -107,6 +119,8 @@ public class Update {
             else if(d instanceof EnemyBulletView)updateEnemyBulletView((EnemyBulletView) d);
             else if(d instanceof NecropicklView)updateNecroView((NecropicklView) d);
             else if(d instanceof ArchmireView)uodateArchView((ArchmireView) d);
+            else if(d instanceof WyrmView)updateWrymView((WyrmView) d);
+
         }
 
     }
@@ -171,6 +185,16 @@ public class Update {
         panel.setWave(panelModel.wave);
         
     }
+    private void updateWrymView(WyrmView v){
+        for (Movable movable : dataBase.gamePanelModel.movables) {
+            if (movable instanceof WyrmModel) {
+                if (movable.getId().equals(v.getId())) {
+                    v.setLoc(movable.getLoc());
+                    v.setHp(movable.getHp());
+                }
+            }
+        }
+    }
     private void updateEnemyBulletView(EnemyBulletView e){
         for (EnemyBullets m : dataBase.enemyBullets) {
             if (m.getId().equals(e.getId())) {
@@ -212,7 +236,15 @@ public class Update {
             else if (m instanceof Omenoctmodel) updateOmenoct(m);
             else if(m instanceof NecropickModel)updateNecro((NecropickModel) m);
             else if(m instanceof ArchmireModel)updateArchModel((ArchmireModel) m);
+            else if(m instanceof WyrmModel)updateWrym(m);
 
+            if(dismay) {
+                for (Movable p :
+                        dataBase.gamePanelModel.movables) {
+                    if (m.collides()&& distance(m.getLoc(),panelModel.playerModel.getLoc()) <= 100)
+                        ((Enemy)p).move = false;
+                }
+            }
             updateEnemyBullet();
         }
         addingEnemies();
@@ -290,6 +322,10 @@ public class Update {
         } else {
             m.setSpeed(1);
         }
+        m.move();
+        checkCollision(m);
+    }
+    private void updateWrym(Movable m){
         m.move();
         checkCollision(m);
     }

@@ -12,4 +12,5 @@ public class EntityConstants {
     public static final int ARCH_SIZE = 50;
     public static final int TRI_SIZE = 40;
     public static final int COLLECTABLE_SIZE = 8;
+    public static final int WRYM_SIZE = 70;
 }

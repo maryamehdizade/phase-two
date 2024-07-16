@@ -172,7 +172,7 @@ public interface Collidable {
                                     if (p.contains(n.getxPoints()[i], n.getyPoints()[i])) {
                                         if (n instanceof PlayerModel) {
                                             //reduce m hp
-                                            if(!(n instanceof WyrmModel))injured(m);
+                                            if(!(m instanceof WyrmModel))injured(m);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);
