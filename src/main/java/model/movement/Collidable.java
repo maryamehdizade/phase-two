@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 
 import static controller.Util.Util.*;
 import static controller.constants.EntityConstants.ARCH_SIZE;
+import static controller.constants.EntityConstants.ORB_CIRCLE_SIZE;
 import static controller.constants.ImpactConstants.IMPACT_RANGE;
 import static model.movement.Impact.impact;
 import static controller.Util.CollisionUtil.*;
@@ -104,6 +105,16 @@ public interface Collidable {
                         }
                     }
                 }
+            }else if(n instanceof BulletModel){
+                for (int i = 0; i < ((BlackOrbModel) m).getCircles().size(); i++) {
+                    BlackOrbCircles c = ((BlackOrbModel) m).getCircles().get(i);
+                    if(distance(centerLoc(n),c.getLoc()) <= c.size()/2.0){
+                        removeBullet((BulletModel) n);
+                        injured(c);
+                        impact(centerLoc(n),IMPACT_RANGE);
+                    }
+                }
+
             }
         }
         else {

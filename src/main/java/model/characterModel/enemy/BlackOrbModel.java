@@ -9,6 +9,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static controller.constants.CollectableConstans.orb;
+import static controller.constants.CollectableConstans.orb_xp;
 import static controller.constants.EntityConstants.ORB_SIZE;
 
 public class BlackOrbModel extends Enemy implements Movable{
@@ -24,6 +26,8 @@ public class BlackOrbModel extends Enemy implements Movable{
         create();
     }
     private void create(){
+        collectables= orb;
+        collectablesXp = orb_xp;
         loc = Util.setLoc();
         new Thread(()->{
             circles.add(new BlackOrbCircles(

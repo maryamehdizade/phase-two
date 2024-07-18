@@ -13,6 +13,8 @@ public class CollectableConstans {
     public static int arch = 5;
     public static int wyrm = 2;
     public static int wyrm_xp = 8;
+    public static int orb_xp = 30;
+    public static int orb = 5;
 
 
 }

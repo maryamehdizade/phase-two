@@ -2,6 +2,7 @@ package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
+import controller.model.BlackOrbCircles;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -86,7 +87,7 @@ public class CollisionUtil {
         }
     }
 
-    private static void entityDeath(Movable m) {
+    public static void entityDeath(Movable m) {
         Sound.sound().death();
         dataBase.getGamePanelModel().movables.remove(m);
         if(m instanceof NecropickModel)((NecropickModel) m).timer.stop();
@@ -120,6 +121,9 @@ public class CollisionUtil {
         if (r.getHp() <= 0) {
             if(r instanceof PlayerModel)update.gameOver();
             else entityDeath(r);
+        }
+        if(r instanceof BlackOrbModel){
+            if(((BlackOrbModel) r).getCircles().isEmpty())entityDeath(r);
         }
     }
 

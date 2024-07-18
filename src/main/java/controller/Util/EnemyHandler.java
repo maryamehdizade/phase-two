@@ -27,13 +27,15 @@ public class EnemyHandler {
         bound = update.bound;
 
     }
-
+static boolean a= true;
     public static void addingEnemies(){
         if (random.nextDouble(0, bound) < 1) {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
                     (panelModel.wave == 3 && panelModel.enemies <= 20)) {
                 Sound.sound().entrance();
-                Movable n = new BlackOrbModel();
+                if (a) {
+                    a = false;
+                    Movable n = new BlackOrbModel();
 //                if(Game.getGame().getPhase() == 0) {
 //                    if (panelModel.random.nextInt(0, 2) == 1) {
 //                        n = new TriangleModel();
@@ -51,9 +53,10 @@ public class EnemyHandler {
 //                        n = new WyrmModel();
 //                    else n = new BarricadosModel();
 //                }
-                panel.getDrawables().add(createEnemyView(n));
-                dataBase.getGamePanelModel().movables.add(n);
-                panelModel.enemies ++;
+                    panel.getDrawables().add(createEnemyView(n));
+                    dataBase.getGamePanelModel().movables.add(n);
+                    panelModel.enemies++;
+                }
             }
             panelModel.start = true;
         }

@@ -438,6 +438,15 @@ public class Update {
     }
     private void updateOrb(BlackOrbModel orb){
         checkCollision(orb);
+        for (int i = 0; i < orb.getCircles().size(); i++) {
+            if(orb.getCircles().get(i).getHp()<=0){
+                orb.getCircles().remove(i);
+                System.out.println(orb.getCircles().size());
+            }
+        }
+        if(orb.getCircles().isEmpty()){
+            entityDeath(orb);
+        }
     }
     private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();

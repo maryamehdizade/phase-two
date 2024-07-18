@@ -18,7 +18,6 @@ public class BlackOrbCircles extends Enemy implements Collidable, Movable {
         create();
     }
     private void create(){
-
     }
 
     @Override
