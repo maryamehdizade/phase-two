@@ -14,4 +14,6 @@ public class EntityConstants {
     public static final int COLLECTABLE_SIZE = 8;
     public static final int WRYM_SIZE = 60;
     public static final int BAR_SIZE = 70;
+    public static final int ORB_SIZE = 150;
+    public static final int ORB_CIRCLE_SIZE = 40;
 }

@@ -49,6 +49,10 @@ public class CollisionUtil {
         r.setHp(r.getHp() - a.getDrown());
         checkDeath(r);
     }
+    public static void laserDamage(Movable r,BlackOrbModel b){
+        r.setHp(r.getHp() - b.laserPower);
+        checkDeath(r);
+    }
     public static void checkLeftOmenocts(){
         for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
             Movable o = dataBase.getGamePanelModel().movables.get(i);

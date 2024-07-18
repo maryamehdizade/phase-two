@@ -1,5 +1,6 @@
 package model.movement;
 
+import controller.model.BlackOrbCircles;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
@@ -49,6 +50,10 @@ public interface Movable {
             }
             case BarricadosModel n ->{
                 return BAR_SIZE;
+            }case BlackOrbModel n ->{
+                return ORB_SIZE;
+            }case BlackOrbCircles n ->{
+                return ORB_CIRCLE_SIZE;
             }
             default -> {
                 return 0;

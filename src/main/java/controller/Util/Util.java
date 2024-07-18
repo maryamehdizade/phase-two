@@ -1,5 +1,7 @@
 package controller.Util;
 
+import controller.model.BlackOrbCircles;
+import model.characterModel.enemy.BlackOrbModel;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -8,6 +10,7 @@ import model.characterModel.enemy.RectangleModel;
 import model.characterModel.enemy.TriangleModel;
 import model.movement.Movable;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -16,6 +19,22 @@ import static controller.constants.EntityConstants.*;
 
 public class Util {
     public static GamePanelModel model;
+    public static Polygon getPolygon(BlackOrbModel b, int i, int j) {
+        BlackOrbCircles c = b.getCircles().get(i);
+        BlackOrbCircles c1 = b.getCircles().get(j);
+        int n = (int) (c.getLoc().getX() - c1.getLoc().getX())%11;
+        int m = (int) (c.getLoc().getY() - c1.getLoc().getY())%11;
+
+        int[] x = new int[]{(int) (centerLoc(c).getX() - m),
+                (int) (centerLoc(c).getX() + m),
+                (int) (centerLoc(c1).getX() + m),
+                (int) (centerLoc(c1).getX() -m)};
+        int[] y = new int[]{(int) (centerLoc(c).getY() + n),
+                (int) (centerLoc(c).getY() - n),
+                (int) (centerLoc(c1).getY() - n) ,
+                (int) (centerLoc(c1).getY() +n)};
+        return new Polygon(x,y,4);
+    }
 
     public Util(GamePanelModel model) {
         this.model = model;
@@ -27,18 +46,18 @@ public class Util {
         double r = Math.floor(Math.random()*2);
         Random random = new Random();
         if(r == 0) {
-            x = random.nextDouble(20,500);
+            x = random.nextDouble(model.getLoc().getX(),model.getDimension().getWidth());
             if(Math.floor(Math.random()*2) == 0){
                 y = 0 ;
             }else{
-                y =500;
+                y =model.getDimension().getHeight();
             }
         }else {
-            y = random.nextDouble(20, 500);
+            y = random.nextDouble(0, model.getDimension().getHeight());
             if(Math.floor(Math.random()*2) == 0){
                 x = 0;
             }else{
-                x = 800;
+                x = model.getDimension().getWidth();
             }
 
         }
@@ -69,8 +88,8 @@ public class Util {
     }
     public static Point2D setLoc(){
         Random random = new Random();
-        return new Point2D.Double(random.nextDouble(0,model.getDimension().getWidth())
-                ,random.nextDouble(0,model.getDimension().getHeight()));
+        return new Point2D.Double(random.nextDouble(120,model.getDimension().getWidth() - 150)
+                ,random.nextDouble(120,model.getDimension().getHeight() - 150));
     }
     public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
     return e.getLoc().getX() + panel.getLoc().getX() <= 10 ||

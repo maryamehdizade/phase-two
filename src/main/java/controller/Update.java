@@ -1,5 +1,4 @@
 package controller;
-
 import controller.Util.EnemyHandler;
 import controller.Util.Util;
 import controller.Util.Waves;
@@ -29,6 +28,7 @@ import static controller.Controller.*;
 import static controller.Util.EnemyHandler.addingEnemies;
 import static controller.Util.Util.*;
 import static controller.Util.Waves.*;
+import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
@@ -38,7 +38,6 @@ import static controller.Util.CollisionUtil.*;
 
 public class Update {
     private static Update update;
-
     public static Update getUpdate() {
         if(update == null){
             System.out.println("creating update");
@@ -50,13 +49,10 @@ public class Update {
     public static void remove(){
         update = null;
     }
-
     public GamePanel panel;
     public Timer time;
     public Timer view;
-    public   Timer model;
-
-
+    public Timer model;
     public double a ;
     public int bound ;
     private int second;
@@ -126,11 +122,11 @@ public class Update {
             else if(d instanceof NecropicklView)updateNecroView((NecropicklView) d);
             else if(d instanceof ArchmireView)uodateArchView((ArchmireView) d);
             else if(d instanceof WyrmView)updateWrymView((WyrmView) d);
+            else if (d instanceof BlackOrbView) updateOrbView((BlackOrbView) d);
 
         }
 
     }
-
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
             if(movable instanceof RectangleModel) {
@@ -185,6 +181,16 @@ public class Update {
             }
         }
     }
+    private void updateOrbView(BlackOrbView b) {
+        for (Movable movable : dataBase.gamePanelModel.movables) {
+            if (movable instanceof BlackOrbModel) {
+                if (movable.getId().equals(b.getId())) {
+                    b.setCircles(((BlackOrbModel) movable).getCircles());
+                    b.setHp(movable.getHp());
+                }
+            }
+        }
+    }
     private void updatePanel(){
         panel.setSize(panelModel.getDimension());
         panel.setLocation(panelModel.getLoc());
@@ -232,7 +238,6 @@ public class Update {
         }
     }
 
-    //model
     public void updateModel() {
         for (int i = 0; i < dataBase.gamePanelModel.movables.size(); i++) {
             Movable m = dataBase.gamePanelModel.movables.get(i);
@@ -245,6 +250,7 @@ public class Update {
             else if(m instanceof ArchmireModel)updateArchModel((ArchmireModel) m);
             else if(m instanceof WyrmModel)updateWrym(m);
             else if(m instanceof BarricadosModel)updateBar((BarricadosModel) m);
+            else if(m instanceof BlackOrbModel)updateOrb((BlackOrbModel) m);
 
             if(dismay) {
                 for (Movable p :
@@ -257,9 +263,9 @@ public class Update {
         }
         addingEnemies();
         if (Game.getGame().getPhase() == 0) phaseOne();
+        else phaseTwo();
         updateCollectable();
         victory();
-        timeCheck();
     }
     private void updateBar(BarricadosModel b){
         if(b.sec >=120){
@@ -286,7 +292,6 @@ public class Update {
             panelModel.shrinkage();
         }
     }
-
     private void initialGame(){
         panelModel.shrinkage();
     }
@@ -294,11 +299,13 @@ public class Update {
         waveCheck();
         Wave();
         bound = Waves.bound;
+        timeCheck();
     }
     private void phaseTwo() {
+        dataBase.gamePanelModel.setDimension(new Dimension((int) (FRAME_DIMENSION.getWidth() - 30),
+                (int) (FRAME_DIMENSION.getHeight()-30)));
+        dataBase.gamePanelModel.setLoc(new Point(15,15));
     }
-
-
     private void updateCollectable(){
         for (int i = 0; i < dataBase.collectableModels.size();i ++) {
             if (dataBase.collectableModels.get(i).getSecond() >= 10) {
@@ -335,7 +342,6 @@ public class Update {
         else if (a == 3) {moveUp();checkTopOmenocts();}
         else if (a == 4) {moveDown();checkDownOmenocts();}
         if (a != 0) {impact(bulletCenter((BulletModel) m), 50);removeBullet((BulletModel) m);} else {checkCollision(m);}}
-
     private void updateTriangles(Movable m) {
         if (distance(m.getLoc().getX(), m.getLoc().getY()
                 , dataBase.gamePanelModel.playerModel.getLoc().getX(), dataBase.gamePanelModel.playerModel.getLoc().getY()) >= 200) {
@@ -426,13 +432,14 @@ public class Update {
         checkCollision(necro);
 
     }
-
     private void updateArchModel(ArchmireModel arc){
         arc.move();
         checkCollision(arc);
     }
-
-    private void moveEpsilon(){
+    private void updateOrb(BlackOrbModel orb){
+        checkCollision(orb);
+    }
+    private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();
         if ( dataBase.gamePanelModel.playerModel.isdForce()) {
              dataBase.gamePanelModel.playerModel.setYvelocity( dataBase.gamePanelModel.playerModel.getYvelocity() + a);
@@ -503,7 +510,6 @@ public class Update {
 
         }
     }
-
     private void getC(){
         for (int i = 0; i <  dataBase.collectableModels.size(); i++) {
             CollectableModel c = dataBase.collectableModels.get(i);
@@ -521,14 +527,21 @@ public class Update {
             }
         }
     }
-
     private void checkCollision(Movable movable){
+        Collidable c;
         for (int i = 0; i < dataBase.gamePanelModel.movables.size(); i++) {
-            Collidable c = (Collidable) dataBase.gamePanelModel.movables.get(i);
-            c.collision(movable);
+            if(dataBase.gamePanelModel.movables.get(i) instanceof BlackOrbModel){
+                for (int j = 0; j < ((BlackOrbModel) dataBase.gamePanelModel.movables.get(i)).getCircles().size(); j++) {
+                    c = ((BlackOrbModel) dataBase.gamePanelModel.movables.get(i)).getCircles().get(j);
+                    c.collision(movable);
+                }
+            }
+             else {
+                c = (Collidable) dataBase.gamePanelModel.movables.get(i);
+                c.collision(movable);
+            }
         }
     }
-
     Timer t;
     private void victory() {
         if (panelModel.victory) {
@@ -565,12 +578,10 @@ public class Update {
             else gameOver();
         }
     }
-
     private void initiatePhase2(){
         Game.getGame().setPhase(1);
         panelModel.setDimension(PANEL_DIMENSION);
     }
-
     public void gameOver(){
         if(!panelModel.victory)Sound.sound().Losing();
         model.stop();
@@ -583,9 +594,4 @@ public class Update {
         new GameOver(this);
     }
 
-
-
-    public double getSecond() {
-        return second;
-    }
 }

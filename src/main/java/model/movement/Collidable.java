@@ -1,8 +1,10 @@
 package model.movement;
 
+import controller.model.BlackOrbCircles;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.ArchmireModel;
+import model.characterModel.enemy.BlackOrbModel;
 import model.model.Enemy;
 import model.characterModel.enemy.EnemyBullets;
 import model.characterModel.enemy.WyrmModel;
@@ -80,7 +82,31 @@ public interface Collidable {
                     }
                 }
             }
-        } else {
+        }else if(m instanceof BlackOrbModel){
+            if(!(n instanceof BulletModel)&&!(n instanceof BlackOrbCircles)) {
+                for (int i = 0; i < ((BlackOrbModel) m).getCircles().size(); i++) {
+                    for (int j = i; j + i < ((BlackOrbModel) m).getCircles().size(); j++) {
+                        Polygon p = getPolygon((BlackOrbModel) m, i, j);
+                        if (p.contains(centerLoc(n))) {
+                            if(n instanceof Enemy) {
+                                Enemy e = (Enemy) n;
+                                e.counter += 0.1;
+                                if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
+                                    laserDamage(n, (BlackOrbModel) m);
+                                }
+                            }else{
+                                PlayerModel e = (PlayerModel) n;
+                                e.counter += 0.1;
+                                if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
+                                    laserDamage(n, (BlackOrbModel) m);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
             if (m != n) {
                 if (n.isCircular()) {
                     if (m.isCircular()) {
@@ -212,5 +238,7 @@ public interface Collidable {
             }
         }
     }
+
+
 
 }

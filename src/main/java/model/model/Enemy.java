@@ -4,7 +4,7 @@ import model.characterModel.PlayerModel;
 
 import java.awt.geom.Point2D;
 
-public class Enemy extends Entity{
+public class Enemy {
     public PlayerModel playerModel = PlayerModel.getPlayer();
     public double xvelocity;
     public boolean move;
