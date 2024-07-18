@@ -86,6 +86,12 @@ public interface Collidable {
         }else if(m instanceof BlackOrbModel){
             if(!(n instanceof BulletModel)&&!(n instanceof BlackOrbCircles)) {
                 for (int i = 0; i < ((BlackOrbModel) m).getCircles().size(); i++) {
+                    BlackOrbCircles c = ((BlackOrbModel) m).getCircles().get(i);
+                    if(distance(centerLoc(n),centerLoc(c)) <= c.size()/2.0+ n.size()/2.0){
+                        if(n instanceof PlayerModel && !n.isCircular())injured(c);
+
+                        impact(collisionPoint(n.getLoc(),c.getLoc()), IMPACT_RANGE);
+                    }
                     for (int j = i; j + i < ((BlackOrbModel) m).getCircles().size(); j++) {
                         Polygon p = getPolygon((BlackOrbModel) m, i, j);
                         if (p.contains(centerLoc(n))) {
@@ -108,7 +114,7 @@ public interface Collidable {
             }else if(n instanceof BulletModel){
                 for (int i = 0; i < ((BlackOrbModel) m).getCircles().size(); i++) {
                     BlackOrbCircles c = ((BlackOrbModel) m).getCircles().get(i);
-                    if(distance(centerLoc(n),c.getLoc()) <= c.size()/2.0){
+                    if(distance(centerLoc(n),centerLoc(c)) <= c.size()/2.0){
                         removeBullet((BulletModel) n);
                         injured(c);
                         impact(centerLoc(n),IMPACT_RANGE);
