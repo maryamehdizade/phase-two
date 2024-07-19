@@ -40,6 +40,7 @@ public class Util {
         this.model = model;
     }
 
+
     public static Point2D setEntityLoc(){
         double x;
         double y;

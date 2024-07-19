@@ -2,6 +2,7 @@ package controller.Util;
 
 import controller.DataBase;
 import controller.Update;
+import model.characterModel.enemy.boss.BossModel;
 import model.model.GamePanelModel;
 import model.characterModel.enemy.*;
 import model.movement.Movable;
@@ -33,7 +34,7 @@ public class EnemyHandler {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
                     (panelModel.wave == 3 && panelModel.enemies <= 20)) {
                 Sound.sound().entrance();
-                Movable n = new BlackOrbModel();
+                Movable n = new BossModel();
 //                if(Game.getGame().getPhase() == 0) {
 //                    if (panelModel.random.nextInt(0, 2) == 1) {
 //                        n = new TriangleModel();

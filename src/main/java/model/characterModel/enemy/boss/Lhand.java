@@ -1,48 +1,21 @@
 package model.characterModel.enemy.boss;
 
-import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
-import static controller.constants.ImageFiles.smiley;
+import static controller.constants.ImageFiles.lHand;
 
-public class BossModel extends FinalBoss implements Movable, Collidable {
-
+public class Lhand extends FinalBoss implements Movable, Collidable {
     private Point2D loc;
     private String id;
 
     private int hp;
-    public BossModel() {
+    public Lhand(){
         id = UUID.randomUUID().toString();
-        speed = 2;
-        loc = new Point2D.Double(400, -200);
-        file = smiley;
-        create();
-    }
-    private void create(){
-        try {
-            img = ImageIO.read(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public int move() {
-        if(loc.getY()< playerModel.getLocation().getY() - 100){
-            moveDown();
-        }
-        return 0;
-    }
-    private void moveDown(){
-        loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+        file = lHand;
     }
     @Override
     public boolean rigidBody() {
@@ -52,6 +25,11 @@ public class BossModel extends FinalBoss implements Movable, Collidable {
     @Override
     public boolean solid() {
         return false;
+    }
+
+    @Override
+    public int move() {
+        return 0;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package controller;
 
+import model.characterModel.enemy.boss.BossModel;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -7,6 +8,7 @@ import model.characterModel.enemy.*;
 import model.movement.Movable;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
+import view.charactersView.boss.BossView;
 import view.charactersView.enemy.*;
 import view.drawable.Drawable;
 import view.pages.GamePanel;
@@ -58,6 +60,7 @@ public class Controller  {
         else if(movable instanceof BarricadosModel)return new BarricadosView(movable.getId(),movable.getLoc());
         else if (movable instanceof BlackOrbModel) return new BlackOrbView(movable.getLoc(),movable.getId(),
                 ((BlackOrbModel) movable).getCircles());
+        else if (movable instanceof BossModel) return new BossView(movable.getId());
         return null;
     }
     public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){
