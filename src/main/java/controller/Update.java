@@ -2,6 +2,8 @@ package controller;
 import controller.Util.EnemyHandler;
 import controller.Util.Util;
 import controller.Util.Waves;
+import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -13,6 +15,8 @@ import controller.Util.CollisionUtil;
 import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
+import view.charactersView.boss.BossView;
+import view.charactersView.boss.lHandView;
 import view.charactersView.enemy.*;
 import view.drawable.Drawable;
 import view.pages.Game;
@@ -68,6 +72,7 @@ public class Update {
         panelModel = dataBase.getGamePanelModel();
     }
     private Util util;
+    public BossHandler bossHandler;
     public Update() {
         random = new Random();
 
@@ -103,6 +108,7 @@ public class Update {
         util = new Util(dataBase.gamePanelModel);
         new EnemyHandler(this);
         waves = new Waves(this);
+        bossHandler = new BossHandler();
 
     }
     private boolean s=true;
@@ -123,9 +129,22 @@ public class Update {
             else if(d instanceof ArchmireView)uodateArchView((ArchmireView) d);
             else if(d instanceof WyrmView)updateWrymView((WyrmView) d);
             else if (d instanceof BlackOrbView) updateOrbView((BlackOrbView) d);
+            else if(d instanceof BossView)updateBoss((BossView) d);
 
         }
 
+    }
+    private void updateBoss(BossView view){
+//        view.l.setLoc(dataBase.boss.l.getLoc());
+//        view.l.setHp(dataBase.boss.l.getHp());
+//
+//        view.r.setLoc(dataBase.boss.r.getLoc());
+//        view.r.setHp(dataBase.boss.r.getHp());
+//
+//        view.p.setLoc(dataBase.boss.p.getLoc());
+//        view.p.setHp(dataBase.boss.p.getHp());
+        view.setLoc(dataBase.boss.getLoc());
+        view.setImg(dataBase.boss.image);
     }
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
@@ -139,6 +158,7 @@ public class Update {
             }
         }
     }
+
     private void updateTrianglesView(TriangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
             if (movable instanceof TriangleModel) {
@@ -251,6 +271,7 @@ public class Update {
             else if(m instanceof WyrmModel)updateWrym(m);
             else if(m instanceof BarricadosModel)updateBar((BarricadosModel) m);
             else if(m instanceof BlackOrbModel)updateOrb((BlackOrbModel) m);
+            else if(m instanceof BossModel)updateBossModel();
 
             if(dismay) {
                 for (Movable p :
@@ -447,6 +468,9 @@ public class Update {
         if(orb.getCircles().isEmpty()){
             entityDeath(orb);
         }
+    }
+    private void updateBossModel(){
+        dataBase.boss.move();
     }
     private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();

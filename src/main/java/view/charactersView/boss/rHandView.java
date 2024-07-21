@@ -12,8 +12,10 @@ public class rHandView implements Drawable {
     private Image img;
     private int hp;
     private String id;
-    private Point2D loc;
-    public rHandView(String id){
+    private Point2D loc = new Point2D.Double();
+    public rHandView(Image image,String id,Point2D loc){
+        this.img = image;
+        this.loc = loc;
         this.id = id;
     }
 

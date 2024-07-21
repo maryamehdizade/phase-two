@@ -1,21 +1,37 @@
 package model.characterModel.enemy.boss;
 
+import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 import static controller.constants.ImageFiles.lHand;
 
-public class Lhand extends FinalBoss implements Movable, Collidable {
-    private Point2D loc;
+public class Lhand extends Enemy implements Movable, Collidable {
+    private Point2D loc= new Point2D.Double();
     private String id;
-
+    private File file;
+    private int xvelocity;
+    private int yvelocity;
+    public boolean vulnerable;
     private int hp;
     public Lhand(){
         id = UUID.randomUUID().toString();
         file = lHand;
+        create();
+    }
+    private void create(){
+        try {
+            image = ImageIO.read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public boolean rigidBody() {

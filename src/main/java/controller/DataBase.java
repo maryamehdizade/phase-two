@@ -1,6 +1,8 @@
 package controller;
 
 import controller.Util.SkillTreeHandler;
+import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.FinalBoss;
 import model.model.GamePanelModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
@@ -14,6 +16,7 @@ import static controller.constants.Constant.PANEL_LOCATION;
 
 public class DataBase {
     GamePanelModel gamePanelModel;
+    public BossModel boss;
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public ArrayList<EnemyBullets> enemyBullets = new ArrayList<>();
 

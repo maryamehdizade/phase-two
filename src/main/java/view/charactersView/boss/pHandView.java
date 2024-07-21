@@ -9,8 +9,10 @@ public class pHandView implements Drawable {
     private int hp;
     private String id;
     private Point2D loc;
-    public pHandView(String id){
+    public pHandView(Image i,String id ,Point2D l ){
+        loc = l;
         this.id = id;
+        img = i;
     }
 
     @Override

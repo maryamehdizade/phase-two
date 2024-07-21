@@ -1,6 +1,9 @@
 package controller;
 
 import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
+import model.characterModel.enemy.boss.Phand;
+import model.characterModel.enemy.boss.Rhand;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -9,6 +12,9 @@ import model.movement.Movable;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
 import view.charactersView.boss.BossView;
+import view.charactersView.boss.lHandView;
+import view.charactersView.boss.pHandView;
+import view.charactersView.boss.rHandView;
 import view.charactersView.enemy.*;
 import view.drawable.Drawable;
 import view.pages.GamePanel;
@@ -58,11 +64,14 @@ public class Controller  {
         else if(movable instanceof RectangleModel)return createRectView((RectangleModel) movable);
         else if(movable instanceof WyrmModel)return new WyrmView(movable.getId(),movable.getLoc());
         else if(movable instanceof BarricadosModel)return new BarricadosView(movable.getId(),movable.getLoc());
-        else if (movable instanceof BlackOrbModel) return new BlackOrbView(movable.getLoc(),movable.getId(),
-                ((BlackOrbModel) movable).getCircles());
-        else if (movable instanceof BossModel) return new BossView(movable.getId());
+        else if (movable instanceof BlackOrbModel) return new BlackOrbView(movable.getLoc(),movable.getId(),((BlackOrbModel) movable).getCircles());
+        else if (movable instanceof BossModel) return new BossView(((BossModel) movable).image,movable.getId(),movable.getLoc());
+        else if (movable instanceof Lhand) return new lHandView(((Lhand) movable).image,movable.getId(),movable.getLoc());
+        else if (movable instanceof Rhand) return new rHandView(((Rhand) movable).image,movable.getId(),movable.getLoc());
+        else if (movable instanceof Phand) return new pHandView(((Phand) movable).image,movable.getId(),movable.getLoc());
         return null;
     }
+
     public static EnemyBulletView createEnemyBulletView(EnemyBullets enemyBullets){
         return new EnemyBulletView(enemyBullets.getId(), enemyBullets.getLoc());
     }

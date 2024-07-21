@@ -2,6 +2,7 @@ package model.model;
 
 import model.characterModel.PlayerModel;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Enemy {
@@ -17,6 +18,7 @@ public class Enemy {
     public double speed = 1;
     public double m;
     public boolean solid;
+    public Image image;
     public void findPlayer(Point2D loc){
         m = Math.atan2((playerModel.getLocation().getY() - loc.getY()),(playerModel.getLocation().getX() - loc.getX()));
         setVel();
