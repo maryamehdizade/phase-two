@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static controller.constants.EntityConstants.L_HAND_SIZE;
+import static controller.constants.EntityConstants.SMILEY_SIZE;
 import static controller.constants.ImageFiles.lHand;
 
 public class Lhand extends Enemy implements Movable, Collidable {
@@ -21,11 +22,12 @@ public class Lhand extends Enemy implements Movable, Collidable {
     private int xvelocity;
     private int yvelocity;
     public boolean vulnerable;
-    private int hp;
+    private int hp = 100;
     private BossModel head;
     public Lhand(BossModel head){
         id = UUID.randomUUID().toString();
         file = lHand;
+        speed = 2;
         this.head = head;
         create();
     }
@@ -35,7 +37,11 @@ public class Lhand extends Enemy implements Movable, Collidable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        loc = new Point2D.Double(getLoc().getX() + L_HAND_SIZE.getX() + 100,getLoc().getY() + 100);
+        loc = new Point2D.Double(head.getLoc().getX() + L_HAND_SIZE.getX()+SMILEY_SIZE + 100,head.getLoc().getY() + 100);
+    }
+    public void moveDown(){
+        loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+
     }
     @Override
     public boolean rigidBody() {

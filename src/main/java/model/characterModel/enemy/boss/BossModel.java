@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static controller.constants.EntityConstants.*;
 import static controller.constants.ImageFiles.smiley;
 
 public class BossModel extends Enemy implements Movable, Collidable {
@@ -22,7 +21,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     private File file;
     private int xvelocity;
     private int yvelocity;
-    private int hp;
+    private int hp = 300;
     public  Lhand l;
     public  Rhand r;
     public Phand p;
@@ -45,7 +44,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
         r = new Rhand(this);
     }
 
-    boolean inPlace;
+    public boolean inPlace;
     @Override
     public int move() {
         if(!inPlace) {
@@ -59,8 +58,11 @@ public class BossModel extends Enemy implements Movable, Collidable {
     }
     private void moveDown(){
         loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
-        r.setLoc(new Point2D.Double(getLoc().getX() - R_HAND_SIZE.getX() - 100,getLoc().getY() + 100));
-        l.setLoc(new Point2D.Double(getLoc().getX() + L_HAND_SIZE.getX()+ SMILEY_SIZE + 100,getLoc().getY() + 100));
+        squeeze();
+    }
+    public void squeeze(){
+        r.moveDown();
+        l.moveDown();
     }
     @Override
     public boolean rigidBody() {

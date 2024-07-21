@@ -23,12 +23,13 @@ public class Rhand extends Enemy implements Movable, Collidable {
     private int xvelocity;
     private int yvelocity;
     public boolean vulnerable;
-    private int hp;
+    private int hp = 100;
     private BossModel head;
     public Rhand(BossModel b){
         head = b;
         id = UUID.randomUUID().toString();
         file = rHand;
+        speed = 2;
         create();
     }
     private void create(){
@@ -37,7 +38,11 @@ public class Rhand extends Enemy implements Movable, Collidable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        loc = new Point2D.Double(head.getLoc().getX() - R_HAND_SIZE.getX() - 100,head.getLoc().getY() + 50);
+        loc = new Point2D.Double(head.getLoc().getX() - R_HAND_SIZE.getX() - 100,head.getLoc().getY() + 100);
+    }
+    public void moveDown(){
+        loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+
     }
     @Override
     public boolean rigidBody() {

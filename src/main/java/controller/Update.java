@@ -2,6 +2,7 @@ package controller;
 import controller.Util.EnemyHandler;
 import controller.Util.Util;
 import controller.Util.Waves;
+import model.characterModel.enemy.boss.Attacks;
 import model.characterModel.enemy.boss.BossModel;
 import model.characterModel.enemy.boss.Lhand;
 import model.model.GamePanelModel;
@@ -28,6 +29,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 import java.util.Random;
+
+import static controller.BossHandler.attack;
+import static controller.BossHandler.attacks;
 import static controller.Controller.*;
 import static controller.Util.EnemyHandler.addingEnemies;
 import static controller.Util.Util.*;
@@ -108,7 +112,7 @@ public class Update {
         util = new Util(dataBase.gamePanelModel);
         new EnemyHandler(this);
         waves = new Waves(this);
-        bossHandler = new BossHandler();
+
 
     }
     private boolean s=true;
@@ -282,9 +286,8 @@ public class Update {
             }
             updateEnemyBullet();
         }
-        if(!d){
-            addingEnemies();
-        }
+        if(!d) addingEnemies();
+        if(dataBase.boss != null)bossHandler = new BossHandler(this);
         if (Game.getGame().getPhase() == 0) phaseOne();
         else phaseTwo();
         updateCollectable();
@@ -473,7 +476,13 @@ public class Update {
         }
     }
     private void updateBossModel(){
+        if(dataBase.boss.inPlace)attack();
         dataBase.boss.move();
+        checkCollision(dataBase.boss);
+        checkCollision(dataBase.boss.r);
+        checkCollision(dataBase.boss.l);
+        if(!attacks.isEmpty())dataBase.boss.vulnerable = true;
+        if(attacks.contains(Attacks.squeeze))dataBase.boss.squeeze();
     }
     private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();
