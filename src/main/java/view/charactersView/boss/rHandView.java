@@ -5,8 +5,7 @@ import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static controller.constants.EntityConstants.R_HAND_SIZE;
-import static controller.constants.EntityConstants.SMILEY_DRAW_SIZE;
+import static controller.constants.EntityConstants.*;
 
 public class rHandView implements Drawable {
     private Image img;
@@ -22,7 +21,7 @@ public class rHandView implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int)R_HAND_SIZE.getX(),(int)R_HAND_SIZE.getY(),null);
-
+        g.drawString(String.valueOf(hp), (int) (loc.getX() +R_HAND_SIZE.getX()/2), (int) (loc.getY() + R_HAND_SIZE.getY()/2));
     }
 
     @Override

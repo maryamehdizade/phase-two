@@ -23,7 +23,7 @@ public class lHandView implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int)L_HAND_SIZE.getX(),(int)L_HAND_SIZE.getY(),null);
-
+        g.drawString(String.valueOf(hp), (int) (loc.getX() +L_HAND_SIZE.getX()/2), (int) (loc.getY() + L_HAND_SIZE.getY()/2));
     }
 
     @Override

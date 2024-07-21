@@ -478,13 +478,9 @@ public class Update {
         checkCollision(dataBase.boss);
         checkCollision(dataBase.boss.r);
         checkCollision(dataBase.boss.l);
-        if(!attacks.isEmpty())dataBase.boss.vulnerable = true;
-        else dataBase.boss.vulnerable = false;
-        if(attacks.contains(Attacks.squeeze))dataBase.boss.squeeze();
-        if(attacks.contains(Attacks.projectile)){
-            dataBase.boss.projectile();
-            if(Math.random() <0.025)createRandomBullet(dataBase.boss);
-        }
+
+        squeezeCheck();
+        projectileCheck();
     }
     private void createRandomBullet(Movable n){
         EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
@@ -597,6 +593,25 @@ public class Update {
         }
     }
     Timer t;
+    private void squeezeCheck(){
+        if(attacks.contains(Attacks.squeeze)){
+            dataBase.boss.squeeze();
+            dataBase.boss.vulnerable = true;
+        }else{
+            dataBase.boss.vulnerable = false;
+        }
+    }
+    private void projectileCheck(){
+        if(attacks.contains(Attacks.projectile)){
+            dataBase.boss.r.vulnerable = true;
+            dataBase.boss.l.vulnerable = true;
+            dataBase.boss.projectile();
+            if(Math.random() <0.025)createRandomBullet(dataBase.boss);
+        }else{
+            dataBase.boss.r.vulnerable = false;
+            dataBase.boss.l.vulnerable = false;
+        }
+    }
     private void victory() {
         if (panelModel.victory) {
             Sound.sound().Victory();

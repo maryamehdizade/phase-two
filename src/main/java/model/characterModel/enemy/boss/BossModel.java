@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static controller.Util.Util.*;
+import static controller.constants.EntityConstants.FINALBOSS_HP;
 import static controller.constants.ImageFiles.smiley;
 
 public class BossModel extends Enemy implements Movable, Collidable {
@@ -22,7 +23,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     private File file;
     private int xvelocity;
     private int yvelocity;
-    private int hp = 300;
+    private int hp = FINALBOSS_HP - 100;
     public  Lhand l;
     public  Rhand r;
     public Phand p;
@@ -181,5 +182,14 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     public void setImage(Image i) {
         image = i;
+    }
+    public boolean hasTwoHands(){
+        return l!=null && r!=null;
+    }
+    public boolean hasPunchHand(){
+        return p.occupied;
+    }
+    public void toggleOccupation(){
+        p.occupied = !p.occupied;
     }
 }

@@ -17,6 +17,7 @@ public class Phand extends Enemy implements Movable, Collidable {
     private File file;
     private int xvelocity;
     private int yvelocity;
+    boolean occupied;
     public boolean vulnerable;
     private int hp;
     public Phand(){
@@ -118,7 +119,7 @@ public class Phand extends Enemy implements Movable, Collidable {
 
     @Override
     public int getHp() {
-        return hp;
+        return 20;
     }
 
     @Override

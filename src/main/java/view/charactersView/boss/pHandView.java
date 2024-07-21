@@ -2,6 +2,8 @@ package view.charactersView.boss;
 import view.drawable.Drawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import static controller.constants.EntityConstants.L_HAND_SIZE;
 import static controller.constants.EntityConstants.P_HAND_SIZE;
 
 public class pHandView implements Drawable {
@@ -18,7 +20,7 @@ public class pHandView implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int) P_HAND_SIZE.getX(),(int)P_HAND_SIZE.getY(),null);
-
+        g.drawString(String.valueOf(hp), (int) (loc.getX() +P_HAND_SIZE.getX()/2), (int) (loc.getY() + P_HAND_SIZE.getY()/2));
     }
 
     @Override
