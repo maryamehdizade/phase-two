@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static controller.Util.Util.*;
@@ -19,7 +20,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     private Point2D loc;
     private String id;
-
+    public ArrayList<Point2D> aoe = new ArrayList<>();
     private File file;
     private int xvelocity;
     private int yvelocity;
@@ -79,6 +80,9 @@ public class BossModel extends Enemy implements Movable, Collidable {
         }
 
         move(angle);
+    }
+    public void vomit(){
+        if(aoe.size() <= 6)aoe.add(setLoc());
     }
     @Override
     public boolean rigidBody() {

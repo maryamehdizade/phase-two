@@ -397,9 +397,7 @@ public class Update {
         checkCollision(m);
 
         if (random.nextDouble(0,100) < 0.5) {
-            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.gamePanelModel.playerModel), (Enemy) m, false);
-            dataBase.enemyBullets.add(b);
-            panel.getDrawables().add(createEnemyBulletView(b));
+            createBullet(m);
         }
     }
     private void updateEnemyBullet(){
@@ -481,6 +479,7 @@ public class Update {
 
         squeezeCheck();
         projectileCheck();
+        vomitCheck();
     }
     private void createRandomBullet(Movable n){
         EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
@@ -488,6 +487,11 @@ public class Update {
                 panelModel.getDimension().getHeight()*Math.random()), (Enemy) n, true);
         dataBase.enemyBullets.add(e);
         panel.getDrawables().add(createEnemyBulletView(e));
+    }
+    private void createBullet(Movable m){
+        EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(dataBase.gamePanelModel.playerModel), (Enemy) m, false);
+        dataBase.enemyBullets.add(b);
+        panel.getDrawables().add(createEnemyBulletView(b));
     }
     private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();
@@ -597,19 +601,21 @@ public class Update {
         if(attacks.contains(Attacks.squeeze)){
             dataBase.boss.squeeze();
             dataBase.boss.vulnerable = true;
-        }else{
-            dataBase.boss.vulnerable = false;
         }
     }
     private void projectileCheck(){
-        if(attacks.contains(Attacks.projectile)){
+        if(attacks.contains(Attacks.projectile)) {
             dataBase.boss.r.vulnerable = true;
             dataBase.boss.l.vulnerable = true;
             dataBase.boss.projectile();
-            if(Math.random() <0.025)createRandomBullet(dataBase.boss);
-        }else{
-            dataBase.boss.r.vulnerable = false;
-            dataBase.boss.l.vulnerable = false;
+            if (Math.random() < 0.025) createBullet(dataBase.boss);
+        }
+    }
+    private void vomitCheck(){
+        if(attacks.contains(Attacks.vomit)){
+            dataBase.boss.vulnerable = true;
+            dataBase.boss.vomit();
+            attacks.remove(Attacks.projectile);
         }
     }
     private void victory() {
