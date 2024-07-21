@@ -149,6 +149,7 @@ public class Update {
 //        view.p.setHp(dataBase.boss.p.getHp());
         view.setLoc(dataBase.boss.getLoc());
         view.setImg(dataBase.boss.image);
+        view.setHp(dataBase.boss.getHp());
     }
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
@@ -448,11 +449,7 @@ public class Update {
         }
         if(necro.visible){
             if(necro.bullets < 8 && Math.random() < 0.004) {
-                EnemyBullets e = new EnemyBullets(centerLoc(necro), new Point2D.Double(
-                        Math.random()*panelModel.getDimension().getWidth(),
-                        panelModel.getDimension().getHeight()*Math.random()), necro, true);
-                dataBase.enemyBullets.add(e);
-                panel.getDrawables().add(createEnemyBulletView(e));
+                createRandomBullet(necro);
                 necro.bullets ++;
             }
         }
@@ -482,7 +479,19 @@ public class Update {
         checkCollision(dataBase.boss.r);
         checkCollision(dataBase.boss.l);
         if(!attacks.isEmpty())dataBase.boss.vulnerable = true;
+        else dataBase.boss.vulnerable = false;
         if(attacks.contains(Attacks.squeeze))dataBase.boss.squeeze();
+        if(attacks.contains(Attacks.projectile)){
+            dataBase.boss.projectile();
+            if(Math.random() <0.025)createRandomBullet(dataBase.boss);
+        }
+    }
+    private void createRandomBullet(Movable n){
+        EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
+                Math.random()*panelModel.getDimension().getWidth(),
+                panelModel.getDimension().getHeight()*Math.random()), (Enemy) n, true);
+        dataBase.enemyBullets.add(e);
+        panel.getDrawables().add(createEnemyBulletView(e));
     }
     private void moveEpsilon() {
          dataBase.gamePanelModel.playerModel.move();

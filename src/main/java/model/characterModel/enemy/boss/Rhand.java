@@ -29,6 +29,7 @@ public class Rhand extends Enemy implements Movable, Collidable {
         head = b;
         id = UUID.randomUUID().toString();
         file = rHand;
+        rangedPower = 5;
         speed = 2;
         create();
     }

@@ -33,6 +33,7 @@ public class BossView implements Drawable {
 //        System.out.println(loc);
         g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int)SMILEY_DRAW_SIZE.getX(),(int)SMILEY_DRAW_SIZE.getY(),null);
 
+        g.drawString(String.valueOf(hp), (int) (loc.getX() + SMILEY_DRAW_SIZE.getX()/2), (int) (loc.getY() + SMILEY_DRAW_SIZE.getY()/2));
     }
 
     @Override

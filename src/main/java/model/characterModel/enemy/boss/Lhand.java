@@ -27,6 +27,7 @@ public class Lhand extends Enemy implements Movable, Collidable {
     public Lhand(BossModel head){
         id = UUID.randomUUID().toString();
         file = lHand;
+        rangedPower = 5;
         speed = 2;
         this.head = head;
         create();

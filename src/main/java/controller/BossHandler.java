@@ -19,9 +19,10 @@ public class BossHandler {
 
     public static void attack() {
         if(Math.random()<=0.3) {
-            if (epsilonIsBetweenHeadAndHands() && !attacks.contains(Attacks.squeeze)) attacks.add(Attacks.squeeze);
-            else if (!epsilonIsBetweenHeadAndHands()) attacks.remove(Attacks.squeeze);
-            System.out.println(attacks);
+//            if (epsilonIsBetweenHeadAndHands() && !attacks.contains(Attacks.squeeze)) attacks.add(Attacks.squeeze);
+//            else if (!epsilonIsBetweenHeadAndHands()) attacks.remove(Attacks.squeeze);
+            if(attacks.isEmpty()&&Math.random() <= 0.5)attacks.add(Attacks.projectile);
+//            System.out.println(attacks);
         }
     }
 

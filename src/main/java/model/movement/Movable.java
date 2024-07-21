@@ -4,6 +4,10 @@ import controller.model.BlackOrbCircles;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.*;
+import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
+import model.characterModel.enemy.boss.Phand;
+import model.characterModel.enemy.boss.Rhand;
 import view.charactersView.enemy.BarricadosView;
 
 import java.awt.geom.Point2D;
@@ -54,6 +58,14 @@ public interface Movable {
                 return ORB_SIZE;
             }case BlackOrbCircles n ->{
                 return ORB_CIRCLE_SIZE;
+            }case BossModel n ->{
+                return (int) SMILEY_DRAW_SIZE.getX();
+            }case Lhand n ->{
+                return (int) L_HAND_SIZE.getX();
+            }case Rhand n ->{
+                return (int) R_HAND_SIZE.getX();
+            }case Phand n ->{
+                return (int) P_HAND_SIZE.getX();
             }
             default -> {
                 return 0;

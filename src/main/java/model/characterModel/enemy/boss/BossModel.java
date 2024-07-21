@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import static controller.Util.Util.*;
 import static controller.constants.ImageFiles.smiley;
 
 public class BossModel extends Enemy implements Movable, Collidable {
@@ -30,6 +31,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public BossModel() {
         id = UUID.randomUUID().toString();
         speed = 2;
+        rangedPower = 5;
         file = smiley;
         create();
     }
@@ -64,6 +66,19 @@ public class BossModel extends Enemy implements Movable, Collidable {
         r.moveDown();
         l.moveDown();
     }
+    private double delta = Math.PI/200.0;
+    private double angle;
+    private double dis;
+    public void projectile(){
+        dis = distance(loc,playerModel.getLoc());
+        if(angle == 0) {
+            angle = Math.atan2(playerModel.getLocation().getY() - loc.getY(),
+                    loc.getX() - playerModel.getLocation().getX());
+
+        }
+
+        move(angle);
+    }
     @Override
     public boolean rigidBody() {
         return true;
@@ -76,7 +91,12 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     @Override
     public void move(double velocity) {
-
+//        xvelocity = (int) (Math.cos(velocity)*speed);
+//        yvelocity = (int) (Math.sin(velocity)*speed);
+        loc = new Point2D.Double(playerModel.getLocation().getX() + dis * Math.cos(angle),
+                playerModel.getLocation().getY() - dis * Math.sin(angle));
+        if(dis < 100)dis++;
+        angle += delta;
     }
 
     @Override
