@@ -27,6 +27,7 @@ import view.pages.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -139,17 +140,20 @@ public class Update {
 
     }
     private void updateBoss(BossView view){
-        view.l.setLoc(dataBase.boss.l.getLoc());
-        view.l.setHp(dataBase.boss.l.getHp());
+        view.l.setLoc(dataBase.gamePanelModel.boss.l.getLoc());
+        view.l.setHp(dataBase.gamePanelModel.boss.l.getHp());
 //
-        view.r.setLoc(dataBase.boss.r.getLoc());
-        view.r.setHp(dataBase.boss.r.getHp());
+        view.r.setLoc(dataBase.gamePanelModel.boss.r.getLoc());
+        view.r.setHp(dataBase.gamePanelModel.boss.r.getHp());
 //
-//        view.p.setLoc(dataBase.boss.p.getLoc());
-//        view.p.setHp(dataBase.boss.p.getHp());
-        view.setLoc(dataBase.boss.getLoc());
-        view.setImg(dataBase.boss.image);
-        view.setHp(dataBase.boss.getHp());
+        if(dataBase.gamePanelModel.boss.hasPunchHand()) {
+            view.p.setLoc(dataBase.gamePanelModel.boss.p.getLoc());
+            view.p.setHp(dataBase.gamePanelModel.boss.p.getHp());
+        }
+        view.setLoc(dataBase.gamePanelModel.boss.getLoc());
+        view.setImg(dataBase.gamePanelModel.boss.image);
+        view.setHp(dataBase.gamePanelModel.boss.getHp());
+        view.aoe = dataBase.gamePanelModel.boss.aoe;
     }
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : dataBase.gamePanelModel.movables) {
@@ -288,7 +292,7 @@ public class Update {
             updateEnemyBullet();
         }
         if(!d) addingEnemies();
-        if(dataBase.boss != null)bossHandler = new BossHandler(this);
+        if(dataBase.gamePanelModel.boss != null)bossHandler = new BossHandler(this);
         if (Game.getGame().getPhase() == 0) phaseOne();
         else phaseTwo();
         updateCollectable();
@@ -471,11 +475,11 @@ public class Update {
         }
     }
     private void updateBossModel(){
-        if(dataBase.boss.inPlace)attack();
-        dataBase.boss.move();
-        checkCollision(dataBase.boss);
-        checkCollision(dataBase.boss.r);
-        checkCollision(dataBase.boss.l);
+        if(dataBase.gamePanelModel.boss.inPlace)attack();
+        dataBase.gamePanelModel.boss.move();
+        checkCollision(dataBase.gamePanelModel.boss);
+        checkCollision(dataBase.gamePanelModel.boss.r);
+        checkCollision(dataBase.gamePanelModel.boss.l);
 
         squeezeCheck();
         projectileCheck();
@@ -599,23 +603,28 @@ public class Update {
     Timer t;
     private void squeezeCheck(){
         if(attacks.contains(Attacks.squeeze)){
-            dataBase.boss.squeeze();
-            dataBase.boss.vulnerable = true;
+            dataBase.gamePanelModel.boss.squeeze();
+            dataBase.gamePanelModel.boss.vulnerable = true;
         }
     }
     private void projectileCheck(){
         if(attacks.contains(Attacks.projectile)) {
-            dataBase.boss.r.vulnerable = true;
-            dataBase.boss.l.vulnerable = true;
-            dataBase.boss.projectile();
-            if (Math.random() < 0.025) createBullet(dataBase.boss);
+            dataBase.gamePanelModel.boss.r.vulnerable = true;
+            dataBase.gamePanelModel.boss.l.vulnerable = true;
+            dataBase.gamePanelModel.boss.projectile();
+            if (Math.random() < 0.025) createBullet(dataBase.gamePanelModel.boss);
         }
     }
     private void vomitCheck(){
         if(attacks.contains(Attacks.vomit)){
-            dataBase.boss.vulnerable = true;
-            dataBase.boss.vomit();
+            dataBase.gamePanelModel.boss.vulnerable = true;
+            dataBase.gamePanelModel.boss.vomit();
+            bossAoe();
             attacks.remove(Attacks.projectile);
+            if(dataBase.gamePanelModel.boss.vomitCount >= 500){
+                dataBase.getGamePanelModel().boss.reset();
+                attacks.remove(Attacks.vomit);
+            }
         }
     }
     private void victory() {

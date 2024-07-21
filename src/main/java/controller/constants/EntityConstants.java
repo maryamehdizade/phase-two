@@ -22,6 +22,7 @@ public class EntityConstants {
     public static final Point2D L_HAND_SIZE = new Point2D.Double(80, 120);
     public static final Point2D P_HAND_SIZE = new Point2D.Double(120, 120);
     public static final int FINALBOSS_HP = 300;
+    public static final int FINALBOSS_AOE_SIZE = 50;
 
 
 }

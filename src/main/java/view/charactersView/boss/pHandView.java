@@ -20,8 +20,7 @@ public class pHandView implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int) P_HAND_SIZE.getX(),(int)P_HAND_SIZE.getY(),null);
-        g.drawString(String.valueOf(hp), (int) (loc.getX() +P_HAND_SIZE.getX()/2), (int) (loc.getY() + P_HAND_SIZE.getY()/2));
-    }
+     }
 
     @Override
     public String getId() {

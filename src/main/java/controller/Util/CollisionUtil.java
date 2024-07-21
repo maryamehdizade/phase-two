@@ -3,6 +3,7 @@ package controller.Util;
 import controller.DataBase;
 import controller.Update;
 import controller.model.BlackOrbCircles;
+import model.characterModel.enemy.boss.BossModel;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -16,11 +17,13 @@ import view.pages.GamePanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import static controller.Controller.createCollectableView;
-import static controller.Util.Util.addVector;
+import static controller.Util.Util.*;
 import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.MAX_SIZE;
+import static controller.constants.EntityConstants.FINALBOSS_AOE_SIZE;
 import static controller.constants.EntityConstants.OMENOCT_SIZE;
 
 public class CollisionUtil {
@@ -89,10 +92,34 @@ public class CollisionUtil {
 
     public static void entityDeath(Movable m) {
         Sound.sound().death();
+
         dataBase.getGamePanelModel().movables.remove(m);
+        if(m instanceof BossModel){
+            dataBase.getGamePanelModel().movables.remove(((BossModel) m).r);
+            dataBase.getGamePanelModel().movables.remove(((BossModel) m).l);
+            dataBase.getGamePanelModel().movables.remove(((BossModel) m).p);
+            removeEntity(((BossModel) m).l);
+            removeEntity(((BossModel) m).p);
+            removeEntity(((BossModel) m).r);
+        }
         if(m instanceof NecropickModel)((NecropickModel) m).timer.stop();
         removeEntity(m);
         death(m);
+    }
+    public static void bossAoe(){
+        for (int i = 0; i < dataBase.getGamePanelModel().boss.aoe.size(); i++) {
+            Point2D a = new Point2D.Double(dataBase.getGamePanelModel().boss.aoe.get(i).getX() + FINALBOSS_AOE_SIZE/2,
+                    dataBase.getGamePanelModel().boss.aoe.get(i).getY() + FINALBOSS_AOE_SIZE/2);
+            if(distance(centerLoc(dataBase.getGamePanelModel().playerModel),a)<=
+                    FINALBOSS_AOE_SIZE/2 + dataBase.getGamePanelModel().playerModel.size/2.0){
+                dataBase.getGamePanelModel().playerModel.counter++;
+                if(dataBase.getGamePanelModel().playerModel.counter >= 50){
+                    reduceHp(dataBase.getGamePanelModel().boss);
+                    dataBase.getGamePanelModel().playerModel.counter = 0;
+                }
+            }
+
+        }
     }
     private static void removeEntity(Movable m){
         for (int i = 0; i < panel.getDrawables().size(); i++) {
@@ -103,17 +130,22 @@ public class CollisionUtil {
         }
     }
     private static void death(Movable movable){
-        Enemy e = (Enemy) movable;
-        int n = e.collectables;
-        for (int i = 0; i < n; i++) {
-            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i*4, i *4)));
-            c.setCreator(e);
-            dataBase.collectableModels.add(c);
-            panel.getDrawables().add(createCollectableView(c));
+        if(movable instanceof BossModel)dataBase.getGamePanelModel().playerModel.setHp(
+                dataBase.getGamePanelModel().playerModel.getHp() + 250);
+       else {
+            Enemy e = (Enemy) movable;
+            int n = e.collectables;
+            for (int i = 0; i < n; i++) {
+                CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i * 4, i * 4)));
+                c.setCreator(e);
+                dataBase.collectableModels.add(c);
+                panel.getDrawables().add(createCollectableView(c));
+            }
         }
     }
     public static void reduceHp( Enemy movable){
         int w = movable.meleePower;
+        if(w == 0)w = 5;
         dataBase.getGamePanelModel().playerModel.setHp( dataBase.getGamePanelModel().playerModel.getHp() - w);
         checkDeath(dataBase.getGamePanelModel().playerModel);
     }

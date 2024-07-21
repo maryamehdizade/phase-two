@@ -28,6 +28,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public  Lhand l;
     public  Rhand r;
     public Phand p;
+    public int vomitCount;
     public boolean vulnerable;
 
     public BossModel() {
@@ -83,6 +84,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     }
     public void vomit(){
         if(aoe.size() <= 6)aoe.add(setLoc());
+        vomitCount++;
     }
     @Override
     public boolean rigidBody() {
@@ -191,7 +193,12 @@ public class BossModel extends Enemy implements Movable, Collidable {
         return l!=null && r!=null;
     }
     public boolean hasPunchHand(){
-        return p.occupied;
+        if(p!=null) return p.occupied;
+        return false;
+    }
+    public void reset(){
+        aoe = new ArrayList<>();
+        vomitCount = 0;
     }
     public void toggleOccupation(){
         p.occupied = !p.occupied;

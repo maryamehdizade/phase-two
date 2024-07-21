@@ -13,7 +13,7 @@ import static controller.constants.Constant.PANEL_LOCATION;
 
 public class DataBase {
     GamePanelModel gamePanelModel;
-    public BossModel boss;
+
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
     public ArrayList<EnemyBullets> enemyBullets = new ArrayList<>();
 

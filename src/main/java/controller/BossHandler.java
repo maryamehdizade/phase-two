@@ -17,35 +17,38 @@ public class BossHandler {
 
     public BossHandler(Update u) {
         update = u;
-        boss= update.dataBase.boss;
+        boss= update.dataBase.gamePanelModel.boss;
     }
 
     public static void attack() {
         if(Math.random()<=0.1) {
 //            if (epsilonIsBetweenHeadAndHands() && !attacks.contains(Attacks.squeeze)) attacks.add(Attacks.squeeze);
 //            else if (!epsilonIsBetweenHeadAndHands()) attacks.remove(Attacks.squeeze);
-            if(attacks.isEmpty()&&Math.random() <= 0.5 && boss.hasTwoHands())attacks.add(Attacks.projectile);
+            if(attacks.isEmpty()&&Math.random() <= 0.5 && boss.hasTwoHands())attacks.add(Attacks.vomit);
 //            System.out.println(attacks);
-            switch ((int) (Math.random()*4)){
-                case 0 -> {
-                    if(boss.hasTwoHands())attacks.add(Attacks.projectile);
-                }case 1 -> {
-                    attacks.add(Attacks.vomit);
-                }case 2 -> {
-                    attacks.add(Attacks.RapidFire);
-                }
-            }
-            switch ((int) (Math.random()*4)){
-                case 0 -> {
-                    if(!attacks.contains(Attacks.Quake))attacks.add(Attacks.powerPunch);
-                }case 1 -> {
-                    if(!attacks.contains(Attacks.powerPunch))attacks.add(Attacks.Quake);
-                }case 2 -> {
-                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.squeeze))attacks.add(Attacks.Slap);
-                }case 3 -> {
-                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.Slap))attacks.add(Attacks.squeeze);
-                }
-            }
+//            switch ((int) (Math.random()*4)){
+//                case 0 -> {
+//                    if(boss.hasTwoHands()&&epsilonIsBetweenHeadAndHands()&&!attacks.contains(Attacks.projectile))
+//                        attacks.add(Attacks.projectile);
+//                }case 1 -> {
+//                    if(!attacks.contains(Attacks.vomit))attacks.add(Attacks.vomit);
+//                }case 2 -> {
+//                   if(!attacks.contains(Attacks.RapidFire)) attacks.add(Attacks.RapidFire);
+//                }
+//            }
+//            switch ((int) (Math.random()*4)){
+//                case 0 -> {
+//                    if(!attacks.contains(Attacks.Quake) && !attacks.contains(Attacks.powerPunch))attacks.add(Attacks.powerPunch);
+//                }case 1 -> {
+//                    if(!attacks.contains(Attacks.powerPunch)&&!attacks.contains(Attacks.Quake))attacks.add(Attacks.Quake);
+//                }case 2 -> {
+//                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.squeeze)&&!attacks.contains(Attacks.Slap))
+//                        attacks.add(Attacks.Slap);
+//                }case 3 -> {
+//                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.Slap)&&!attacks.contains(Attacks.squeeze))
+//                        attacks.add(Attacks.squeeze);
+//                }
+//            }
         }
         if(boss.getHp() <= FINALBOSS_HP*2/3&&!boss.hasPunchHand()){
             boss.p = new Phand();

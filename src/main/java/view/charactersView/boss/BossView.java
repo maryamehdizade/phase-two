@@ -11,7 +11,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import static controller.constants.EntityConstants.FINALBOSS_AOE_SIZE;
 import static controller.constants.EntityConstants.SMILEY_DRAW_SIZE;
 
 public class BossView implements Drawable {
@@ -21,6 +23,7 @@ public class BossView implements Drawable {
     public lHandView l;
     public rHandView r;
     public pHandView p;
+    public ArrayList<Point2D> aoe = new ArrayList<>();
     private Point2D loc = new Point2D.Double();
     public BossView(Image i,String id, Point2D l){
         this.id = id;
@@ -30,10 +33,15 @@ public class BossView implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-//        System.out.println(loc);
-        g.drawImage(img,(int)loc.getX(),(int)loc.getY(),(int)SMILEY_DRAW_SIZE.getX(),(int)SMILEY_DRAW_SIZE.getY(),null);
+        g.drawImage(img, (int) loc.getX(), (int) loc.getY(), (int) SMILEY_DRAW_SIZE.getX(), (int) SMILEY_DRAW_SIZE.getY(), null);
+        g.setColor(Color.black);
+        g.drawString(String.valueOf(hp), (int) (loc.getX() + SMILEY_DRAW_SIZE.getX() / 2), (int) (loc.getY() + SMILEY_DRAW_SIZE.getY() / 2));
 
-        g.drawString(String.valueOf(hp), (int) (loc.getX() + SMILEY_DRAW_SIZE.getX()/2), (int) (loc.getY() + SMILEY_DRAW_SIZE.getY()/2));
+        for (Point2D p : aoe) {
+            g.setColor(Color.pink);
+            g.fillOval((int) p.getX(), (int) p.getY(), FINALBOSS_AOE_SIZE, FINALBOSS_AOE_SIZE);
+        }
+
     }
 
     @Override

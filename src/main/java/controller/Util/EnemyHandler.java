@@ -73,7 +73,7 @@ public class EnemyHandler {
                 b.l = l;
                 panel.getDrawables().add(l);
                 dataBase.getGamePanelModel().movables.add(n.l);
-                dataBase.boss = n;
+                dataBase.getGamePanelModel().boss = n;
 
                 panelModel.enemies ++;
             }

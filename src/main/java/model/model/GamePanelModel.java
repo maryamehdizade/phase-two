@@ -1,6 +1,7 @@
 package model.model;
 
 import model.characterModel.PlayerModel;
+import model.characterModel.enemy.boss.BossModel;
 import model.movement.Movable;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ public class GamePanelModel {
     public int aresCount ;
     public int acesoCount ;
     public int proteusCount ;
+    public BossModel boss;
     public int power;
     public boolean isometric;
     public boolean rigidBody;
