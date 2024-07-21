@@ -18,9 +18,9 @@ public class EntityConstants {
     public static final int ORB_CIRCLE_SIZE = 40;
     public static final int SMILEY_SIZE = 90;
     public static final Point2D SMILEY_DRAW_SIZE = new Point2D.Double(200, 212);
-    public static final Point2D R_HAND_SIZE = new Point2D.Double(40, 63);
-    public static final Point2D L_HAND_SIZE = new Point2D.Double(40, 66);
-    public static final Point2D P_HAND_SIZE = new Point2D.Double(60, 60);
+    public static final Point2D R_HAND_SIZE = new Point2D.Double(80, 120);
+    public static final Point2D L_HAND_SIZE = new Point2D.Double(80, 120);
+    public static final Point2D P_HAND_SIZE = new Point2D.Double(120, 120);
 
 
 }

@@ -7,6 +7,9 @@ import model.model.GamePanelModel;
 import model.characterModel.enemy.*;
 import model.movement.Movable;
 import sound.Sound;
+import view.charactersView.boss.BossView;
+import view.charactersView.boss.lHandView;
+import view.charactersView.boss.rHandView;
 import view.pages.Game;
 import view.pages.GamePanel;
 
@@ -36,13 +39,8 @@ public class EnemyHandler {
             if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
                     (panelModel.wave == 3 && panelModel.enemies <= 20)) {
                 Sound.sound().entrance();
-
-//                FinalBoss n = new FinalBoss();
-                Lhand b = new Lhand();
-                Rhand c= new Rhand();
-                Phand p = new Phand();
+                update.d = true;
                 BossModel n = new BossModel();
-//                FinalBoss boss = new FinalBoss(b, c, p, n);
 
 //                if(Game.getGame().getPhase() == 0) {
 //                    if (panelModel.random.nextInt(0, 2) == 1) {
@@ -61,15 +59,20 @@ public class EnemyHandler {
 //                        n = new WyrmModel();
 //                    else n = new BarricadosModel();
 //                }
-
-                panel.getDrawables().add(createEnemyView(n));
+                BossView b = (BossView) createEnemyView(n);
+                panel.getDrawables().add(b);
                 dataBase.getGamePanelModel().movables.add(n);
 //                panel.getDrawables().add(createEnemyView(n.p));
 //                dataBase.getGamePanelModel().movables.add(n.p);
-//                panel.getDrawables().add(createEnemyView(n.r));
-//                dataBase.getGamePanelModel().movables.add(n.r);
-//                panel.getDrawables().add(createEnemyView(n.l));
-//                dataBase.getGamePanelModel().movables.add(n.l);
+
+                rHandView r = (rHandView) createEnemyView(n.r);
+                b.r = r;
+                panel.getDrawables().add(r);
+                dataBase.getGamePanelModel().movables.add(n.r);
+                lHandView l = (lHandView) createEnemyView(n.l);
+                b.l = l;
+                panel.getDrawables().add(l);
+                dataBase.getGamePanelModel().movables.add(n.l);
                 dataBase.boss = n;
 
                 panelModel.enemies ++;

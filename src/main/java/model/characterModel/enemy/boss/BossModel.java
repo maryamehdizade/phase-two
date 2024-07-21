@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static controller.constants.EntityConstants.SMILEY_DRAW_SIZE;
-import static controller.constants.EntityConstants.SMILEY_SIZE;
+import static controller.constants.EntityConstants.*;
 import static controller.constants.ImageFiles.smiley;
 
 public class BossModel extends Enemy implements Movable, Collidable {
@@ -42,6 +41,8 @@ public class BossModel extends Enemy implements Movable, Collidable {
             e.printStackTrace();
         }
         loc = new Point2D.Double(500,-200);
+        l = new Lhand(this);
+        r = new Rhand(this);
     }
 
     boolean inPlace;
@@ -58,6 +59,8 @@ public class BossModel extends Enemy implements Movable, Collidable {
     }
     private void moveDown(){
         loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+        r.setLoc(new Point2D.Double(getLoc().getX() - R_HAND_SIZE.getX() - 100,getLoc().getY() + 100));
+        l.setLoc(new Point2D.Double(getLoc().getX() + L_HAND_SIZE.getX()+ SMILEY_SIZE + 100,getLoc().getY() + 100));
     }
     @Override
     public boolean rigidBody() {

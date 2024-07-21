@@ -2,12 +2,9 @@ package controller;
 
 import controller.Util.SkillTreeHandler;
 import model.characterModel.enemy.boss.BossModel;
-import model.characterModel.enemy.boss.FinalBoss;
 import model.model.GamePanelModel;
-import model.characterModel.PlayerModel;
 import model.characterModel.enemy.CollectableModel;
 import model.characterModel.enemy.EnemyBullets;
-import model.movement.Movable;
 
 import java.util.ArrayList;
 

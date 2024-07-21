@@ -135,11 +135,11 @@ public class Update {
 
     }
     private void updateBoss(BossView view){
-//        view.l.setLoc(dataBase.boss.l.getLoc());
-//        view.l.setHp(dataBase.boss.l.getHp());
+        view.l.setLoc(dataBase.boss.l.getLoc());
+        view.l.setHp(dataBase.boss.l.getHp());
 //
-//        view.r.setLoc(dataBase.boss.r.getLoc());
-//        view.r.setHp(dataBase.boss.r.getHp());
+        view.r.setLoc(dataBase.boss.r.getLoc());
+        view.r.setHp(dataBase.boss.r.getHp());
 //
 //        view.p.setLoc(dataBase.boss.p.getLoc());
 //        view.p.setHp(dataBase.boss.p.getHp());
@@ -282,12 +282,15 @@ public class Update {
             }
             updateEnemyBullet();
         }
-        addingEnemies();
+        if(!d){
+            addingEnemies();
+        }
         if (Game.getGame().getPhase() == 0) phaseOne();
         else phaseTwo();
         updateCollectable();
         victory();
     }
+    public boolean d;
     private void updateBar(BarricadosModel b){
         if(b.sec >=120){
             b.timer.stop();
