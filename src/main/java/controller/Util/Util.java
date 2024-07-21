@@ -93,8 +93,8 @@ public class Util {
                 ,random.nextDouble(120,model.getDimension().getHeight() - 150));
     }
     public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
-    return e.getLoc().getX() + panel.getLoc().getX() <= 10 ||
-            e.getLoc().getY() + panel.getLoc().getY() >= FRAME_DIMENSION.getHeight() - 10;
+    return e.getLoc().getX() >= FRAME_DIMENSION.getWidth() -10 ||e.getLoc().getX() <= 20||e.getLoc().getY()<= 20
+            || e.getLoc().getY()  >= FRAME_DIMENSION.getHeight() - 10 ;
     }
     public static boolean bulletIsOutSideOfPanel(EnemyBullets e, GamePanelModel panel){
         return e.getLoc().getX() <= 0 || e.getLoc().getY()>= panel.getDimension().getHeight() ||

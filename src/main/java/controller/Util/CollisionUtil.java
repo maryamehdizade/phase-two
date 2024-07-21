@@ -4,6 +4,9 @@ import controller.DataBase;
 import controller.Update;
 import controller.model.BlackOrbCircles;
 import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
+import model.characterModel.enemy.boss.Phand;
+import model.characterModel.enemy.boss.Rhand;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -58,32 +61,32 @@ public class CollisionUtil {
         checkDeath(r);
     }
     public static void checkLeftOmenocts(){
-        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
-            Movable o = dataBase.getGamePanelModel().movables.get(i);
+        for (int i = 0; i < panelModel.movables.size(); i++) {
+            Movable o = panelModel.movables.get(i);
             if(o instanceof Omenoctmodel && o.getLoc().getX() <= 0 &&o.getLoc().getX()>= -5){
                 injured(o);
             }
         }
     }
     public static void checkRightOmenocts(){
-        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
-            Movable o = dataBase.getGamePanelModel().movables.get(i);
+        for (int i = 0; i < panelModel.movables.size(); i++) {
+            Movable o = panelModel.movables.get(i);
             if(o instanceof Omenoctmodel && o.getLoc().getX() + OMENOCT_SIZE >= panel.getWidth() -5 &&o.getLoc().getX() + OMENOCT_SIZE <= panel.getWidth() +5){
                 injured(o);
             }
         }
     }
     public static void checkDownOmenocts(){
-        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
-            Movable o = dataBase.getGamePanelModel().movables.get(i);
+        for (int i = 0; i < panelModel.movables.size(); i++) {
+            Movable o = panelModel.movables.get(i);
             if(o instanceof Omenoctmodel && o.getLoc().getY() + OMENOCT_SIZE >= panel.getHeight()-5&&o.getLoc().getY() + OMENOCT_SIZE <= panel.getHeight()+5){
                 injured(o);
             }
         }
     }
     public static void checkTopOmenocts(){
-        for (int i = 0; i < dataBase.getGamePanelModel().movables.size(); i++) {
-            Movable o = dataBase.getGamePanelModel().movables.get(i);
+        for (int i = 0; i < panelModel.movables.size(); i++) {
+            Movable o = panelModel.movables.get(i);
             if(o instanceof Omenoctmodel && o.getLoc().getY() <= 0&&o.getLoc().getY()>=-5){
                 injured(o);
             }
@@ -93,29 +96,34 @@ public class CollisionUtil {
     public static void entityDeath(Movable m) {
         Sound.sound().death();
 
-        dataBase.getGamePanelModel().movables.remove(m);
-        if(m instanceof BossModel){
-            dataBase.getGamePanelModel().movables.remove(((BossModel) m).r);
-            dataBase.getGamePanelModel().movables.remove(((BossModel) m).l);
-            dataBase.getGamePanelModel().movables.remove(((BossModel) m).p);
+        panelModel.movables.remove(m);
+        if (m instanceof BossModel) {
+            panelModel.movables.remove(((BossModel) m).r);
+            panelModel.movables.remove(((BossModel) m).l);
+            panelModel.movables.remove(((BossModel) m).p);
             removeEntity(((BossModel) m).l);
             removeEntity(((BossModel) m).p);
             removeEntity(((BossModel) m).r);
-        }
-        if(m instanceof NecropickModel)((NecropickModel) m).timer.stop();
+            update.phaseTwoVic();
+            
+        } 
+        else if (m instanceof Rhand) panelModel.boss.r = null;
+        else if (m instanceof Lhand) panelModel.boss.l = null;
+        else if (m instanceof Phand) panelModel.boss.p = null;
+        if (m instanceof NecropickModel) ((NecropickModel) m).timer.stop();
         removeEntity(m);
         death(m);
     }
     public static void bossAoe(){
-        for (int i = 0; i < dataBase.getGamePanelModel().boss.aoe.size(); i++) {
-            Point2D a = new Point2D.Double(dataBase.getGamePanelModel().boss.aoe.get(i).getX() + FINALBOSS_AOE_SIZE/2,
-                    dataBase.getGamePanelModel().boss.aoe.get(i).getY() + FINALBOSS_AOE_SIZE/2);
-            if(distance(centerLoc(dataBase.getGamePanelModel().playerModel),a)<=
-                    FINALBOSS_AOE_SIZE/2 + dataBase.getGamePanelModel().playerModel.size/2.0){
-                dataBase.getGamePanelModel().playerModel.counter++;
-                if(dataBase.getGamePanelModel().playerModel.counter >= 50){
-                    reduceHp(dataBase.getGamePanelModel().boss);
-                    dataBase.getGamePanelModel().playerModel.counter = 0;
+        for (int i = 0; i < panelModel.boss.aoe.size(); i++) {
+            Point2D a = new Point2D.Double(panelModel.boss.aoe.get(i).getX() + FINALBOSS_AOE_SIZE/2,
+                    panelModel.boss.aoe.get(i).getY() + FINALBOSS_AOE_SIZE/2);
+            if(distance(centerLoc(panelModel.playerModel),a)<=
+                    FINALBOSS_AOE_SIZE/2 + panelModel.playerModel.size/2.0){
+                panelModel.playerModel.counter++;
+                if(panelModel.playerModel.counter >= 50){
+                    reduceHp(panelModel.boss);
+                    panelModel.playerModel.counter = 0;
                 }
             }
 
@@ -130,8 +138,8 @@ public class CollisionUtil {
         }
     }
     private static void death(Movable movable){
-        if(movable instanceof BossModel)dataBase.getGamePanelModel().playerModel.setHp(
-                dataBase.getGamePanelModel().playerModel.getHp() + 250);
+        if(movable instanceof BossModel)panelModel.playerModel.setHp(
+                panelModel.playerModel.getHp() + 250);
        else {
             Enemy e = (Enemy) movable;
             int n = e.collectables;
@@ -146,8 +154,8 @@ public class CollisionUtil {
     public static void reduceHp( Enemy movable){
         int w = movable.meleePower;
         if(w == 0)w = 5;
-        dataBase.getGamePanelModel().playerModel.setHp( dataBase.getGamePanelModel().playerModel.getHp() - w);
-        checkDeath(dataBase.getGamePanelModel().playerModel);
+        panelModel.playerModel.setHp( panelModel.playerModel.getHp() - w);
+        checkDeath(panelModel.playerModel);
     }
     private static void checkDeath(Movable r){
         if (r.getHp() <= 0) {
@@ -161,8 +169,8 @@ public class CollisionUtil {
 
     public static void reduceHp(EnemyBullets bullet){
         int w = bullet.creator.rangedPower;
-        dataBase.getGamePanelModel().playerModel.setHp(dataBase.getGamePanelModel().playerModel.getHp() - w);
-        if( dataBase.getGamePanelModel().playerModel.getHp() <= 0){
+        panelModel.playerModel.setHp(panelModel.playerModel.getHp() - w);
+        if( panelModel.playerModel.getHp() <= 0){
             update.gameOver();
         }
     }
@@ -175,7 +183,7 @@ public class CollisionUtil {
                     break;
                 }
         }
-        dataBase.getGamePanelModel().movables.remove(bulletModel);
+        panelModel.movables.remove(bulletModel);
     }
     public static void removeEnemyBullet(EnemyBullets e){
         for (int i = 0; i < panel.getDrawables().size(); i++) {
