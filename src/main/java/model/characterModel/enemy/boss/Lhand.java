@@ -11,16 +11,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static controller.constants.EntityConstants.L_HAND_SIZE;
-import static controller.constants.EntityConstants.SMILEY_SIZE;
+import static controller.Util.BossHandler.attacks;
+import static controller.Util.CollisionUtil.reduceHp;
+import static controller.Util.Util.*;
+import static controller.constants.Constant.FRAME_DIMENSION;
+import static controller.constants.EntityConstants.*;
 import static controller.constants.ImageFiles.lHand;
 
 public class Lhand extends Enemy implements Movable, Collidable {
     private Point2D loc= new Point2D.Double();
     private String id;
     private File file;
-    private int xvelocity;
-    private int yvelocity;
     public boolean vulnerable;
     private int hp = 100;
     private BossModel head;
@@ -48,6 +49,28 @@ public class Lhand extends Enemy implements Movable, Collidable {
     public boolean rigidBody() {
         return true;
     }
+    private boolean slap;
+
+    public void setSlap(boolean slap) {
+        this.slap = slap;
+    }
+
+    public boolean isSlap() {
+        return slap;
+    }
+
+    public void slap(){
+        speed = 3;
+        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX()  - loc.getX()));
+        xvelocity = (Math.cos(m) * 2) * speed;
+        yvelocity = (Math.sin(m) * 2) * speed;
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        if(distance(centerLoc(playerModel),centerLoc(this)) <= this.size()/2.0  +playerModel.size()/2.0){
+            attacks.remove(Attacks.Slap);slap = false;
+            reduceHp(this);
+        }
+        speed = 2;
+    }
 
     @Override
     public boolean solid() {
@@ -56,6 +79,12 @@ public class Lhand extends Enemy implements Movable, Collidable {
 
     @Override
     public int move() {
+        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() +200 - loc.getX()));
+        xvelocity = (Math.cos(m) * 2) * speed;
+        yvelocity = (Math.sin(m) * 2) * speed;
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        if(distance(addVector(playerModel.getLoc(),new Point2D.Double(200,-70)),centerLoc(this)) <= 50)attacks.remove(Attacks.squeeze);
+
         return 0;
     }
 
@@ -71,7 +100,7 @@ public class Lhand extends Enemy implements Movable, Collidable {
 
     @Override
     public boolean collides() {
-        return false;
+        return true;
     }
 
     @Override

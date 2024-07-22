@@ -5,6 +5,9 @@ import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.ArchmireModel;
 import model.characterModel.enemy.BlackOrbModel;
+import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
+import model.characterModel.enemy.boss.Rhand;
 import model.model.Enemy;
 import model.characterModel.enemy.EnemyBullets;
 import model.characterModel.enemy.WyrmModel;
@@ -167,7 +170,8 @@ public interface Collidable {
                                         if (m.doesMeleeAtack()) {
                                             //reduce n hp
                                             if (n instanceof PlayerModel) reduceHp((Enemy) m);
-                                            else if(!(n instanceof WyrmModel))injured(n);
+                                            else if(!(n instanceof WyrmModel)&&!(n instanceof BossModel)
+                                                    &&!(n instanceof Rhand)&&!(n instanceof Lhand)) injured(n);
                                         }
                                     }
                                     impact(new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]), IMPACT_RANGE);
@@ -190,7 +194,8 @@ public interface Collidable {
                                     if (p.contains(m.getxPoints()[i], m.getyPoints()[i])) {
                                         if (m instanceof PlayerModel) {
                                             //reduce n hp
-                                            if(!(n instanceof WyrmModel))injured(n);
+                                            if(!(n instanceof WyrmModel)&&!(n instanceof BossModel)
+                                                    &&!(n instanceof Rhand)&&!(n instanceof Lhand)) injured(n);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
@@ -216,7 +221,8 @@ public interface Collidable {
                                     if (p.contains(n.getxPoints()[i], n.getyPoints()[i])) {
                                         if (n instanceof PlayerModel) {
                                             //reduce m hp
-                                            if(!(m instanceof WyrmModel))injured(m);
+                                            if(!(m instanceof WyrmModel)&&!(m instanceof BossModel)
+                                                    &&!(m instanceof Rhand)&&!(m instanceof Lhand)) injured(m);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);

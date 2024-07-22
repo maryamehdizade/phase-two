@@ -25,37 +25,47 @@ public class BossHandler {
     }
 
     public static void attack() {
-        if(Math.random()<=0.1) {
-//            if (epsilonIsBetweenHeadAndHands() && !attacks.contains(Attacks.squeeze)) attacks.add(Attacks.squeeze);
-//            else if (!epsilonIsBetweenHeadAndHands()) attacks.remove(Attacks.squeeze);
-            if(attacks.isEmpty()&&Math.random() <= 0.5 && boss.hasPunchHand()){
-                boss.toggleOccupation();
-                attacks.add(Attacks.Quake);
+        if(Math.random()<=0.05) {
+            switch ((int) (Math.random()*4)){
+                case 0 -> {
+                    if(boss.hasTwoHands()&&epsilonIsBetweenHeadAndHands()&&!attacks.contains(Attacks.projectile))
+                        attacks.add(Attacks.projectile);
+                }case 1 -> {
+                    if(!attacks.contains(Attacks.vomit)&&(!attacks.contains(Attacks.RapidFire)))attacks.add(Attacks.vomit);
+                }case 2 -> {
+                   if(!attacks.contains(Attacks.RapidFire)&&!(attacks.contains(Attacks.vomit))) attacks.add(Attacks.RapidFire);
+                }
             }
-//            System.out.println(attacks);
-//            switch ((int) (Math.random()*4)){
-//                case 0 -> {
-//                    if(boss.hasTwoHands()&&epsilonIsBetweenHeadAndHands()&&!attacks.contains(Attacks.projectile))
-//                        attacks.add(Attacks.projectile);
-//                }case 1 -> {
-//                    if(!attacks.contains(Attacks.vomit))attacks.add(Attacks.vomit);
-//                }case 2 -> {
-//                   if(!attacks.contains(Attacks.RapidFire)) attacks.add(Attacks.RapidFire);
-//                }
-//            }
-//            switch ((int) (Math.random()*4)){
-//                case 0 -> {
-//                    if(!attacks.contains(Attacks.Quake) && !attacks.contains(Attacks.powerPunch))attacks.add(Attacks.powerPunch);
-//                }case 1 -> {
-//                    if(!attacks.contains(Attacks.powerPunch)&&!attacks.contains(Attacks.Quake))attacks.add(Attacks.Quake);
-//                }case 2 -> {
-//                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.squeeze)&&!attacks.contains(Attacks.Slap))
-//                        attacks.add(Attacks.Slap);
-//                }case 3 -> {
-//                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.Slap)&&!attacks.contains(Attacks.squeeze))
-//                        attacks.add(Attacks.squeeze);
-//                }
-//            }
+            switch ((int) (Math.random()*5)){
+                case 0 -> {
+                    if(boss.hasPunchHand())attacks.add(Attacks.powerPunch);
+                }case 1 -> {
+                    if(boss.hasPunchHand())attacks.add(Attacks.Quake);
+                }case 2 -> {
+                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.squeeze)&&!attacks.contains(Attacks.Slap)) {
+                        attacks.add(Attacks.Slap);
+                        switch ((int)(Math.random()*3)){
+                            case 0-> boss.r.setSlap(true);
+                            case 1 -> boss.l.setSlap(true);
+                            case 2 -> {
+                                if(boss.hasPunchHand())boss.p.setSlap(true);
+                            }
+                        }
+                    }
+                }case 3 -> {
+                    if(boss.hasTwoHands()&&!attacks.contains(Attacks.Slap)&&!attacks.contains(Attacks.squeeze))
+                        attacks.add(Attacks.squeeze);
+                }
+            }
+            System.out.println(attacks);
+            if(attacks.contains(Attacks.vomit)||attacks.contains(Attacks.squeeze)||
+                    attacks.contains(Attacks.powerPunch)||attacks.contains(Attacks.RapidFire)
+                    ||attacks.contains(Attacks.Slap))boss.vulnerable = true;
+            else boss.vulnerable = false;
+            if(attacks.contains(Attacks.projectile)){
+                if(boss.r!=null)boss.r.vulnerable = true;
+                if(boss.l!=null)boss.l.vulnerable = true;
+            }
         }
         if(boss.getHp() <= FINALBOSS_HP*2/3&&boss.p==null){
             boss.p = new Phand();
@@ -70,10 +80,11 @@ public class BossHandler {
 
 
     private static boolean epsilonIsBetweenHeadAndHands() {
-        return boss.getLoc().getY() < boss.playerModel.getLocation().getY() &&
+        if(boss.hasTwoHands()) return boss.getLoc().getY() < boss.playerModel.getLocation().getY() &&
                 boss.l.getLoc().getX() > boss.playerModel.getLocation().getX() &&
                 boss.r.getLoc().getX() < boss.playerModel.getLocation().getX()&&
                 boss.r.getLoc().getY() + R_HAND_SIZE.getY()< boss.playerModel.getLocation().getY();
+        return false;
     }
 
     public void setBoss(BossModel boss) {

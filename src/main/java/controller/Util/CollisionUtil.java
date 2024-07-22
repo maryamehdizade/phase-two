@@ -42,9 +42,13 @@ public class CollisionUtil {
 
     }
     public static void injured(Movable r){
-        Sound.sound().injured();
-        r.setHp(r.getHp() - panelModel.power);
-        checkDeath(r);
+        if((r instanceof Rhand && !((Rhand) r).vulnerable) ||(r instanceof Lhand && !((Lhand) r).vulnerable)
+        ||(r instanceof BossModel && !((BossModel) r).vulnerable)) {
+        }else{
+            Sound.sound().injured();
+            r.setHp(r.getHp() - panelModel.power);
+            checkDeath(r);
+        }
     }
     public static void aoeDamage(Movable r, ArchmireModel a){
         if(!(r instanceof PlayerModel))Sound.sound().injured();

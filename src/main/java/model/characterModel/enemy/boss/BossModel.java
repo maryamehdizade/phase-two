@@ -3,6 +3,9 @@ package model.characterModel.enemy.boss;
 import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
+
+import static controller.constants.Constant.FRAME_DIMENSION;
+import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.listner.MyListner.v;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,7 +36,8 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public Phand p;
     public int vomitCount;
     public int quackCount;
-    public boolean vomit;
+    public int projectileCount;
+    public int rapidFire;
     public boolean vulnerable;
 
     public BossModel() {
@@ -55,6 +59,11 @@ public class BossModel extends Enemy implements Movable, Collidable {
     }
 
     public boolean inPlace;
+    public void slap(){
+        if(l.isSlap())l.slap();
+        if(r.isSlap())r.slap();
+        if(p.isSlap())p.slap();
+    }
     @Override
     public int move() {
         if(!inPlace) {
@@ -64,15 +73,20 @@ public class BossModel extends Enemy implements Movable, Collidable {
                 inPlace = true;
             }
         }
+        if(loc.getX()<5)loc = new Point2D.Double(loc.getX() + speed,loc.getY());
+        if(loc.getY()<5)loc = new Point2D.Double(loc.getX() ,loc.getY()+ speed);
+        if(loc.getX()>PANEL_DIMENSION.getWidth() - 200)loc = new Point2D.Double(loc.getX() - speed,loc.getY());
+        if(loc.getY()>PANEL_DIMENSION.getHeight()- 200)loc = new Point2D.Double(loc.getX() ,loc.getY()- speed);
         return 0;
     }
     private void moveDown(){
         loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
-        squeeze();
-    }
-    public void squeeze(){
         r.moveDown();
         l.moveDown();
+    }
+    public void squeeze(){
+        r.move();
+        l.move();
     }
     public void powerPunch(){
         if(!p.inPlace)p.move();
@@ -84,18 +98,19 @@ public class BossModel extends Enemy implements Movable, Collidable {
             attacks.remove(Attacks.powerPunch);
         }
     }
+    
     public void quake(){
         if(!p.inPlace)p.move(4);
         else {
-            impact(p.getLoc(),100);
+            impact(p.getLoc(),50);
             p.inPlace = false;
             toggleOccupation();
             v = 4;
-            guakeCounter();
+            quakeCounter();
         }
     }
     Timer counter;
-    void guakeCounter(){
+    void quakeCounter(){
         counter = new Timer(1000,e->{
             quackCount++;
             if(quackCount >= 8){
@@ -117,7 +132,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
                     loc.getX() - playerModel.getLocation().getX());
 
         }
-
+        projectileCount++;
         move(angle);
     }
     public void vomit(){
@@ -149,7 +164,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     @Override
     public boolean collides() {
-        return false;
+        return true;
     }
 
     @Override

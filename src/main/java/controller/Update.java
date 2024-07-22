@@ -134,12 +134,14 @@ public class Update {
 
     }
     private void updateBoss(BossView view){
-        view.l.setLoc(panelModel.boss.l.getLoc());
-        view.l.setHp(panelModel.boss.l.getHp());
-
-        view.r.setLoc(panelModel.boss.r.getLoc());
-        view.r.setHp(panelModel.boss.r.getHp());
-
+        if(panelModel.boss.l != null){
+            view.l.setLoc(panelModel.boss.l.getLoc());
+            view.l.setHp(panelModel.boss.l.getHp());
+        }
+        if(panelModel.boss.r != null){
+            view.r.setLoc(panelModel.boss.r.getLoc());
+            view.r.setHp(panelModel.boss.r.getHp());
+        }
         if(panelModel.boss.p != null) {
             view.p.setLoc(panelModel.boss.p.getLoc());
             view.p.setHp(panelModel.boss.p.getHp());
@@ -397,8 +399,7 @@ public class Update {
     private void updateEnemyBullet(EnemyBullets e) {
         e.move();
         e.collision(panelModel.playerModel);
-        boolean x = bulletIsOutSideOfFrame(e, panelModel);
-        if (e.rigidBody()) x = bulletIsOutSideOfPanel(e, panelModel);
+        boolean x = bulletIsOutSideOfPanel(e, panelModel);
         if (x) {
             for (int i = 0; i < panel.getDrawables().size(); i++) {
                 Drawable a = panel.getDrawables().get(i);
@@ -462,12 +463,12 @@ public class Update {
         }
     }
     private void updateBossModel(){
-        if(!panelModel.boss.inPlace)panelModel.boss.move();
-        else attack();
+        panelModel.boss.move();
+        if(panelModel.boss.inPlace)attack();
 
         checkCollision(panelModel.boss);
-        checkCollision(panelModel.boss.r);
-        checkCollision(panelModel.boss.l);
+        if(panelModel.boss.r!=null)checkCollision(panelModel.boss.r);
+        if(panelModel.boss.l!=null)checkCollision(panelModel.boss.l);
         if(panelModel.boss.p!= null)checkCollision(panelModel.boss.p);
 
         squeezeCheck();
@@ -476,6 +477,7 @@ public class Update {
         rapidFireCheck();
         powerPunchCheck();
         quakeCheck();
+        slapCheck();
     }
     int i;
     private void createRandomBullet(Movable n){
@@ -598,8 +600,12 @@ public class Update {
     Timer t;
     private void rapidFireCheck(){
         if(attacks.contains(Attacks.RapidFire)){
-            panelModel.boss.vulnerable = true;
             if (random.nextDouble(0,100) < 0.85) createRandomBullet(panelModel.boss);
+            panelModel.boss.rapidFire++;
+            if(panelModel.boss.rapidFire>=500){
+                panelModel.boss.rapidFire =0;
+                attacks.remove(Attacks.RapidFire);
+            }
         }
     }
     private void quakeCheck(){
@@ -609,22 +615,27 @@ public class Update {
     }
     private void powerPunchCheck(){
         if(attacks.contains(Attacks.powerPunch)){
-            panelModel.boss.vulnerable = true;
             panelModel.boss.powerPunch();
         }
     }
     private void squeezeCheck(){
         if(attacks.contains(Attacks.squeeze)){
             panelModel.boss.squeeze();
-            panelModel.boss.vulnerable = true;
         }
     }
     private void projectileCheck(){
         if(attacks.contains(Attacks.projectile)) {
-            panelModel.boss.r.vulnerable = true;
-            panelModel.boss.l.vulnerable = true;
             panelModel.boss.projectile();
             if (random.nextDouble(0,100) < 0.5) createBullet(panelModel.boss);
+            if(panelModel.boss.projectileCount>=500){
+                panelModel.boss.projectileCount =0;
+                attacks.remove(Attacks.projectile);
+            }
+        }
+    }
+    private void slapCheck(){
+        if(attacks.contains(Attacks.Slap)) {
+            panelModel.boss.slap();
         }
     }
     private void vomitCheck(){

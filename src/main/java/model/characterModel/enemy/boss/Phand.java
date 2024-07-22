@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
+import static controller.Util.BossHandler.attacks;
+import static controller.Util.CollisionUtil.reduceHp;
 import static controller.Util.Util.*;
 import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.EntityConstants.P_HAND_SIZE;
@@ -66,9 +68,33 @@ public class Phand extends Enemy implements Movable, Collidable {
         return 0;
     }
 
+    private boolean slap;
+
+    public void setSlap(boolean slap) {
+        this.slap = slap;
+    }
+
+    public boolean isSlap() {
+        return slap;
+    }
+
+    public void slap(){
+        occupied= true;
+        speed = 3;
+        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX()  - loc.getX()));
+        xvelocity = (Math.cos(m) * 2) * speed;
+        yvelocity = (Math.sin(m) * 2) * speed;
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        if(distance(centerLoc(playerModel),centerLoc(this)) <= this.size()/2.0  +playerModel.size()/2.0){
+            attacks.remove(Attacks.Slap);
+            slap = false;reduceHp(this);
+            occupied = false;
+        }
+        speed = 2;
+    }
     @Override
     public void move(double velocity) {
-        m = Math.atan2(FRAME_DIMENSION.getHeight() -P_HAND_SIZE.getY()- loc.getY(), (playerModel.getLocation().getX()  - loc.getX()));
+        m = Math.atan2(FRAME_DIMENSION.getHeight() -P_HAND_SIZE.getY()- loc.getY(), (500  - loc.getX()));
         xvelocity = (Math.cos(m) * 2) * velocity;
         yvelocity = (Math.sin(m) * 2) * velocity;
         loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
