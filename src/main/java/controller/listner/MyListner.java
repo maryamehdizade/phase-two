@@ -2,6 +2,13 @@ package controller.listner;
 
 import controller.DataBase;
 import model.characterModel.BulletModel;
+import model.characterModel.PlayerModel;
+import model.characterModel.enemy.EnemyBullets;
+import model.characterModel.enemy.boss.BossModel;
+import model.characterModel.enemy.boss.Lhand;
+import model.characterModel.enemy.boss.Phand;
+import model.characterModel.enemy.boss.Rhand;
+import model.movement.Movable;
 import view.pages.GamePanel;
 import view.pages.Menu;
 import view.pages.SkillTree;
@@ -11,9 +18,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 
 import static controller.Controller.createBulletView;
-import static controller.Util.Util.playerCenter;
+import static controller.Util.Util.*;
+import static model.movement.Impact.impact;
 
 public class MyListner implements KeyListener, MouseListener {
     DataBase dataBase;
@@ -120,6 +129,11 @@ public class MyListner implements KeyListener, MouseListener {
                     targetY + i * n * 10);
             dataBase.getGamePanelModel().movables.add(model);
             panel.getDrawables().add(createBulletView(model));
+        }
+        for (Movable m : DataBase.getDataBase().getGamePanelModel().movables) {
+            if(m instanceof Phand || m instanceof Rhand|| m instanceof Lhand|| m instanceof BossModel){
+                m.move(3);
+            }
         }
 
 

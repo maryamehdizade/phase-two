@@ -91,6 +91,10 @@ public class Rhand extends Enemy implements Movable, Collidable {
 
     @Override
     public void move(double velocity) {
+        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() +200 - loc.getX()));
+        xvelocity = (Math.cos(m) * 2) * velocity;
+        yvelocity = (Math.sin(m) * 2) * velocity;
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
 
     }
 

@@ -56,9 +56,9 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     public boolean inPlace;
     public void slap(){
-        if(l.isSlap())l.slap();
-        if(r.isSlap())r.slap();
-        if(p.isSlap())p.slap();
+        if(l!= null)if(l.isSlap())l.slap();
+        if(r!= null)if(r.isSlap())r.slap();
+        if(p!= null)if(p.isSlap())p.slap();
     }
     @Override
     public int move() {
@@ -69,10 +69,13 @@ public class BossModel extends Enemy implements Movable, Collidable {
                 inPlace = true;
             }
         }
-        if(loc.getX()<5)loc = new Point2D.Double(loc.getX() + speed,loc.getY());
-        if(loc.getY()<5)loc = new Point2D.Double(loc.getX() ,loc.getY()+ speed);
-        if(loc.getX()>PANEL_DIMENSION.getWidth() - 200)loc = new Point2D.Double(loc.getX() - speed,loc.getY());
-        if(loc.getY()>PANEL_DIMENSION.getHeight()- 200)loc = new Point2D.Double(loc.getX() ,loc.getY()- speed);
+        if(!attacks.contains(Attacks.projectile)) {
+            if (loc.getX() < 5) loc = new Point2D.Double(loc.getX() + speed, loc.getY());
+            if (loc.getY() < 5) loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+            if (loc.getX() > PANEL_DIMENSION.getWidth() - 200) loc = new Point2D.Double(loc.getX() - speed, loc.getY());
+            if (loc.getY() > PANEL_DIMENSION.getHeight() - 200)
+                loc = new Point2D.Double(loc.getX(), loc.getY() - speed);
+        }
         return 0;
     }
     private void moveDown(){
@@ -98,7 +101,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void quake(){
         if(!p.inPlace)p.move(4);
         else {
-            impact(p.getLoc(),50);
+//            impact(p.getLoc(),50);
             p.inPlace = false;
             toggleOccupation();
             v = 4;
