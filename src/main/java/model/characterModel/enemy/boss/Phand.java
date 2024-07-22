@@ -18,7 +18,7 @@ public class Phand extends Enemy implements Movable, Collidable {
     private Point2D loc = new Point2D.Double();
     private String id;
     private File file;
-    boolean occupied;
+    public boolean occupied;
     public boolean vulnerable;
     private int hp;
     public Phand(){
@@ -38,6 +38,7 @@ public class Phand extends Enemy implements Movable, Collidable {
     public boolean rigidBody() {
         return true;
     }
+
 
     @Override
     public boolean solid() {
@@ -75,7 +76,7 @@ public class Phand extends Enemy implements Movable, Collidable {
 
     @Override
     public boolean collides() {
-        return false;
+        return true;
     }
 
     @Override

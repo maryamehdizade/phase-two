@@ -468,6 +468,7 @@ public class Update {
         checkCollision(panelModel.boss);
         checkCollision(panelModel.boss.r);
         checkCollision(panelModel.boss.l);
+        if(panelModel.boss.p!= null)checkCollision(panelModel.boss.p);
 
         squeezeCheck();
         projectileCheck();
@@ -604,6 +605,7 @@ public class Update {
         if(attacks.contains(Attacks.powerPunch)){
             panelModel.boss.vulnerable = true;
             panelModel.boss.powerPunch();
+            panelModel.boss.toggleOccupation();
         }
     }
     private void squeezeCheck(){

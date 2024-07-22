@@ -75,9 +75,10 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void powerPunch(){
         if(!p.inPlace)p.move();
         else {
-            impact(p.getLoc(),300);
+            impact(collisionPoint(p.getLoc(),playerModel.getLoc()),200);
             p.inPlace = false;
             p.target = new Point2D.Double(0,0);
+            toggleOccupation();
             attacks.remove(Attacks.powerPunch);
         }
     }
@@ -110,8 +111,6 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     @Override
     public void move(double velocity) {
-//        xvelocity = (int) (Math.cos(velocity)*speed);
-//        yvelocity = (int) (Math.sin(velocity)*speed);
         loc = new Point2D.Double(playerModel.getLocation().getX() + dis * Math.cos(angle),
                 playerModel.getLocation().getY() - dis * Math.sin(angle));
         if(dis < 100)dis++;
@@ -205,7 +204,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
         return l!=null && r!=null;
     }
     public boolean hasPunchHand(){
-        if(p!=null) return true;
+        if(p!=null) return !p.occupied;
         return false;
     }
     public void reset(){

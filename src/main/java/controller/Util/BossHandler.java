@@ -54,7 +54,7 @@ public class BossHandler {
 //                }
 //            }
         }
-        if(boss.getHp() <= FINALBOSS_HP*2/3&&!boss.hasPunchHand()){
+        if(boss.getHp() <= FINALBOSS_HP*2/3&&boss.p==null){
             boss.p = new Phand();
             update.dataBase.getGamePanelModel().movables.add(boss.p);
             pHandView p = (pHandView) createEnemyView(boss.p);
