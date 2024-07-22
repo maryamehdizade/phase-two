@@ -8,6 +8,9 @@ import view.charactersView.boss.BossView;
 import view.charactersView.boss.pHandView;
 import view.drawable.Drawable;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static controller.Controller.createEnemyView;
@@ -68,6 +71,11 @@ public class BossHandler {
             }
         }
         if(boss.getHp() <= FINALBOSS_HP*2/3&&boss.p==null){
+            try {
+                boss.setImage(ImageIO.read(new File("C:\\Users\\EPSILON\\IdeaProjects\\image\\Smiley2.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             boss.p = new Phand();
             update.dataBase.getGamePanelModel().movables.add(boss.p);
             pHandView p = (pHandView) createEnemyView(boss.p);

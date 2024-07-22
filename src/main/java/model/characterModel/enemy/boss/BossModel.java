@@ -1,10 +1,7 @@
 package model.characterModel.enemy.boss;
-
 import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
-
-import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.listner.MyListner.v;
 import javax.imageio.ImageIO;
@@ -15,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import static controller.Util.BossHandler.attacks;
 import static controller.Util.Util.*;
 import static controller.constants.EntityConstants.FINALBOSS_HP;
