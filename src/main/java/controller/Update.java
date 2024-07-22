@@ -140,7 +140,7 @@ public class Update {
         view.r.setLoc(panelModel.boss.r.getLoc());
         view.r.setHp(panelModel.boss.r.getHp());
 
-        if(panelModel.boss.hasPunchHand()) {
+        if(panelModel.boss.p != null) {
             view.p.setLoc(panelModel.boss.p.getLoc());
             view.p.setHp(panelModel.boss.p.getHp());
         }
@@ -601,11 +601,14 @@ public class Update {
             if (random.nextDouble(0,100) < 0.85) createRandomBullet(panelModel.boss);
         }
     }
+    private void quakeCheck(){
+        if(attacks.contains(Attacks.Quake)){
+        }
+    }
     private void powerPunchCheck(){
         if(attacks.contains(Attacks.powerPunch)){
             panelModel.boss.vulnerable = true;
             panelModel.boss.powerPunch();
-            panelModel.boss.toggleOccupation();
         }
     }
     private void squeezeCheck(){

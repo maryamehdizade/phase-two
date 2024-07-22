@@ -21,9 +21,9 @@ public class Impact {
                 double y = Math.abs(centerLoc(m).getY() - point.getY());
 
                 if (x <= r && y <= r) {
-                    double speed = distance(x, y, point.getX(), point.getY()) / 500;
+                    double speed = distance(x, y, point.getX(), point.getY()) /20;
                     m.setImpact(true);
-                    setSpeed(point, m, impactV / speed);
+                    setSpeed(point, m, r*impactV / speed);
                 }
             }
         }

@@ -82,6 +82,15 @@ public class BossModel extends Enemy implements Movable, Collidable {
             attacks.remove(Attacks.powerPunch);
         }
     }
+    public void quake(){
+        if(!p.inPlace)p.move(4);
+        else {
+            impact(p.getLoc(),500);
+            p.inPlace = false;
+            toggleOccupation();
+            attacks.remove(Attacks.Quake);
+        }
+    }
     private double delta = Math.PI/200.0;
     private double angle;
     private double dis;
