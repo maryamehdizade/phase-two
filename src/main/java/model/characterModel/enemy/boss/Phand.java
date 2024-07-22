@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static controller.Util.Util.*;
+import static controller.constants.Constant.FRAME_DIMENSION;
+import static controller.constants.EntityConstants.P_HAND_SIZE;
 import static controller.constants.ImageFiles.pHand;
 
 public class Phand extends Enemy implements Movable, Collidable {
@@ -66,7 +68,11 @@ public class Phand extends Enemy implements Movable, Collidable {
 
     @Override
     public void move(double velocity) {
-
+        m = Math.atan2(FRAME_DIMENSION.getHeight() -P_HAND_SIZE.getY()- loc.getY(), (playerModel.getLocation().getX()  - loc.getX()));
+        xvelocity = (Math.cos(m) * 2) * velocity;
+        yvelocity = (Math.sin(m) * 2) * velocity;
+        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        if(Math.abs(loc.getY() - FRAME_DIMENSION.getHeight() +P_HAND_SIZE.getY())<=10)inPlace = true;
     }
 
     @Override

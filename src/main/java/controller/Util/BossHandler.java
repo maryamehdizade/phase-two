@@ -30,7 +30,7 @@ public class BossHandler {
 //            else if (!epsilonIsBetweenHeadAndHands()) attacks.remove(Attacks.squeeze);
             if(attacks.isEmpty()&&Math.random() <= 0.5 && boss.hasPunchHand()){
                 boss.toggleOccupation();
-                attacks.add(Attacks.powerPunch);
+                attacks.add(Attacks.Quake);
             }
 //            System.out.println(attacks);
 //            switch ((int) (Math.random()*4)){

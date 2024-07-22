@@ -18,15 +18,20 @@ import static controller.Util.Util.playerCenter;
 public class MyListner implements KeyListener, MouseListener {
     DataBase dataBase;
     GamePanel panel;
-//    Update update = Update.getUpdate();
 
     public MyListner(GamePanel panel){
         this.panel = panel;
         dataBase = DataBase.getDataBase();
     }
+    public static int v = 0;
     @Override
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
+        int keyCode = e.getKeyCode() + v;
+        if(v!= 0) {
+            if (keyCode == 69) keyCode--;
+            if (keyCode == 91) keyCode = 83;
+            if (keyCode == 72) keyCode = 65;
+        }
         if (keyCode == KeyEvent.VK_A) {
             dataBase.getGamePanelModel().playerModel.setlForce(true);
         } else if (keyCode == KeyEvent.VK_D) {

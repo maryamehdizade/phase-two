@@ -475,6 +475,7 @@ public class Update {
         vomitCheck();
         rapidFireCheck();
         powerPunchCheck();
+        quakeCheck();
     }
     int i;
     private void createRandomBullet(Movable n){
@@ -603,6 +604,7 @@ public class Update {
     }
     private void quakeCheck(){
         if(attacks.contains(Attacks.Quake)){
+            panelModel.boss.quake();
         }
     }
     private void powerPunchCheck(){

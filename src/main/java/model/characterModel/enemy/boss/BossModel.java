@@ -3,8 +3,9 @@ package model.characterModel.enemy.boss;
 import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
-
+import static controller.listner.MyListner.v;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.File;
@@ -31,6 +32,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public  Rhand r;
     public Phand p;
     public int vomitCount;
+    public int quackCount;
     public boolean vomit;
     public boolean vulnerable;
 
@@ -85,11 +87,25 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void quake(){
         if(!p.inPlace)p.move(4);
         else {
-            impact(p.getLoc(),500);
+            impact(p.getLoc(),100);
             p.inPlace = false;
             toggleOccupation();
-            attacks.remove(Attacks.Quake);
+            v = 4;
+            guakeCounter();
         }
+    }
+    Timer counter;
+    void guakeCounter(){
+        counter = new Timer(1000,e->{
+            quackCount++;
+            if(quackCount >= 8){
+                v = 0;
+                quackCount = 0;
+                attacks.remove(Attacks.Quake);
+                counter.stop();
+            }
+        });
+        counter.start();
     }
     private double delta = Math.PI/200.0;
     private double angle;
