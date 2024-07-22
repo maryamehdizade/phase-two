@@ -44,8 +44,8 @@ public class EnemyBullets implements Movable, Collidable {
     @Override
     public int move() {
 
-        xvelocity = (Math.cos(m) ) * speed/2;
-        yvelocity = (Math.sin(m) ) * speed/2;
+        xvelocity = (Math.cos(m) ) * speed;
+        yvelocity = (Math.sin(m) ) * speed;
 
         loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
         return 0;

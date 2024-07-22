@@ -193,7 +193,7 @@ public class CollisionUtil {
                     break;
                 }
         }
-        dataBase.enemyBullets.remove(e);
+        panelModel.movables.remove(e);
     }
 
     private static final int n = 20;

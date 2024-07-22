@@ -15,7 +15,6 @@ public class DataBase {
     GamePanelModel gamePanelModel;
 
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
-    public ArrayList<EnemyBullets> enemyBullets = new ArrayList<>();
 
     private static DataBase dataBase;
     public SkillTreeHandler handler;

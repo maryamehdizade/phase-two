@@ -1,10 +1,7 @@
 package controller;
-import controller.Util.EnemyHandler;
-import controller.Util.Util;
-import controller.Util.Waves;
+import controller.Util.*;
 import model.characterModel.enemy.boss.Attacks;
 import model.characterModel.enemy.boss.BossModel;
-import model.characterModel.enemy.boss.Lhand;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -12,12 +9,10 @@ import model.characterModel.enemy.*;
 import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
-import controller.Util.CollisionUtil;
 import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.PlayerView;
 import view.charactersView.boss.BossView;
-import view.charactersView.boss.lHandView;
 import view.charactersView.enemy.*;
 import view.drawable.Drawable;
 import view.pages.Game;
@@ -27,12 +22,11 @@ import view.pages.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-import static controller.BossHandler.attack;
-import static controller.BossHandler.attacks;
+import static controller.Util.BossHandler.attack;
+import static controller.Util.BossHandler.attacks;
 import static controller.Controller.*;
 import static controller.Util.EnemyHandler.addingEnemies;
 import static controller.Util.Util.*;
@@ -142,10 +136,10 @@ public class Update {
     private void updateBoss(BossView view){
         view.l.setLoc(panelModel.boss.l.getLoc());
         view.l.setHp(panelModel.boss.l.getHp());
-//
+
         view.r.setLoc(panelModel.boss.r.getLoc());
         view.r.setHp(panelModel.boss.r.getHp());
-//
+
         if(panelModel.boss.hasPunchHand()) {
             view.p.setLoc(panelModel.boss.p.getLoc());
             view.p.setHp(panelModel.boss.p.getHp());
@@ -154,6 +148,7 @@ public class Update {
         view.setImg(panelModel.boss.image);
         view.setHp(panelModel.boss.getHp());
         view.aoe = panelModel.boss.aoe;
+
     }
     private void updateRectangleView(RectangleView r) {
         for (Movable movable : panelModel.movables) {
@@ -237,12 +232,13 @@ public class Update {
             }
         }
     }
-    private void updateEnemyBulletView(EnemyBulletView e){
-        for (EnemyBullets m : dataBase.enemyBullets) {
-            if (m.getId().equals(e.getId())) {
-                e.setLoc(m.getLoc());
+    private void updateEnemyBulletView(EnemyBulletView e) {
+        for (Movable m : panelModel.movables) {
+            if (m instanceof EnemyBullets) {
+                if (m.getId().equals(e.getId())) {
+                    e.setLoc(m.getLoc());
+                }
             }
-
         }
     }
     private void updateNecroView(NecropicklView n){
@@ -281,6 +277,7 @@ public class Update {
             else if(m instanceof BarricadosModel)updateBar((BarricadosModel) m);
             else if(m instanceof BlackOrbModel)updateOrb((BlackOrbModel) m);
             else if(m instanceof BossModel)updateBossModel();
+            else if(m instanceof EnemyBullets)updateEnemyBullet((EnemyBullets) m);
 
             if(dismay) {
                 for (Movable p :
@@ -289,7 +286,6 @@ public class Update {
                         ((Enemy)p).move = false;
                 }
             }
-            updateEnemyBullet();
         }
         if(!d) addingEnemies();
         if(panelModel.boss != null)bossHandler = new BossHandler(this);
@@ -388,11 +384,7 @@ public class Update {
         m.move();
         checkCollision(m);
 
-        if (random.nextDouble(0,100) < 0.5) {
-            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(panelModel.playerModel), (Enemy) m, false);
-            dataBase.enemyBullets.add(b);
-            panel.getDrawables().add(createEnemyBulletView(b));
-        }
+        createBullet(m);
     }
     private void updateOmenoct(Movable m) {
         m.setPanelW(panel.getWidth());
@@ -400,30 +392,26 @@ public class Update {
         m.move();
         checkCollision(m);
 
-        if (random.nextDouble(0,100) < 0.5) {
-            createBullet(m);
-        }
+        createBullet(m);
     }
-    private void updateEnemyBullet(){
-        for (int j = 0; j < dataBase.enemyBullets.size(); j++) {
-            EnemyBullets e = dataBase.enemyBullets.get(j);
-            e.move();
-            e.collision(panelModel.playerModel);
-            boolean x = bulletIsOutSideOfFrame(e, panelModel);
-            if(e.rigidBody())x = bulletIsOutSideOfPanel(e,panelModel);
-            if (x) {
-                for (int i = 0; i < panel.getDrawables().size(); i++) {
-                    Drawable a = panel.getDrawables().get(i);
-                    if (a instanceof EnemyBulletView) {
-                        if (a.getId().equals(e.getId())) {
-                            panel.getDrawables().remove(a);
-                            break;
-                        }
-
+    private void updateEnemyBullet(EnemyBullets e) {
+        e.move();
+        e.collision(panelModel.playerModel);
+        boolean x = bulletIsOutSideOfFrame(e, panelModel);
+        if (e.rigidBody()) x = bulletIsOutSideOfPanel(e, panelModel);
+        if (x) {
+            for (int i = 0; i < panel.getDrawables().size(); i++) {
+                Drawable a = panel.getDrawables().get(i);
+                if (a instanceof EnemyBulletView) {
+                    if (a.getId().equals(e.getId())) {
+                        panel.getDrawables().remove(a);
+                        break;
                     }
+
                 }
-                dataBase.enemyBullets.remove(e);
             }
+            panelModel.movables.remove(e);
+
         }
     }
     private void updateEpsilon(){
@@ -474,8 +462,9 @@ public class Update {
         }
     }
     private void updateBossModel(){
-        if(panelModel.boss.inPlace)attack();
-        panelModel.boss.move();
+        if(!panelModel.boss.inPlace)panelModel.boss.move();
+        else attack();
+
         checkCollision(panelModel.boss);
         checkCollision(panelModel.boss.r);
         checkCollision(panelModel.boss.l);
@@ -485,17 +474,20 @@ public class Update {
         vomitCheck();
         rapidFireCheck();
     }
+    int i;
     private void createRandomBullet(Movable n){
         EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
                 Math.random()*panelModel.getDimension().getWidth(),
                 panelModel.getDimension().getHeight()*Math.random()), (Enemy) n, true);
-        dataBase.enemyBullets.add(e);
+        dataBase.getGamePanelModel().movables.add(e);
         panel.getDrawables().add(createEnemyBulletView(e));
     }
     private void createBullet(Movable m){
-        EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(panelModel.playerModel), (Enemy) m, true);
-        dataBase.enemyBullets.add(b);
-        panel.getDrawables().add(createEnemyBulletView(b));
+        if (random.nextDouble(0,100) < 0.5) {
+            EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(panelModel.playerModel), (Enemy) m, true);
+            dataBase.getGamePanelModel().movables.add(b);
+            panel.getDrawables().add(createEnemyBulletView(b));
+        }
     }
     private void moveEpsilon() {
          panelModel.playerModel.move();
@@ -594,7 +586,7 @@ public class Update {
                     c.collision(movable);
                 }
             }
-             else {
+             else if(!(panelModel.movables.get(i) instanceof EnemyBullets)){
                 c = (Collidable) panelModel.movables.get(i);
                 c.collision(movable);
             }
@@ -604,7 +596,10 @@ public class Update {
     private void rapidFireCheck(){
         if(attacks.contains(Attacks.RapidFire)){
             panelModel.boss.vulnerable = true;
-            if (random.nextDouble(0,100) < 0.5) createRandomBullet(panelModel.boss);
+
+            System.out.println(panel.getDrawables().size());
+            System.out.println(panelModel.movables.size());
+            if (random.nextDouble(0,100) < 0.85) createRandomBullet(panelModel.boss);
         }
     }
     private void squeezeCheck(){

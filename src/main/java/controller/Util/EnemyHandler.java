@@ -62,9 +62,6 @@ public class EnemyHandler {
                 BossView b = (BossView) createEnemyView(n);
                 panel.getDrawables().add(b);
                 dataBase.getGamePanelModel().movables.add(n);
-//                panel.getDrawables().add(createEnemyView(n.p));
-//                dataBase.getGamePanelModel().movables.add(n.p);
-
                 rHandView r = (rHandView) createEnemyView(n.r);
                 b.r = r;
                 panel.getDrawables().add(r);
@@ -74,6 +71,10 @@ public class EnemyHandler {
                 panel.getDrawables().add(l);
                 dataBase.getGamePanelModel().movables.add(n.l);
                 dataBase.getGamePanelModel().boss = n;
+
+//                Movable m = new Omenoctmodel();
+//                dataBase.getGamePanelModel().movables.add(m);
+//                panel.getDrawables().add(createEnemyView(m));
 
                 panelModel.enemies ++;
             }

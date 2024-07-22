@@ -1,8 +1,12 @@
-package controller;
+package controller.Util;
 
+import controller.Update;
 import model.characterModel.enemy.boss.Attacks;
 import model.characterModel.enemy.boss.BossModel;
 import model.characterModel.enemy.boss.Phand;
+import view.charactersView.boss.BossView;
+import view.charactersView.boss.pHandView;
+import view.drawable.Drawable;
 
 import java.util.ArrayList;
 
@@ -17,7 +21,7 @@ public class BossHandler {
 
     public BossHandler(Update u) {
         update = u;
-        boss= update.dataBase.gamePanelModel.boss;
+        boss= update.dataBase.getGamePanelModel().boss;
     }
 
     public static void attack() {
@@ -53,7 +57,11 @@ public class BossHandler {
         if(boss.getHp() <= FINALBOSS_HP*2/3&&!boss.hasPunchHand()){
             boss.p = new Phand();
             update.dataBase.getGamePanelModel().movables.add(boss.p);
-            update.panel.getDrawables().add(createEnemyView(boss.p));
+            pHandView p = (pHandView) createEnemyView(boss.p);
+            update.panel.getDrawables().add(p);
+            for (Drawable d : update.panel.getDrawables()) {
+                if(d instanceof BossView)((BossView) d).p = p;
+            }
         }
     }
 

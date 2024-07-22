@@ -193,7 +193,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
         return l!=null && r!=null;
     }
     public boolean hasPunchHand(){
-        if(p!=null) return p.occupied;
+        if(p!=null) return true;
         return false;
     }
     public void reset(){
