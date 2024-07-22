@@ -473,6 +473,7 @@ public class Update {
         projectileCheck();
         vomitCheck();
         rapidFireCheck();
+        powerPunchCheck();
     }
     int i;
     private void createRandomBullet(Movable n){
@@ -596,10 +597,13 @@ public class Update {
     private void rapidFireCheck(){
         if(attacks.contains(Attacks.RapidFire)){
             panelModel.boss.vulnerable = true;
-
-            System.out.println(panel.getDrawables().size());
-            System.out.println(panelModel.movables.size());
             if (random.nextDouble(0,100) < 0.85) createRandomBullet(panelModel.boss);
+        }
+    }
+    private void powerPunchCheck(){
+        if(attacks.contains(Attacks.powerPunch)){
+            panelModel.boss.vulnerable = true;
+            panelModel.boss.powerPunch();
         }
     }
     private void squeezeCheck(){

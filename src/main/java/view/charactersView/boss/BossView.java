@@ -24,7 +24,7 @@ public class BossView implements Drawable {
     public rHandView r;
     public pHandView p;
     public ArrayList<Point2D> aoe = new ArrayList<>();
-    private Point2D loc = new Point2D.Double();
+    private Point2D loc;
     public BossView(Image i,String id, Point2D l){
         this.id = id;
         loc = l;

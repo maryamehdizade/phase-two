@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static controller.Util.BossHandler.attacks;
 import static controller.Util.Util.*;
 import static controller.constants.EntityConstants.FINALBOSS_HP;
 import static controller.constants.ImageFiles.smiley;
+import static model.movement.Impact.impact;
 
 public class BossModel extends Enemy implements Movable, Collidable {
 
@@ -29,6 +31,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public  Rhand r;
     public Phand p;
     public int vomitCount;
+    public boolean vomit;
     public boolean vulnerable;
 
     public BossModel() {
@@ -68,6 +71,15 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void squeeze(){
         r.moveDown();
         l.moveDown();
+    }
+    public void powerPunch(){
+        if(!p.inPlace)p.move();
+        else {
+            impact(p.getLoc(),300);
+            p.inPlace = false;
+            p.target = new Point2D.Double(0,0);
+            attacks.remove(Attacks.powerPunch);
+        }
     }
     private double delta = Math.PI/200.0;
     private double angle;
