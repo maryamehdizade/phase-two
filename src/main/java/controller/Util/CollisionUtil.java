@@ -50,6 +50,7 @@ public class CollisionUtil {
         }else{
             Sound.sound().injured();
             r.setHp(r.getHp() - panelModel.power);
+            chiron();
             dataBase.successShoots++;
             checkDeath(r);
         }
@@ -124,12 +125,16 @@ public class CollisionUtil {
         death(m);
     }
     public static void astrape(Movable m){
-        if(dataBase.handler.skills.get(SkillTree.names.astrape))m.setHp(m.getHp() - 2);
-        checkDeath(m);
+        if(dataBase.handler.skills.get(SkillTree.names.astrape)) {
+            m.setHp(m.getHp() - 2);
+            chiron();
+            checkDeath(m);
+        }
     }
     public static void cerberus(Cerberus c, Movable m){
         if(!c.isInRest()) {
             m.setHp(m.getHp() - 10);
+            chiron();
             checkDeath(m);
             c.setInRest(true);
         }
@@ -179,6 +184,9 @@ public class CollisionUtil {
             panelModel.playerModel.setHp(panelModel.playerModel.getHp() - w);
             checkDeath(panelModel.playerModel);
         }
+    }
+    public static void chiron(){
+        if(dataBase.handler.skills.get(SkillTree.names.chiron))panelModel.playerModel.setHp(panelModel.playerModel.getHp()+3);
     }
     private static void checkDeath(Movable r){
         if (r.getHp() <= 0) {
