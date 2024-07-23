@@ -1,5 +1,6 @@
 package controller;
 import controller.Util.*;
+import controller.model.Cerberus;
 import model.characterModel.enemy.boss.Attacks;
 import model.characterModel.enemy.boss.BossModel;
 import model.model.GamePanelModel;
@@ -34,6 +35,7 @@ import static controller.Util.Waves.*;
 import static controller.constants.Constant.FRAME_DIMENSION;
 import static controller.constants.Constant.PANEL_DIMENSION;
 import static controller.constants.EntityConstants.BALL_SIZE;
+import static controller.constants.EntityConstants.SMALL_BALL_SIZE;
 import static controller.constants.TimerConstants.FRAME_UPDATE_TIME;
 import static controller.constants.TimerConstants.MODEL_UPDATE_TIME;
 import static model.movement.Impact.impact;
@@ -604,6 +606,26 @@ public class Update {
                 c = (Collidable) panelModel.movables.get(i);
                 c.collision(movable);
             }
+        }
+        if(!(movable instanceof PlayerModel)&&!(movable instanceof BulletModel)&&!(movable instanceof EnemyBullets)){
+            for (int i = 0; i < panelModel.playerModel.getCerberus().size();i++) {
+                Cerberus p = panelModel.playerModel.getCerberus().get(i);
+                System.out.print(p.isInRest());
+                if(!(movable instanceof BlackOrbModel)){
+                    if(distance(centerLoc(movable),new Point2D.Double(p.getX() + SMALL_BALL_SIZE/2.0, p.getY() + SMALL_BALL_SIZE/2.0))
+                        <= movable.size()/2.0) {
+                        cerberus(p,movable);
+                    }
+                }else{
+                    for (int j = 0; j < ((BlackOrbModel) movable).getCircles().size(); j++) {
+                        if(distance(centerLoc(((BlackOrbModel) movable).getCircles().get(j)), p) <=
+                                ((BlackOrbModel) movable).getCircles().get(j).size()/2.0){
+                            cerberus(p,((BlackOrbModel) movable).getCircles().get(j));
+                        }
+                    }
+                }
+            }
+            System.out.println();
         }
     }
     Timer t;

@@ -3,6 +3,7 @@ package controller.Util;
 import controller.DataBase;
 import controller.Update;
 import controller.model.BlackOrbCircles;
+import controller.model.Cerberus;
 import model.characterModel.enemy.boss.BossModel;
 import model.characterModel.enemy.boss.Lhand;
 import model.characterModel.enemy.boss.Phand;
@@ -123,6 +124,14 @@ public class CollisionUtil {
     }
     public static void astrape(Movable m){
         if(dataBase.handler.skills.get(SkillTree.names.astrape))m.setHp(m.getHp() - 2);
+        checkDeath(m);
+    }
+    public static void cerberus(Cerberus c, Movable m){
+        if(!c.isInRest()) {
+            m.setHp(m.getHp() - 10);
+            checkDeath(m);
+            c.setInRest(true);
+        }
     }
     public static void bossAoe(){
         for (int i = 0; i < panelModel.boss.aoe.size(); i++) {

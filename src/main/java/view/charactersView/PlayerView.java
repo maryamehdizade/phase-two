@@ -1,5 +1,6 @@
 package view.charactersView;
 
+import controller.model.Cerberus;
 import view.drawable.Drawable;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ public  class PlayerView implements Drawable {
     private  Point2D  loc;
     private int[] xPoints = new int[0];
     private int[] yPoints = new int[0];
-    private ArrayList<Point2D> cerberus = new ArrayList<>();
+    private ArrayList<Cerberus> cerberus = new ArrayList<>();
 
     public PlayerView(String id, Point2D  loc) {
         this. loc =  loc;
@@ -77,7 +78,7 @@ public  class PlayerView implements Drawable {
         this.size = size;
     }
 
-    public void setCerberus(ArrayList<Point2D> cerberus) {
+    public void setCerberus(ArrayList<Cerberus> cerberus) {
         this.cerberus = cerberus;
     }
 }

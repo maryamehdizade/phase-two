@@ -5,6 +5,7 @@ import model.model.GamePanelModel;
 import view.pages.SkillTree;
 
 import javax.swing.*;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 public class SkillTreeHandler {
@@ -62,6 +63,9 @@ public class SkillTreeHandler {
                 sec = 0;
             }
         }
+    }
+    public static void inRest(){
+
     }
     private void acesoCheck(){
         if(skills.get(SkillTree.names.aceso)){

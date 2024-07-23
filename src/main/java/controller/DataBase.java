@@ -17,7 +17,7 @@ public class DataBase {
     public int shoots;
     public int successShoots;
     public int killedEnemies;
-    public int wave = 6;
+    public int wave = 5;
     public int waveTime;
     private static DataBase dataBase;
     public SkillTreeHandler handler;

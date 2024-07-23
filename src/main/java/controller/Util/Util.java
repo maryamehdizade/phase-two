@@ -1,6 +1,7 @@
 package controller.Util;
 
 import controller.model.BlackOrbCircles;
+import controller.model.Cerberus;
 import model.characterModel.enemy.BlackOrbModel;
 import model.model.GamePanelModel;
 import model.characterModel.BulletModel;
@@ -42,8 +43,8 @@ public class Util {
     }
 
 
-    public static Point2D pointNearEpsilon(){
-        return new Point2D.Double(random.nextDouble(model.playerModel.getLoc().getX() - 40,
+    public static Cerberus pointNearEpsilon(){
+        return new Cerberus(random.nextDouble(model.playerModel.getLoc().getX() - 40,
                 model.playerModel.getLoc().getX() + 40),random.nextDouble(model.playerModel.getLoc().getY() - 40,
                 model.playerModel.getLoc().getY() + 40));
     }
