@@ -96,11 +96,11 @@ public class SkillTree extends JFrame {
         ares.setBackground(color);
         ares.setFont(new Font("TimesRoman", Font.PLAIN, font));
         ares.addActionListener(e ->{
-            if(menu.getXp() >= 750) {
-                menu.skills.put(String.valueOf(names.ares), true);
-                for (String a :
+            if(menu.getXp() >= 750 || menu.r1) {
+                menu.skills.put(names.ares, true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if (!Objects.equals(a, String.valueOf(names.ares))) {
+                    if (!Objects.equals(a, names.ares)) {
                         menu.skills.put(a, false);
                     }
                 }
@@ -115,11 +115,11 @@ public class SkillTree extends JFrame {
         r2astrape.setBackground(color);
         r2astrape.setFont(new Font("TimesRoman", Font.PLAIN, font));
         r2astrape.addActionListener(e ->{
-            if(menu.getXp() >= 1000 && menu.r1) {
-                menu.skills.put(String.valueOf(names.astrape), true);
-                for (String a :
+            if((menu.getXp() >= 1000 && menu.r1)||menu.r2) {
+                menu.skills.put(names.astrape, true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if (!Objects.equals(a, String.valueOf(names.astrape))) {
+                    if (!Objects.equals(a, names.astrape)) {
                         menu.skills.put(a, false);
                     }
                 }
@@ -133,11 +133,11 @@ public class SkillTree extends JFrame {
         r3cerberus.setBackground(color);
         r3cerberus.setFont(new Font("TimesRoman", Font.PLAIN, font));
         r3cerberus.addActionListener(e ->{
-            if(menu.getXp() >= 1500 && menu.r1 && menu.r2) {
-                    menu.skills.put(String.valueOf(names.cerberus), true);
-                    for (String a :
+            if((menu.getXp() >= 1500 && menu.r1 && menu.r2)||menu.r3) {
+                    menu.skills.put(names.cerberus, true);
+                    for (SkillTree.names a :
                             menu.skills.keySet()) {
-                        if (!Objects.equals(a, String.valueOf(names.cerberus))) {
+                        if (!Objects.equals(a, names.cerberus)) {
                             menu.skills.put(a, false);
                         }
                     }
@@ -153,11 +153,20 @@ public class SkillTree extends JFrame {
         aceso.setBackground(color);
         aceso.setFont(new Font("TimesRoman", Font.PLAIN, font));
         aceso.addActionListener(e -> {
-            if(menu.getXp() >= 500) {
-                menu.skills.put(String.valueOf(names.aceso), true);
-                for (String a :
+            if(menu.c1){
+                menu.skills.put(names.aceso, true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if (!Objects.equals(a, String.valueOf(names.aceso))) {
+                    if (!Objects.equals(a, names.aceso)) {
+                        menu.skills.put(a, false);
+                    }
+                }
+            }
+            else if(menu.getXp() >= 500) {
+                menu.skills.put(names.aceso, true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if (!Objects.equals(a, names.aceso)) {
                         menu.skills.put(a, false);
                     }
                 }
@@ -171,11 +180,20 @@ public class SkillTree extends JFrame {
         c2melampus.setBackground(color);
         c2melampus.setFont(new Font("TimesRoman", Font.PLAIN, font));
         c2melampus.addActionListener(e -> {
-            if(menu.getXp() >= 750 && menu.c1){
-                menu.skills.put(String.valueOf(names.melampus), true);
-                for (String a :
+            if(menu.c2){
+                menu.skills.put(names.melampus, true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if (!Objects.equals(a, String.valueOf(names.melampus))) {
+                    if (!Objects.equals(a, names.melampus)) {
+                        menu.skills.put(a, false);
+                    }
+                }
+            }
+            else if(menu.getXp() >= 750 && menu.c1){
+                menu.skills.put(names.melampus, true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if (!Objects.equals(a, names.melampus)) {
                         menu.skills.put(a, false);
                     }
                 }
@@ -188,11 +206,20 @@ public class SkillTree extends JFrame {
         c3chiron.setBackground(color);
         c3chiron.setFont(new Font("TimesRoman", Font.PLAIN, font));
         c3chiron.addActionListener(e -> {
-            if (menu.getXp() >= 900 && menu.c1 && menu.c2) {
-                menu.skills.put(String.valueOf(names.chiron), true);
-                for (String a :
+            if(menu.c3){
+                menu.skills.put(names.chiron, true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if (!Objects.equals(a, String.valueOf(names.chiron))) {
+                    if (!Objects.equals(a, names.chiron)) {
+                        menu.skills.put(a, false);
+                    }
+                }
+            }
+            else if (menu.getXp() >= 900 && menu.c1 && menu.c2) {
+                menu.skills.put(names.chiron, true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if (!Objects.equals(a, names.chiron)) {
                         menu.skills.put(a, false);
                     }
                 }
@@ -206,11 +233,20 @@ public class SkillTree extends JFrame {
         c3Athena.setBackground(color);
         c3Athena.setFont(new Font("TimesRoman", Font.PLAIN, font));
         c3Athena.addActionListener(e -> {
-            if(menu.getXp() >= 1000 && menu.c1 && menu.c2){
-                menu.skills.put(String.valueOf(names.athena),true);
-                for (String a :
+            if(menu.c4){
+                menu.skills.put(names.athena,true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if(!Objects.equals(a, String.valueOf(names.athena))){
+                    if(!Objects.equals(a, names.athena)){
+                        menu.skills.put(a,false);
+                    }
+                }
+            }
+            else if(menu.getXp() >= 1000 && menu.c1 && menu.c2){
+                menu.skills.put(names.athena,true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if(!Objects.equals(a, names.athena)){
                         menu.skills.put(a,false);
                     }
                 }
@@ -226,11 +262,20 @@ public class SkillTree extends JFrame {
         proteus.setBackground(color);
         proteus.setFont(new Font("TimesRoman", Font.PLAIN, font));
         proteus.addActionListener(e -> {
-            if(menu.getXp() >= 1000){
-                menu.skills.put(String.valueOf(names.proteus),true);
-                for (String a :
+            if(menu.p1){
+                menu.skills.put(names.proteus,true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if(!Objects.equals(a, String.valueOf(names.proteus))){
+                    if(!Objects.equals(a, names.proteus)){
+                        menu.skills.put(a,false);
+                    }
+                }
+            }
+           else if(menu.getXp() >= 1000){
+                menu.skills.put(names.proteus,true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if(!Objects.equals(a, names.proteus)){
                         menu.skills.put(a,false);
                     }
                 }
@@ -243,15 +288,24 @@ public class SkillTree extends JFrame {
         p2empusa.setBackground(color);
         p2empusa.setFont(new Font("TimesRoman", Font.PLAIN, font));
         p2empusa.addActionListener(e -> {
-            if(menu.getXp() >= 750 && menu.p1){
-                menu.skills.put(String.valueOf(names.empusa),true);
-                for (String a :
+            if(menu.p2){
+                menu.skills.put(names.empusa,true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if(!Objects.equals(a, String.valueOf(names.empusa))){
+                    if(!Objects.equals(a, names.empusa)){
                         menu.skills.put(a,false);
                     }
                 }
-                if(!menu.p2)menu.setXp(menu.getXp() - 750);
+            }
+            else if(menu.getXp() >= 750 && menu.p1){
+                menu.skills.put(names.empusa,true);
+                for (SkillTree.names a :
+                        menu.skills.keySet()) {
+                    if(!Objects.equals(a, names.empusa)){
+                        menu.skills.put(a,false);
+                    }
+                }
+                menu.setXp(menu.getXp() - 750);
                 menu.p2 = true;
             }
         });
@@ -261,11 +315,11 @@ public class SkillTree extends JFrame {
         p3dolus.setBackground(color);
         p3dolus.setFont(new Font("TimesRoman", Font.PLAIN, font));
         p3dolus.addActionListener(e -> {
-            if(menu.getXp() >= 1500 && menu.p1 && menu.p2){
-                menu.skills.put(String.valueOf(names.dolus),true);
-                for (String a :
+            if((menu.getXp() >= 1500 && menu.p1 && menu.p2)||menu.p3){
+                menu.skills.put(names.dolus,true);
+                for (SkillTree.names a :
                         menu.skills.keySet()) {
-                    if(!Objects.equals(a, String.valueOf(names.dolus))){
+                    if(!Objects.equals(a, names.dolus)){
                         menu.skills.put(a,false);
                     }
                 }

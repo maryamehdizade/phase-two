@@ -1,5 +1,6 @@
 package view.pages;
 
+import controller.DataBase;
 import controller.listner.MyListner;
 import sound.Sound;
 import view.charactersView.PlayerView;
@@ -13,15 +14,13 @@ public  class GamePanel extends JPanel {
     public PlayerView playerView;
     private ArrayList<Drawable> drawables = new ArrayList<>();
 
-    private boolean proteus;
-    private boolean aceso;
-    private boolean ares;
     private int wave;
     private int second;
 
-    String id;
-    Menu menu;
-    String ability;
+    private String id;
+    private Menu menu;
+    private String ability;
+    private String activeAbility;
 
     public GamePanel(String id){
 
@@ -34,13 +33,15 @@ public  class GamePanel extends JPanel {
         requestFocus();
 
         menu = Menu.getMenu();
-        for (String s :
+        for (SkillTree.names s :
                 menu.skills.keySet()) {
             if(menu.skills.get(s)){
-                ability = s;
+                ability = String.valueOf(s);
                 break;
             }
         }
+
+
 
         MyListner listener = new MyListner(this);
 
@@ -56,9 +57,14 @@ public  class GamePanel extends JPanel {
         super.paintComponent(g);
 
         g.setColor(new Color(133, 186, 83));
-
+        for (SkillTree.names n : DataBase.getDataBase().handler.skills.keySet()) {
+            if(DataBase.getDataBase().handler.skills.get(n)){
+                activeAbility = String.valueOf(n);
+                break;
+            }
+        }
         g.drawString("xp:" + playerView.getXp() + "          " + "hp:" + playerView.getHp()
-                + "             " + second + "             wave:" + wave + "        skill tree:" + ability
+                + "             " + second + "             wave:" + wave + "        skill tree:" + ability +"    active skill:" + activeAbility
                 , 0, 20);
 
         for(Drawable d : drawables)d.draw(g);

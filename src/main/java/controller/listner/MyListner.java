@@ -75,42 +75,38 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.getGamePanelModel().playerModel.setuForce(false);
              dataBase.getGamePanelModel().playerModel.setU0Force(true);
         }
-        if(keyCode == KeyEvent.VK_P){
-//            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.proteus))){
+        if(keyCode == KeyEvent.VK_P) {
+//            if(Menu.getMenu().skills.get(SkillTree.names.proteus)){
 //                if(dataBase.getGamePanelModel().proteusCount == 0) {
 //                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
-                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
-                        dataBase.handler.proteus = true;
-                        dataBase.getGamePanelModel().proteusCount ++;
-                         dataBase.getGamePanelModel().playerModel.setLevelUp( dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
+            dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+            dataBase.handler.skills.put(SkillTree.names.proteus, true);
+            dataBase.getGamePanelModel().proteusCount++;
+            dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
 
 //                    }
 //                }
 //            }
         }
         if(keyCode == KeyEvent.VK_C){
-            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
+            if(Menu.getMenu().skills.get(SkillTree.names.aceso)){
                 if(dataBase.getGamePanelModel().acesoCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
-                        dataBase.handler.aceso = true;
+                        dataBase.handler.skills.put(SkillTree.names.aceso,true);
                         dataBase.getGamePanelModel().heal ++;
                         dataBase.getGamePanelModel().acesoCount ++;
                     }
                 }
-            }else if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
-
-            }else if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.aceso))){
-
             }
         }
         if(keyCode == KeyEvent.VK_R){
-            if(Menu.getMenu().skills.get(String.valueOf(SkillTree.names.ares))){
+            if(Menu.getMenu().skills.get(SkillTree.names.ares)){
                 if(dataBase.getGamePanelModel().aresCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
-                        dataBase.handler.ares = true;
+                        dataBase.handler.skills.put(SkillTree.names.ares,true);
                         dataBase.getGamePanelModel().aresCount++;
                     }
                 }

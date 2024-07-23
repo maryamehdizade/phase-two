@@ -23,7 +23,7 @@ public class Menu extends JFrame {
     private JButton setting = new JButton("setting");
     private JButton tutorial = new JButton("tutorial");
     boolean r1, r2, r3, c1, c2, c3, c4, p1, p2, p3;
-    public HashMap<String,Boolean> skills = new HashMap<String, Boolean>();
+    public HashMap<SkillTree.names,Boolean> skills = new HashMap<>();
     public boolean a = false;
     public double aa = 0.1;
     public int bound = 300;
@@ -48,20 +48,19 @@ public class Menu extends JFrame {
         panel.setBackground(Color.black);
 
         addButtons();
-
-        skills.put(String.valueOf(SkillTree.names.aceso),false);
-        skills.put(String.valueOf(SkillTree.names.cerberus),false);
-        skills.put(String.valueOf(SkillTree.names.athena),false);
-        skills.put(String.valueOf(SkillTree.names.ares),false);
-        skills.put(String.valueOf(SkillTree.names.astrape),false);
-        skills.put(String.valueOf(SkillTree.names.empusa),false);
-        skills.put(String.valueOf(SkillTree.names.melampus),false);
-        skills.put(String.valueOf(SkillTree.names.chiron),false);
-        skills.put(String.valueOf(SkillTree.names.dolus),false);
-        skills.put(String.valueOf(SkillTree.names.proteus),false);
-
-
-
+        initialSkiils();
+    }
+    private void initialSkiils(){
+        skills.put(SkillTree.names.aceso,false);
+        skills.put(SkillTree.names.cerberus,false);
+        skills.put(SkillTree.names.athena,false);
+        skills.put(SkillTree.names.ares,false);
+        skills.put(SkillTree.names.astrape,false);
+        skills.put(SkillTree.names.empusa,false);
+        skills.put(SkillTree.names.melampus,false);
+        skills.put(SkillTree.names.chiron,false);
+        skills.put(SkillTree.names.dolus,false);
+        skills.put(SkillTree.names.proteus,false);
     }
     private void addButtons() {
         exit.setSize(buttonWidth, buttonHieght);
