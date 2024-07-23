@@ -120,6 +120,9 @@ public class CollisionUtil {
         removeEntity(m);
         death(m);
     }
+    public static void astrape(Movable m){
+        if(dataBase.astrape)m.setHp(m.getHp() - 2);
+    }
     public static void bossAoe(){
         for (int i = 0; i < panelModel.boss.aoe.size(); i++) {
             Point2D a = new Point2D.Double(panelModel.boss.aoe.get(i).getX() + FINALBOSS_AOE_SIZE/2,

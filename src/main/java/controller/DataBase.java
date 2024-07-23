@@ -21,6 +21,7 @@ public class DataBase {
     public int waveTime;
     private static DataBase dataBase;
     public SkillTreeHandler handler;
+    public boolean astrape;
     private DataBase(){
         gamePanelModel = new GamePanelModel(PANEL_LOCATION, PANEL_DIMENSION,false,false);
 

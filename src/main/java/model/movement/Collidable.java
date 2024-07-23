@@ -1,5 +1,6 @@
 package model.movement;
 
+import controller.DataBase;
 import controller.model.BlackOrbCircles;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
@@ -41,6 +42,7 @@ public interface Collidable {
                     else if(n instanceof PlayerModel){
                         PlayerModel e = (PlayerModel) n;
                         e.counter += 0.1;
+                        astrape(m);
 
                         if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
                             drownDamage(n, (ArchmireModel) m);
@@ -92,7 +94,7 @@ public interface Collidable {
                     BlackOrbCircles c = ((BlackOrbModel) m).getCircles().get(i);
                     if(distance(centerLoc(n),centerLoc(c)) <= c.size()/2.0+ n.size()/2.0){
                         if(n instanceof PlayerModel && !n.isCircular())injured(c);
-
+                        if(n instanceof PlayerModel)astrape(m);
                         impact(collisionPoint(n.getLoc(),c.getLoc()), IMPACT_RANGE);
                     }
                     for (int j = i; j + i < ((BlackOrbModel) m).getCircles().size(); j++) {
@@ -144,7 +146,8 @@ public interface Collidable {
                             if (m.collides() && n.collides()) {
                                 if (distance(centerLoc(n), centerLoc(m)) <= m.size() / 2.0 + n.size() / 2.0) {
                                     //impact
-
+                                    if(m instanceof PlayerModel)astrape(n);
+                                    else if(n instanceof PlayerModel)astrape(m);
                                     impact(collisionPoint(centerLoc(m), centerLoc(n)), IMPACT_RANGE);
                                 }
                             }
@@ -169,13 +172,22 @@ public interface Collidable {
                                     if (m instanceof PlayerModel || n instanceof PlayerModel) {
                                         if (m.doesMeleeAtack()) {
                                             //reduce n hp
-                                            if (n instanceof PlayerModel) reduceHp((Enemy) m);
+                                            if (n instanceof PlayerModel){
+                                                reduceHp((Enemy) m);
+                                                astrape(m);
+                                            }
                                             else if(!(n instanceof WyrmModel)&&!(n instanceof BossModel)
-                                                    &&!(n instanceof Rhand)&&!(n instanceof Lhand)) injured(n);
+                                                    &&!(n instanceof Rhand)&&!(n instanceof Lhand)){
+                                                astrape(n);
+                                                injured(n);
+                                            }
+
                                         }
                                     }
                                     impact(new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]), IMPACT_RANGE);
                                 } else if (distance(centerLoc(m), centerLoc(n)) <= m.size() / 2.0 + n.size() / 2.0) {
+                                    if(m instanceof PlayerModel)astrape(n);
+                                    else if(n instanceof PlayerModel)astrape(m);
                                     impact(collisionPoint(centerLoc(m), centerLoc(n)), IMPACT_RANGE);
                                 }
                             }
@@ -184,7 +196,6 @@ public interface Collidable {
                     }
                 } else {
                     if (!m.isCircular()) {
-
                         if (m.collides() && n.collides()) {
                             boolean impact = false;
                             Point2D collisionPoint = new Point2D.Double(0, 0);
@@ -196,6 +207,7 @@ public interface Collidable {
                                             //reduce n hp
                                             if(!(n instanceof WyrmModel)&&!(n instanceof BossModel)
                                                     &&!(n instanceof Rhand)&&!(n instanceof Lhand)) injured(n);
+                                            astrape(n);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
@@ -206,9 +218,11 @@ public interface Collidable {
                                     if (distance(centerLoc(n), new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i])) <= ((PlayerModel) n).size / 2.0) {
                                         //reduce n hp
                                         reduceHp((Enemy) m);
+                                        astrape(m);
                                         impact = true;
                                         collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
                                     } else if (distance(centerLoc(m), centerLoc(n)) <= m.size() / 2.0 + ((PlayerModel) n).size / 2.0) {
+                                        astrape(n);
                                         impact = true;
                                         collisionPoint = collisionPoint(centerLoc(m), centerLoc(n));
                                     }
@@ -223,6 +237,7 @@ public interface Collidable {
                                             //reduce m hp
                                             if(!(m instanceof WyrmModel)&&!(m instanceof BossModel)
                                                     &&!(m instanceof Rhand)&&!(m instanceof Lhand)) injured(m);
+                                            astrape(m);
                                         }
                                         impact = true;
                                         collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);
@@ -232,9 +247,11 @@ public interface Collidable {
                                 for (int i = 0; i < n.getyPoints().length; i++) {
                                     if (distance(centerLoc(m), new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i])) <= m.size() / 2.0) {
                                         reduceHp((Enemy) n);
+                                        astrape(n);
                                         impact = true;
                                         collisionPoint = new Point2D.Double(n.getxPoints()[i], n.getyPoints()[i]);
                                     } else if (distance(centerLoc(m), centerLoc(n)) <= m.size() / 2.0 + n.size() / 2.0) {
+                                        astrape(n);
                                         impact = true;
                                         collisionPoint = collisionPoint(centerLoc(m), centerLoc(n));
                                     }

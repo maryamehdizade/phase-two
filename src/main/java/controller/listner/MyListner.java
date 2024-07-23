@@ -110,6 +110,13 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().aresCount++;
                     }
                 }
+            }else {
+                if(dataBase.getGamePanelModel().aresCount == 0) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        DataBase.getDataBase().astrape = true;
+                    }
+                }
             }
         }
     }
