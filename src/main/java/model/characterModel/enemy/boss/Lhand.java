@@ -83,7 +83,7 @@ public class Lhand extends Enemy implements Movable, Collidable {
         xvelocity = (Math.cos(m) * 2) * speed;
         yvelocity = (Math.sin(m) * 2) * speed;
         loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
-        if(distance(addVector(playerModel.getLoc(),new Point2D.Double(200,-70)),centerLoc(this)) <= 50)attacks.remove(Attacks.squeeze);
+        if(distance(addVector(playerModel.getLoc(),new Point2D.Double(200,-70)),loc) <= 50)attacks.remove(Attacks.squeeze);
 
         return 0;
     }

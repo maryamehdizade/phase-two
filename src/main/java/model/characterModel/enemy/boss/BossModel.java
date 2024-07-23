@@ -26,7 +26,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     private File file;
     private int xvelocity;
     private int yvelocity;
-    private int hp = FINALBOSS_HP - 100;
+    private int hp = FINALBOSS_HP;
     public  Lhand l;
     public  Rhand r;
     public Phand p;
@@ -34,6 +34,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public int quackCount;
     public int projectileCount;
     public int rapidFire;
+    public int squeeze;
     public boolean vulnerable;
 
     public BossModel() {
@@ -86,6 +87,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void squeeze(){
         r.move();
         l.move();
+        squeeze++;
     }
     public void powerPunch(){
         if(!p.inPlace)p.move();

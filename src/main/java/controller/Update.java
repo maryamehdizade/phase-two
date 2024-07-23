@@ -629,6 +629,10 @@ public class Update {
     private void squeezeCheck(){
         if(attacks.contains(Attacks.squeeze)){
             panelModel.boss.squeeze();
+            if(panelModel.boss.squeeze>=300){
+                panelModel.boss.squeeze =0;
+                attacks.remove(Attacks.squeeze);
+            }
         }
     }
     private void projectileCheck(){
