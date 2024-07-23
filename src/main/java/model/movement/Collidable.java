@@ -215,13 +215,14 @@ public interface Collidable {
                                 }
                             } else {
                                 for (int i = 0; i < m.getyPoints().length; i++) {
-                                    if (distance(centerLoc(n), new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i])) <= ((PlayerModel) n).size / 2.0) {
+                                    if (distance(centerLoc(n), new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]))
+                                            <= ((PlayerModel) n).getSize() / 2.0) {
                                         //reduce n hp
                                         reduceHp((Enemy) m);
                                         astrape(m);
                                         impact = true;
                                         collisionPoint = new Point2D.Double(m.getxPoints()[i], m.getyPoints()[i]);
-                                    } else if (distance(centerLoc(m), centerLoc(n)) <= m.size() / 2.0 + ((PlayerModel) n).size / 2.0) {
+                                    } else if (distance(centerLoc(m), centerLoc(n)) <= m.size() / 2.0 + ((PlayerModel) n).getSize() / 2.0) {
                                         astrape(n);
                                         impact = true;
                                         collisionPoint = collisionPoint(centerLoc(m), centerLoc(n));

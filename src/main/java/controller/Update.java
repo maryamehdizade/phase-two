@@ -193,7 +193,7 @@ public class Update {
         p.setLoc(playerViewLocation(panelModel.playerModel));
         p.setXp(playerViewXp(panelModel.playerModel));
         p.setHp(playerViewHp(panelModel.playerModel));
-        p.setSize(panelModel.playerModel.size);
+        p.setSize(panelModel.playerModel.getSize());
         p.setxPoints(panelModel.playerModel.getxPoints());
         p.setyPoints(panelModel.playerModel.getyPoints());
         p.setCerberus(panelModel.playerModel.getCerberus());
@@ -496,13 +496,13 @@ public class Update {
         EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
                 Math.random()*panelModel.getDimension().getWidth(),
                 panelModel.getDimension().getHeight()*Math.random()), (Enemy) n, true);
-        dataBase.getGamePanelModel().movables.add(e);
+        panelModel.movables.add(e);
         panel.getDrawables().add(createEnemyBulletView(e));
     }
     private void createBullet(Movable m){
         if (random.nextDouble(0,100) < 0.5) {
             EnemyBullets b = new EnemyBullets(centerLoc(m), centerLoc(panelModel.playerModel), (Enemy) m, true);
-            dataBase.getGamePanelModel().movables.add(b);
+            panelModel.movables.add(b);
             panel.getDrawables().add(createEnemyBulletView(b));
         }
     }
@@ -679,7 +679,7 @@ public class Update {
             bossAoe();
             attacks.remove(Attacks.projectile);
             if(panelModel.boss.vomitCount >= 500){
-                dataBase.getGamePanelModel().boss.reset();
+                panelModel.boss.reset();
                 attacks.remove(Attacks.vomit);
             }
         }
@@ -703,14 +703,14 @@ public class Update {
         }
     }
     private void v(){
-        if(panelModel.getDimension().getWidth()  + 200 >=  panelModel.playerModel.size) {
-             panelModel.playerModel.size += 2;
+        if(panelModel.getDimension().getWidth()  + 200 >=  panelModel.playerModel.getSize()) {
+             panelModel.playerModel.setSize(panelModel.playerModel.getSize() + 2);
              panelModel.playerModel.setPoints();
             if( panelModel.playerModel.getLocation().getX() <  panelModel.getDimension().getWidth())  panelModel.playerModel.setLocation(new Point2D.Double
                     ( panelModel.playerModel.getLocation().getX() - 1,  panelModel.playerModel.getLocation().getY() - 1));
         }
 
-        if( panelModel.playerModel.size > panelModel.getDimension().getWidth()) v1();
+        if( panelModel.playerModel.getSize() > panelModel.getDimension().getWidth()) v1();
     }
     private void v1(){
         if(panelModel.getDimension().getWidth() >= 1 && panelModel.getDimension().getHeight() >= 1){

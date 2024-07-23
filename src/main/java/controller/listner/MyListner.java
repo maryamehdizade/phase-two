@@ -76,17 +76,26 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.getGamePanelModel().playerModel.setU0Force(true);
         }
         if(keyCode == KeyEvent.VK_P) {
-//            if(Menu.getMenu().skills.get(SkillTree.names.proteus)){
-//                if(dataBase.getGamePanelModel().skillCount == 0) {
-//                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
-            dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
-            dataBase.handler.skills.put(SkillTree.names.proteus, true);
-            dataBase.getGamePanelModel().skillCount++;
-            dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
+            if (Menu.getMenu().skills.get(SkillTree.names.proteus)) {
+                if (dataBase.getGamePanelModel().skillCount == 0) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        dataBase.handler.skills.put(SkillTree.names.proteus, true);
+                        dataBase.getGamePanelModel().skillCount++;
+                        dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
 
-//                    }
-//                }
-//            }
+                    }
+                }
+            }else if (Menu.getMenu().skills.get(SkillTree.names.empusa)) {
+                if (dataBase.getGamePanelModel().skillCount == 0) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        dataBase.handler.skills.put(SkillTree.names.empusa, true);
+                        dataBase.getGamePanelModel().skillCount++;
+                        dataBase.getGamePanelModel().playerModel.setSize(dataBase.getGamePanelModel().playerModel.getSize()*9/10);
+                    }
+                }
+            }
         }
         if(keyCode == KeyEvent.VK_C){
             if(Menu.getMenu().skills.get(SkillTree.names.aceso)){

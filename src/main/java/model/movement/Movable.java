@@ -29,7 +29,7 @@ public interface Movable {
     default int size(){
         switch (this) {
             case PlayerModel playerModel -> {
-                return (int) playerModel.size;
+                return (int) playerModel.getSize();
             }
             case BulletModel model -> {
                 return BULLET_SIZE;

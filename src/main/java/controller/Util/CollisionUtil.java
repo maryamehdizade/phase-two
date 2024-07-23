@@ -144,7 +144,7 @@ public class CollisionUtil {
             Point2D a = new Point2D.Double(panelModel.boss.aoe.get(i).getX() + FINALBOSS_AOE_SIZE/2,
                     panelModel.boss.aoe.get(i).getY() + FINALBOSS_AOE_SIZE/2);
             if(distance(centerLoc(panelModel.playerModel),a)<=
-                    FINALBOSS_AOE_SIZE/2 + panelModel.playerModel.size/2.0){
+                    FINALBOSS_AOE_SIZE/2 + panelModel.playerModel.getSize() /2.0){
                 panelModel.playerModel.counter++;
                 if(panelModel.playerModel.counter >= 50){
                     reduceHp(panelModel.boss);

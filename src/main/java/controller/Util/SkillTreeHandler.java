@@ -54,18 +54,16 @@ public class SkillTreeHandler {
 
     }
     private void aresCheck() {
-        if (skills.get(SkillTree.names.ares)||skills.get(SkillTree.names.astrape)) {
+        if (skills.get(SkillTree.names.ares)||skills.get(SkillTree.names.astrape)||skills.get(SkillTree.names.cerberus)) {
             sec += 0.1;
             if (sec >= 300) {
                 panel.skillCount = 0;
                 skills.put(SkillTree.names.ares, false);
                 skills.put(SkillTree.names.astrape, false);
+                skills.put(SkillTree.names.cerberus, false);
                 sec = 0;
             }
         }
-    }
-    public static void inRest(){
-
     }
     private void acesoCheck(){
         if(skills.get(SkillTree.names.aceso)){
@@ -80,14 +78,26 @@ public class SkillTreeHandler {
             }
         }else if(acesoC)
                DataBase.getDataBase().getGamePanelModel().playerModel.setHp(DataBase.getDataBase().getGamePanelModel().playerModel.getHp() + panel.heal);
+
+        if (skills.get(SkillTree.names.melampus)||skills.get(SkillTree.names.chiron)) {
+            sec += 0.1;
+            if (sec >= 300) {
+                panel.skillCount = 0;
+                skills.put(SkillTree.names.melampus, false);
+                skills.put(SkillTree.names.chiron, false);
+                sec = 0;
+            }
+        }
     }
     private void proteusCheck(){
-        if(skills.get(SkillTree.names.proteus)){
+        if (skills.get(SkillTree.names.proteus)||skills.get(SkillTree.names.empusa)||skills.get(SkillTree.names.dolus)) {
             sec += 0.1;
-            if(sec >= 300){
-                   panel.skillCount = 0;
+            if (sec >= 300) {
+                panel.skillCount = 0;
+                skills.put(SkillTree.names.proteus, false);
+                skills.put(SkillTree.names.empusa, false);
+                skills.put(SkillTree.names.dolus, false);
                 sec = 0;
-                skills.put(SkillTree.names.proteus,false);
             }
         }
     }

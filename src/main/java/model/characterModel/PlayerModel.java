@@ -17,7 +17,7 @@ public final class PlayerModel  implements Movable, Collidable {
     private double panelW,panelH;
     private int xp = 0;
     private int hp = 100;
-    public double size = 20;
+    private double size = 20;
     public int melampus = 100;
     private Point2D location;
     private double speed;
@@ -316,7 +316,11 @@ public final class PlayerModel  implements Movable, Collidable {
         return cerberus;
     }
 
-    public void setCerberus(ArrayList<Cerberus> cerberus) {
-        this.cerberus = cerberus;
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 }
