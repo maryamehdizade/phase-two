@@ -77,11 +77,11 @@ public class MyListner implements KeyListener, MouseListener {
         }
         if(keyCode == KeyEvent.VK_P) {
 //            if(Menu.getMenu().skills.get(SkillTree.names.proteus)){
-//                if(dataBase.getGamePanelModel().proteusCount == 0) {
+//                if(dataBase.getGamePanelModel().skillCount == 0) {
 //                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
             dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
             dataBase.handler.skills.put(SkillTree.names.proteus, true);
-            dataBase.getGamePanelModel().proteusCount++;
+            dataBase.getGamePanelModel().skillCount++;
             dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
 
 //                    }
@@ -90,32 +90,42 @@ public class MyListner implements KeyListener, MouseListener {
         }
         if(keyCode == KeyEvent.VK_C){
             if(Menu.getMenu().skills.get(SkillTree.names.aceso)){
-                if(dataBase.getGamePanelModel().acesoCount == 0) {
+                if(dataBase.getGamePanelModel().skillCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.skills.put(SkillTree.names.aceso,true);
                         dataBase.getGamePanelModel().heal ++;
-                        dataBase.getGamePanelModel().acesoCount ++;
+                        dataBase.getGamePanelModel().skillCount ++;
                     }
                 }
             }
         }
         if(keyCode == KeyEvent.VK_R){
             if(Menu.getMenu().skills.get(SkillTree.names.ares)){
-                if(dataBase.getGamePanelModel().aresCount == 0) {
+                if(dataBase.getGamePanelModel().skillCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
                         dataBase.handler.skills.put(SkillTree.names.ares,true);
-                        dataBase.getGamePanelModel().aresCount++;
+                        dataBase.getGamePanelModel().skillCount++;
+                    }
+                }
+            }else if (Menu.getMenu().skills.get(SkillTree.names.astrape)){
+                if(dataBase.getGamePanelModel().skillCount == 0) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        dataBase.handler.skills.put(SkillTree.names.astrape,true);
                     }
                 }
             }else {
-                if(dataBase.getGamePanelModel().aresCount == 0) {
-                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                if(dataBase.getGamePanelModel().skillCount == 0) {
+//                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                         dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
-                        DataBase.getDataBase().astrape = true;
-                    }
+                        dataBase.handler.skills.put(SkillTree.names.cerberus,true);
+                        for (int i = 0; i < 3; i++) {
+                            model.playerModel.getCerberus().add(pointNearEpsilon());
+                        }
+//                    }
                 }
             }
         }

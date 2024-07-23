@@ -17,6 +17,7 @@ import sound.Sound;
 import view.charactersView.BulletView;
 import view.charactersView.enemy.EnemyBulletView;
 import view.pages.GamePanel;
+import view.pages.SkillTree;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -121,7 +122,7 @@ public class CollisionUtil {
         death(m);
     }
     public static void astrape(Movable m){
-        if(dataBase.astrape)m.setHp(m.getHp() - 2);
+        if(dataBase.handler.skills.get(SkillTree.names.astrape))m.setHp(m.getHp() - 2);
     }
     public static void bossAoe(){
         for (int i = 0; i < panelModel.boss.aoe.size(); i++) {

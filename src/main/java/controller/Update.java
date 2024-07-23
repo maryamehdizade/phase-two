@@ -195,6 +195,7 @@ public class Update {
         p.setSize(panelModel.playerModel.size);
         p.setxPoints(panelModel.playerModel.getxPoints());
         p.setyPoints(panelModel.playerModel.getyPoints());
+        p.setCerberus(panelModel.playerModel.getCerberus());
     }
     private void updateOmenoctView(OmenoctView o){
         for (Movable movable : panelModel.movables) {

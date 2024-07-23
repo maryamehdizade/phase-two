@@ -20,7 +20,7 @@ public  class GamePanel extends JPanel {
     private String id;
     private Menu menu;
     private String ability;
-    private String activeAbility;
+    private String activeAbility = "";
 
     public GamePanel(String id){
 
@@ -40,9 +40,6 @@ public  class GamePanel extends JPanel {
                 break;
             }
         }
-
-
-
         MyListner listener = new MyListner(this);
 
         addKeyListener(listener);
@@ -66,7 +63,7 @@ public  class GamePanel extends JPanel {
         g.drawString("xp:" + playerView.getXp() + "          " + "hp:" + playerView.getHp()
                 + "             " + second + "             wave:" + wave + "        skill tree:" + ability +"    active skill:" + activeAbility
                 , 0, 20);
-
+        activeAbility = "";
         for(Drawable d : drawables)d.draw(g);
 
         repaint();

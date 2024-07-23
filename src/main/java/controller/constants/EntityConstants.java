@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 
 public class EntityConstants {
     public static final int BALL_SIZE = 20;
+    public static final int SMALL_BALL_SIZE = 12;
     public static final int ENEMY_BULLET_SIZE = 8;
     public static final int BULLET_SIZE = 8;
     public static Point2D NECROPICK_SIZE = new Point2D.Double(40,10);

@@ -8,9 +8,8 @@ import javax.swing.*;
 import java.util.HashMap;
 
 public class SkillTreeHandler {
-    private double aresSec = 0;
-    private double acesoSec = 0;
-    private double proteusSec = 0;
+
+    private double sec = 0;
     private double empowerSec;
     public boolean acesoC;
     private Timer time;
@@ -53,36 +52,37 @@ public class SkillTreeHandler {
         proteusCheck();
 
     }
-    private void aresCheck(){
-        if(skills.get(SkillTree.names.ares)) {
-            aresSec += 0.1;
-            if (aresSec >= 300) {
-                   panel.aresCount = 0;
-                skills.put(SkillTree.names.ares,false);
-                aresSec = 0;
+    private void aresCheck() {
+        if (skills.get(SkillTree.names.ares)||skills.get(SkillTree.names.astrape)) {
+            sec += 0.1;
+            if (sec >= 300) {
+                panel.skillCount = 0;
+                skills.put(SkillTree.names.ares, false);
+                skills.put(SkillTree.names.astrape, false);
+                sec = 0;
             }
         }
     }
     private void acesoCheck(){
         if(skills.get(SkillTree.names.aceso)){
-            acesoSec += 0.1;
-            if(acesoSec%1 >= 0  && acesoSec%1 <= 0.12)
+            sec += 0.1;
+            if(sec%1 >= 0  && sec%1 <= 0.12)
                 DataBase.getDataBase().getGamePanelModel().playerModel.setHp(DataBase.getDataBase().getGamePanelModel().playerModel.getHp() + panel.heal);
-            if(acesoSec >= 300){
-                panel.acesoCount = 0;
+            if(sec >= 300){
+                panel.skillCount = 0;
                 skills.put(SkillTree.names.aceso,false);
                 acesoC = true;
-                acesoSec = 0;
+                sec = 0;
             }
         }else if(acesoC)
                DataBase.getDataBase().getGamePanelModel().playerModel.setHp(DataBase.getDataBase().getGamePanelModel().playerModel.getHp() + panel.heal);
     }
     private void proteusCheck(){
         if(skills.get(SkillTree.names.proteus)){
-            proteusSec += 0.1;
-            if(proteusSec >= 300){
-                   panel.proteusCount = 0;
-                proteusSec = 0;
+            sec += 0.1;
+            if(sec >= 300){
+                   panel.skillCount = 0;
+                sec = 0;
                 skills.put(SkillTree.names.proteus,false);
             }
         }

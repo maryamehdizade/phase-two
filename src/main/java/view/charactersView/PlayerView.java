@@ -4,7 +4,10 @@ import view.drawable.Drawable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.UUID;
+
+import static controller.constants.EntityConstants.SMALL_BALL_SIZE;
 
 public  class PlayerView implements Drawable {
     private int xp ;
@@ -14,6 +17,7 @@ public  class PlayerView implements Drawable {
     private  Point2D  loc;
     private int[] xPoints = new int[0];
     private int[] yPoints = new int[0];
+    private ArrayList<Point2D> cerberus = new ArrayList<>();
 
     public PlayerView(String id, Point2D  loc) {
         this. loc =  loc;
@@ -23,11 +27,12 @@ public  class PlayerView implements Drawable {
         g.setColor(Color.gray);
         g.drawOval((int)  loc.getX(), (int)  loc.getY(), (int) size, (int) size);
 
-        double xloc = ( loc.getX() + size / 2);
-        double yloc = ( loc.getY() + size / 2);
 
         for (int i = 0; i < xPoints.length; i++) {
-            g.drawLine((int) xloc, (int) yloc,xPoints[i],yPoints[i]);
+            g.drawLine((int) loc.getX(), (int) loc.getY(),xPoints[i],yPoints[i]);
+        }
+        for (Point2D p:cerberus) {
+            g.fillOval((int) p.getX(), (int) p.getY(),SMALL_BALL_SIZE,SMALL_BALL_SIZE);
         }
 
     }
@@ -70,5 +75,9 @@ public  class PlayerView implements Drawable {
 
     public void setSize(double size) {
         this.size = size;
+    }
+
+    public void setCerberus(ArrayList<Point2D> cerberus) {
+        this.cerberus = cerberus;
     }
 }

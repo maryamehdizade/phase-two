@@ -29,9 +29,8 @@ public class GamePanelModel {
 
 
     public int enemies = 0;
-    public int aresCount ;
-    public int acesoCount ;
-    public int proteusCount ;
+
+    public int skillCount ;
     public BossModel boss;
     public int power;
     public boolean isometric;

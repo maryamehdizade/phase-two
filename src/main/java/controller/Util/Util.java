@@ -19,6 +19,11 @@ import static controller.constants.EntityConstants.*;
 
 public class Util {
     public static GamePanelModel model;
+    private static Random random = new Random();
+
+    public Util(GamePanelModel model) {
+        this.model = model;
+    }
     public static Polygon getPolygon(BlackOrbModel b, int i, int j) {
         BlackOrbCircles c = b.getCircles().get(i);
         BlackOrbCircles c1 = b.getCircles().get(j);
@@ -36,16 +41,18 @@ public class Util {
         return new Polygon(x,y,4);
     }
 
-    public Util(GamePanelModel model) {
-        this.model = model;
-    }
 
+    public static Point2D pointNearEpsilon(){
+        return new Point2D.Double(random.nextDouble(model.playerModel.getLoc().getX() - 40,
+                model.playerModel.getLoc().getX() + 40),random.nextDouble(model.playerModel.getLoc().getY() - 40,
+                model.playerModel.getLoc().getY() + 40));
+    }
 
     public static Point2D setEntityLoc(){
         double x;
         double y;
         double r = Math.floor(Math.random()*2);
-        Random random = new Random();
+
         if(r == 0) {
             x = random.nextDouble(model.getLoc().getX(),model.getDimension().getWidth());
             if(Math.floor(Math.random()*2) == 0){
@@ -68,7 +75,7 @@ public class Util {
         double x;
         double y;
         double r = Math.floor(Math.random()*2);
-        Random random = new Random();
+
         if(r == 0) {
             x = random.nextDouble(-model.getLoc().getX(),FRAME_DIMENSION.getWidth() - model.getLoc().getX());
             if(Math.floor(Math.random()*2) == 0){
@@ -88,14 +95,11 @@ public class Util {
         return new Point2D.Double(x, y);
     }
     public static Point2D setLoc(){
-        Random random = new Random();
+
         return new Point2D.Double(random.nextDouble(120,model.getDimension().getWidth() - 150)
                 ,random.nextDouble(120,model.getDimension().getHeight() - 150));
     }
-    public static boolean bulletIsOutSideOfFrame(EnemyBullets e, GamePanelModel panel){
-    return e.getLoc().getX() >= FRAME_DIMENSION.getWidth() -10 ||e.getLoc().getX() <= 20||e.getLoc().getY()<= 20
-            || e.getLoc().getY()  >= FRAME_DIMENSION.getHeight() - 10 ;
-    }
+
     public static boolean bulletIsOutSideOfPanel(EnemyBullets e, GamePanelModel panel){
         return e.getLoc().getX() <= 0 || e.getLoc().getY()>= panel.getDimension().getHeight() ||
                 e.getLoc().getX() >= panel.getDimension().getWidth() || e.getLoc().getY() <=0;

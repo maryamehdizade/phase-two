@@ -4,6 +4,7 @@ import model.movement.Collidable;
 import model.movement.Movable;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static controller.Util.Util.addVector;
@@ -13,8 +14,6 @@ import static controller.constants.EntityConstants.BALL_SIZE;
 public final class PlayerModel  implements Movable, Collidable {
     
     private double panelW,panelH;
-    public int shoots;
-    public int successShoots;
     private int xp = 0;
     private int hp = 100;
     public double size = 20;
@@ -35,9 +34,10 @@ public final class PlayerModel  implements Movable, Collidable {
     private boolean l0Force = false;
     private int[] xPoints = new int[0];
     private int[] yPoints = new int[0];
+    private ArrayList<Point2D> cerberus = new ArrayList<>();
     private int levelUp = 0;
     private static PlayerModel player;
-    private String id;
+    private final String id;
     public double counter;
 
     public static PlayerModel getPlayer() {
@@ -77,8 +77,12 @@ public final class PlayerModel  implements Movable, Collidable {
         if(impact){
              setLocation(new Point2D.Double( getLocation().getX() - xvelocity,
                      getLocation().getY() - yvelocity));
+            for (int i = 0; i < cerberus.size();i++) {
+                Point2D p = cerberus.get(i);
+                cerberus.set(i,new Point2D.Double(p.getX() - xvelocity,p.getY() - yvelocity));
+            }
             count ++;
-        }if(count == impactTime){
+        }if(count == impactTime - 20){
             impact = false;
             count = 0;
         }
@@ -110,6 +114,10 @@ public final class PlayerModel  implements Movable, Collidable {
             if ( getLocation().getY() > 0 &&
                      getLocation().getY() + BALL_SIZE <=  panelH) {
                  setLocation(addVector( getLocation(), new Point2D.Double(0, velocity)));
+                for (int i = 0; i < cerberus.size();i++) {
+                    Point2D p = cerberus.get(i);
+                    cerberus.set(i,new Point2D.Double(p.getX(),p.getY() + velocity));
+                }
             }
             if ( getLocation().getY() + BALL_SIZE >  panelH) {
                  setLocation(
@@ -126,6 +134,10 @@ public final class PlayerModel  implements Movable, Collidable {
             if ( getLocation().getX() > 0 &&
                      getLocation().getX() + BALL_SIZE <=  panelW) {
                  setLocation(addVector( getLocation(), new Point2D.Double(velocity, 0)));
+                for (int i = 0; i < cerberus.size();i++) {
+                    Point2D p = cerberus.get(i);
+                    cerberus.set(i,new Point2D.Double(p.getX() + velocity,p.getY()));
+                }
             }
             if ( getLocation().getX() + BALL_SIZE >  panelW) {
                  setLocation(
@@ -297,5 +309,13 @@ public final class PlayerModel  implements Movable, Collidable {
 
     public void setLevelUp(int levelUp) {
         this.levelUp = levelUp;
+    }
+
+    public ArrayList<Point2D> getCerberus() {
+        return cerberus;
+    }
+
+    public void setCerberus(ArrayList<Point2D> cerberus) {
+        this.cerberus = cerberus;
     }
 }
