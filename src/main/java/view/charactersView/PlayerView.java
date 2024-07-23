@@ -27,8 +27,6 @@ public  class PlayerView implements Drawable {
     public void draw(Graphics g){
         g.setColor(Color.gray);
         g.drawOval((int)  loc.getX(), (int)  loc.getY(), (int) size, (int) size);
-
-
         for (int i = 0; i < xPoints.length; i++) {
             g.drawLine((int) loc.getX(), (int) loc.getY(),xPoints[i],yPoints[i]);
         }

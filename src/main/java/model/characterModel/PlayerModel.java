@@ -18,6 +18,7 @@ public final class PlayerModel  implements Movable, Collidable {
     private int xp = 0;
     private int hp = 100;
     public double size = 20;
+    public int melampus = 100;
     private Point2D location;
     private double speed;
     private int impactTime = 50;
@@ -61,8 +62,6 @@ public final class PlayerModel  implements Movable, Collidable {
         id = UUID.randomUUID().toString();
         this.location = location;
     }
-
-
     @Override
     public boolean rigidBody() {
         return true;

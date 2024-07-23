@@ -98,6 +98,15 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().skillCount ++;
                     }
                 }
+            }else if(Menu.getMenu().skills.get(SkillTree.names.melampus)){
+                if(dataBase.getGamePanelModel().skillCount == 0) {
+                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
+                        dataBase.handler.skills.put(SkillTree.names.melampus,true);
+                        dataBase.getGamePanelModel().playerModel.melampus = dataBase.getGamePanelModel().playerModel.melampus *95/100;
+                        dataBase.getGamePanelModel().skillCount ++;
+                    }
+                }
             }
         }
         if(keyCode == KeyEvent.VK_R){
@@ -117,15 +126,15 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.handler.skills.put(SkillTree.names.astrape,true);
                     }
                 }
-            }else {
+            }else if (Menu.getMenu().skills.get(SkillTree.names.cerberus)){
                 if(dataBase.getGamePanelModel().skillCount == 0) {
-//                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                         dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
                         dataBase.handler.skills.put(SkillTree.names.cerberus,true);
                         for (int i = 0; i < 3; i++) {
                             model.playerModel.getCerberus().add(pointNearEpsilon());
                         }
-//                    }
+                    }
                 }
             }
         }

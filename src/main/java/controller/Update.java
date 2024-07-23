@@ -610,7 +610,6 @@ public class Update {
         if(!(movable instanceof PlayerModel)&&!(movable instanceof BulletModel)&&!(movable instanceof EnemyBullets)){
             for (int i = 0; i < panelModel.playerModel.getCerberus().size();i++) {
                 Cerberus p = panelModel.playerModel.getCerberus().get(i);
-                System.out.print(p.isInRest());
                 if(!(movable instanceof BlackOrbModel)){
                     if(distance(centerLoc(movable),new Point2D.Double(p.getX() + SMALL_BALL_SIZE/2.0, p.getY() + SMALL_BALL_SIZE/2.0))
                         <= movable.size()/2.0) {
@@ -625,7 +624,6 @@ public class Update {
                     }
                 }
             }
-            System.out.println();
         }
     }
     Timer t;

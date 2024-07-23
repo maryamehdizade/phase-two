@@ -23,6 +23,7 @@ import view.pages.SkillTree;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static controller.Controller.createCollectableView;
 import static controller.Util.Util.*;
@@ -170,11 +171,14 @@ public class CollisionUtil {
             }
         }
     }
+    static Random random = new Random();
     public static void reduceHp( Enemy movable){
-        int w = movable.meleePower;
-        if(w == 0)w = 5;
-        panelModel.playerModel.setHp( panelModel.playerModel.getHp() - w);
-        checkDeath(panelModel.playerModel);
+        if(random.nextDouble(0,100) <= panelModel.playerModel.melampus) {
+            int w = movable.meleePower;
+            if (w == 0) w = 5;
+            panelModel.playerModel.setHp(panelModel.playerModel.getHp() - w);
+            checkDeath(panelModel.playerModel);
+        }
     }
     private static void checkDeath(Movable r){
         if (r.getHp() <= 0) {
