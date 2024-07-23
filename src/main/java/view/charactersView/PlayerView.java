@@ -27,8 +27,10 @@ public  class PlayerView implements Drawable {
     public void draw(Graphics g){
         g.setColor(Color.gray);
         g.drawOval((int)  loc.getX(), (int)  loc.getY(), (int) size, (int) size);
+
+
         for (int i = 0; i < xPoints.length; i++) {
-            g.drawLine((int) loc.getX(), (int) loc.getY(),xPoints[i],yPoints[i]);
+            g.drawLine((int) (loc.getX() + size/2), (int) (loc.getY()+size/2),xPoints[i],yPoints[i]);
         }
         for (Point2D p:cerberus) {
             g.fillOval((int) p.getX(), (int) p.getY(),SMALL_BALL_SIZE,SMALL_BALL_SIZE);

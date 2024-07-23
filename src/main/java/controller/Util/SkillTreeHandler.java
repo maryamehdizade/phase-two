@@ -31,7 +31,6 @@ public class SkillTreeHandler {
     private void initialSkills(){
         skills.put(SkillTree.names.aceso,false);
         skills.put(SkillTree.names.cerberus,false);
-        skills.put(SkillTree.names.athena,false);
         skills.put(SkillTree.names.ares,false);
         skills.put(SkillTree.names.astrape,false);
         skills.put(SkillTree.names.empusa,false);
@@ -39,12 +38,13 @@ public class SkillTreeHandler {
         skills.put(SkillTree.names.chiron,false);
         skills.put(SkillTree.names.dolus,false);
         skills.put(SkillTree.names.proteus,false);
+        skills.put(SkillTree.names.athena,false);
     }
     private void store(){
         //store empower
         if( panel.empower) {
             empowerSec += 0.1;
-            if (empowerSec >= 15)    panel.empower = false;
+            if (empowerSec >= 15)panel.empower = false;
         }
     }
     private void skiilTree(){

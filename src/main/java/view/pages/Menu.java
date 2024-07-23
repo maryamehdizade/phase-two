@@ -53,7 +53,6 @@ public class Menu extends JFrame {
     private void initialSkiils(){
         skills.put(SkillTree.names.aceso,false);
         skills.put(SkillTree.names.cerberus,false);
-        skills.put(SkillTree.names.athena,false);
         skills.put(SkillTree.names.ares,false);
         skills.put(SkillTree.names.astrape,false);
         skills.put(SkillTree.names.empusa,false);
@@ -61,6 +60,7 @@ public class Menu extends JFrame {
         skills.put(SkillTree.names.chiron,false);
         skills.put(SkillTree.names.dolus,false);
         skills.put(SkillTree.names.proteus,false);
+        skills.put(SkillTree.names.athena,false);
     }
     private void addButtons() {
         exit.setSize(buttonWidth, buttonHieght);

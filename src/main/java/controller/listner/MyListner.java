@@ -82,8 +82,7 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
                         dataBase.handler.skills.put(SkillTree.names.proteus, true);
                         dataBase.getGamePanelModel().skillCount++;
-                        dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
-
+                        proteus();
                     }
                 }
             }else if (Menu.getMenu().skills.get(SkillTree.names.empusa)) {
@@ -92,7 +91,20 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
                         dataBase.handler.skills.put(SkillTree.names.empusa, true);
                         dataBase.getGamePanelModel().skillCount++;
-                        dataBase.getGamePanelModel().playerModel.setSize(dataBase.getGamePanelModel().playerModel.getSize()*9/10);
+                        empusa();
+                    }
+                }
+            }else if(Menu.getMenu().skills.get(SkillTree.names.dolus)){
+                if (dataBase.getGamePanelModel().skillCount == 0) {
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        dataBase.handler.skills.put(SkillTree.names.dolus, true);
+                        dataBase.getGamePanelModel().skillCount++;
+                        if(aa == null)chooseTwoSkills();
+                        dataBase.handler.skills.put(aa,true);
+                        dataBase.handler.skills.put(bb,true);
+                        initialSkill(aa);
+                        initialSkill(bb);
                     }
                 }
             }
@@ -103,7 +115,7 @@ public class MyListner implements KeyListener, MouseListener {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                          dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.skills.put(SkillTree.names.aceso,true);
-                        dataBase.getGamePanelModel().heal ++;
+                        aceso();
                         dataBase.getGamePanelModel().skillCount ++;
                     }
                 }
@@ -112,7 +124,7 @@ public class MyListner implements KeyListener, MouseListener {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.skills.put(SkillTree.names.melampus,true);
-                        dataBase.getGamePanelModel().playerModel.melampus = dataBase.getGamePanelModel().playerModel.melampus *95/100;
+                        melampus();
                         dataBase.getGamePanelModel().skillCount ++;
                     }
                 }
@@ -138,10 +150,10 @@ public class MyListner implements KeyListener, MouseListener {
         if(keyCode == KeyEvent.VK_R){
             if(Menu.getMenu().skills.get(SkillTree.names.ares)){
                 if(dataBase.getGamePanelModel().skillCount == 0) {
-                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
-                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
-                        dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
-                        dataBase.handler.skills.put(SkillTree.names.ares,true);
+                    if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
+                        ares();
+                        dataBase.handler.skills.put(SkillTree.names.ares, true);
                         dataBase.getGamePanelModel().skillCount++;
                     }
                 }
@@ -157,12 +169,67 @@ public class MyListner implements KeyListener, MouseListener {
                     if (dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                         dataBase.getGamePanelModel().playerModel.setXp(dataBase.getGamePanelModel().playerModel.getXp() - 100);
                         dataBase.handler.skills.put(SkillTree.names.cerberus,true);
-                        for (int i = 0; i < 3; i++) {
-                            model.playerModel.getCerberus().add(pointNearEpsilon());
-                        }
+                        cerberus();
                     }
                 }
             }
+        }
+    }
+    private void initialSkill(SkillTree.names name){
+        switch (name){
+            case ares -> ares();
+            case aceso -> aceso();
+            case empusa -> empusa();
+            case melampus -> melampus();
+            case proteus -> proteus();
+            case cerberus ->cerberus();
+        }
+    }
+    private void aceso(){
+        dataBase.getGamePanelModel().heal ++;
+    }
+    private void melampus(){
+        dataBase.getGamePanelModel().playerModel.melampus = dataBase.getGamePanelModel().playerModel.melampus *95/100;
+    }
+    private void cerberus(){
+        for (int i = 0; i < 3; i++) {
+            model.playerModel.getCerberus().add(pointNearEpsilon());
+        }
+    }
+    private void ares(){
+        dataBase.getGamePanelModel().setPower(dataBase.getGamePanelModel().getPower() + 2);
+    }
+    private void proteus(){
+        dataBase.getGamePanelModel().playerModel.setLevelUp(dataBase.getGamePanelModel().playerModel.getLevelUp() + 1);
+    }
+    private void empusa(){
+        dataBase.getGamePanelModel().playerModel.setSize(dataBase.getGamePanelModel().playerModel.getSize()*9/10);
+    }
+    SkillTree.names aa ;
+    SkillTree.names bb ;
+    private void chooseTwoSkills(){
+        int a = (int) (Math.random()*8);
+        int b = (int) (Math.random()*8);
+        while (a == b)b = (int) (Math.random()*9);
+        switch(a){
+            case 0->aa= SkillTree.names.ares;
+            case 1->aa= SkillTree.names.aceso;
+            case 2->aa= SkillTree.names.proteus;
+            case 3->aa= SkillTree.names.astrape;
+            case 4->aa= SkillTree.names.empusa;
+            case 5->aa= SkillTree.names.melampus;
+            case 7->aa= SkillTree.names.cerberus;
+            case 6->aa= SkillTree.names.chiron;
+        }
+        switch(b){
+            case 0->bb= SkillTree.names.ares;
+            case 1->bb= SkillTree.names.aceso;
+            case 2->bb= SkillTree.names.proteus;
+            case 3->bb= SkillTree.names.astrape;
+            case 4->bb= SkillTree.names.empusa;
+            case 5->bb= SkillTree.names.melampus;
+            case 7->bb= SkillTree.names.cerberus;
+            case 6->bb= SkillTree.names.chiron;
         }
     }
 
