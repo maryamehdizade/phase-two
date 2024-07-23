@@ -11,6 +11,7 @@ public class Constant {
     public static final Dimension MAX_SIZE = new Dimension(800,800);
     public static final Dimension MIN_SIZE = new Dimension(300,300);
     public static final Dimension FRAME_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int FINAL_WAVE = 6;
 
 
 

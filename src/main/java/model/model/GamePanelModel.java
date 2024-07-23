@@ -19,7 +19,6 @@ public class GamePanelModel {
     String id;
     Point loc;
     public boolean victory = false;
-    public Random random = new Random();
     public boolean wave1 = true;
     public int heal = 0;
     public boolean start = false;
@@ -27,7 +26,7 @@ public class GamePanelModel {
     public boolean wave3 = false;
     public boolean empower = false;
     public int wave = 1;
-    public int phase, second;
+
 
     public int enemies = 0;
     public int aresCount ;

@@ -47,6 +47,7 @@ public class CollisionUtil {
         }else{
             Sound.sound().injured();
             r.setHp(r.getHp() - panelModel.power);
+            dataBase.successShoots++;
             checkDeath(r);
         }
     }
@@ -99,6 +100,7 @@ public class CollisionUtil {
 
     public static void entityDeath(Movable m) {
         Sound.sound().death();
+        dataBase.killedEnemies++;
 
         panelModel.movables.remove(m);
         if (m instanceof BossModel) {

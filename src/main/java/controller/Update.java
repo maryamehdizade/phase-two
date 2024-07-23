@@ -58,13 +58,14 @@ public class Update {
     public Timer model;
     public double a ;
     public int bound ;
-    private int second;
+    public int second;
     public int waveTime;
     private int dismaySec;
     boolean over;
     public DataBase dataBase;
     private Waves waves;
     Random random;
+    public boolean phaseTwo;
     GamePanelModel panelModel;
     private void initialDataBase(){
         dataBase = DataBase.getDataBase();
@@ -100,6 +101,7 @@ public class Update {
                 }
             }
             second += 1;
+            dataBase.waveTime++;
         });
         time.start();
 
@@ -221,8 +223,8 @@ public class Update {
         panel.setSize(panelModel.getDimension());
         panel.setLocation(panelModel.getLoc());
         panel.setSecond(second);
-        panel.setWave(panelModel.wave);
-        
+        if(Game.getGame().getPhase() == 0)panel.setWave(panelModel.wave);
+        else panel.setWave(dataBase.wave);
     }
     private void updateWrymView(WyrmView v){
         for (Movable movable : panelModel.movables) {
@@ -289,7 +291,7 @@ public class Update {
                 }
             }
         }
-        if(!d) addingEnemies();
+
         if(panelModel.boss != null)bossHandler = new BossHandler(this);
         if (Game.getGame().getPhase() == 0) phaseOne();
         else phaseTwo();
@@ -298,7 +300,7 @@ public class Update {
     }
     public boolean d;
     private void updateBar(BarricadosModel b){
-        if(b.sec >=120){
+        if(b.sec >=70){
             b.timer.stop();
             panelModel.movables.remove(b);
             for (int i = 0; i < panel.getDrawables().size(); i++) {
@@ -335,6 +337,13 @@ public class Update {
         panelModel.setDimension(new Dimension((int) (FRAME_DIMENSION.getWidth() - 30),
                 (int) (FRAME_DIMENSION.getHeight()-30)));
         panelModel.setLoc(new Point(15,15));
+        if(!phaseTwo){
+            waves=new Waves(this);
+            phaseTwo = true;
+        }
+        wave();
+        if(!d) addingEnemies();
+
     }
     private void updateCollectable(){
         for (int i = 0; i < dataBase.collectableModels.size();i ++) {
@@ -479,7 +488,6 @@ public class Update {
         quakeCheck();
         slapCheck();
     }
-    int i;
     private void createRandomBullet(Movable n){
         EnemyBullets e = new EnemyBullets(centerLoc(n), new Point2D.Double(
                 Math.random()*panelModel.getDimension().getWidth(),

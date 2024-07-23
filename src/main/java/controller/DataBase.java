@@ -13,9 +13,12 @@ import static controller.constants.Constant.PANEL_LOCATION;
 
 public class DataBase {
     GamePanelModel gamePanelModel;
-
     public ArrayList<CollectableModel> collectableModels = new ArrayList<>();
-
+    public int shoots;
+    public int successShoots;
+    public int killedEnemies;
+    public int wave = 5;
+    public int waveTime;
     private static DataBase dataBase;
     public SkillTreeHandler handler;
     private DataBase(){

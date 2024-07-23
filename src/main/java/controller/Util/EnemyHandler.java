@@ -21,7 +21,6 @@ public class EnemyHandler {
     private static DataBase dataBase;
     private static GamePanelModel panelModel;
     private static GamePanel panel;
-    private static int bound;
     static Random random = new Random();
     private static Update update;
 
@@ -30,54 +29,65 @@ public class EnemyHandler {
         dataBase = update.dataBase;
         panelModel = dataBase.getGamePanelModel();
         panel = update.panel;
-        bound = update.bound;
 
     }
 
     public static void addingEnemies(){
-        if (random.nextDouble(0, bound) < 1) {
-            if((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
-                    (panelModel.wave == 3 && panelModel.enemies <= 20)) {
-                Sound.sound().entrance();
-                update.d = true;
-                BossModel n = new BossModel();
+        if (random.nextDouble(0, update.bound) < 1) {
+            Movable n = null;
+            if (dataBase.wave != 6) {
+                if (Game.getGame().getPhase() == 0) {
+                    if ((panelModel.wave == 1 && panelModel.enemies <= 10) || (panelModel.wave == 2 && panelModel.enemies <= 15) ||
+                            (panelModel.wave == 3 && panelModel.enemies <= 20)) {
+                        switch ((int) (Math.random() * 2)) {
+                            case 0 -> n = new TriangleModel();
+                            case 1 -> n = new RectangleModel();
+                        }
+                    }
+                } else {
+                    switch ((int) (Math.random() * 6)) {
+                        case 0 -> n = new Omenoctmodel();
+                        case 1 -> n = new NecropickModel();
+                        case 2 -> n = new ArchmireModel();
+                        case 3 -> n = new WyrmModel();
+                        case 4 -> {
+                            if (dataBase.wave >= 3 && Math.random() <= 0.4) n = new BarricadosModel();
+                        }
+                        case 5 -> {
+                            if (dataBase.wave >= 3) n = new BlackOrbModel();
+                        }
+                    }
+                }
+                if (n != null) {
+                    panel.getDrawables().add(createEnemyView(n));
+                    dataBase.getGamePanelModel().movables.add(n);
+                    Sound.sound().entrance();
+                }
+            } else {
+                System.out.println("k");
+                if (!update.d) {
+                    System.out.println("h");
+                    update.d = true;
+                    n = new BossModel();
+                    BossView b = (BossView) createEnemyView(n);
+                    panel.getDrawables().add(b);
+                    dataBase.getGamePanelModel().movables.add(n);
 
-//                if(Game.getGame().getPhase() == 0) {
-//                    if (panelModel.random.nextInt(0, 2) == 1) {
-//                        n = new TriangleModel();
-//                    } else {
-//                        n = new RectangleModel();
-//                    }
-//                }else{
-//                    if (panelModel.random.nextInt(0, 2) == 1)
-//                        n = new Omenoctmodel();
-//                    else if (panelModel.random.nextInt(0, 2) == 1)
-//                        n = new NecropickModel();
-//                    else if (panelModel.random.nextInt(0, 2) == 1)
-//                        n = new ArchmireModel();
-//                    else if (panelModel.random.nextInt(0, 2) == 1)
-//                        n = new WyrmModel();
-//                    else n = new BarricadosModel();
-//                }
-                BossView b = (BossView) createEnemyView(n);
-                panel.getDrawables().add(b);
-                dataBase.getGamePanelModel().movables.add(n);
-                rHandView r = (rHandView) createEnemyView(n.r);
-                b.r = r;
-                panel.getDrawables().add(r);
-                dataBase.getGamePanelModel().movables.add(n.r);
-                lHandView l = (lHandView) createEnemyView(n.l);
-                b.l = l;
-                panel.getDrawables().add(l);
-                dataBase.getGamePanelModel().movables.add(n.l);
-                dataBase.getGamePanelModel().boss = n;
+                    rHandView r = (rHandView) createEnemyView(((BossModel) n).r);
+                    b.r = r;
 
-//                Movable m = new Omenoctmodel();
-//                dataBase.getGamePanelModel().movables.add(m);
-//                panel.getDrawables().add(createEnemyView(m));
+                    panel.getDrawables().add(r);
+                    dataBase.getGamePanelModel().movables.add(((BossModel) n).r);
 
-                panelModel.enemies ++;
+                    lHandView l = (lHandView) createEnemyView(((BossModel) n).l);
+                    b.l = l;
+
+                    panel.getDrawables().add(l);
+                    dataBase.getGamePanelModel().movables.add(((BossModel) n).l);
+                    dataBase.getGamePanelModel().boss = (BossModel) n;
+                }
             }
+            panelModel.enemies++;
             panelModel.start = true;
         }
     }

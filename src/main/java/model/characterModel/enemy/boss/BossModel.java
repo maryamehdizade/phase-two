@@ -90,7 +90,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
     public void powerPunch(){
         if(!p.inPlace)p.move();
         else {
-            impact(collisionPoint(p.getLoc(),playerModel.getLoc()),200);
+            impact(collisionPoint(p.getLoc(),playerModel.getLoc()),100);
             p.inPlace = false;
             p.target = new Point2D.Double(0,0);
             toggleOccupation();

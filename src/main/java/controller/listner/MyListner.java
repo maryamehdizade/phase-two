@@ -135,6 +135,7 @@ public class MyListner implements KeyListener, MouseListener {
                 m.move(3);
             }
         }
+        DataBase.getDataBase().shoots++;
 
 
     }

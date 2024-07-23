@@ -98,7 +98,7 @@ public class Util {
     }
     public static boolean bulletIsOutSideOfPanel(EnemyBullets e, GamePanelModel panel){
         return e.getLoc().getX() <= 0 || e.getLoc().getY()>= panel.getDimension().getHeight() ||
-                e.getLoc().getX() >= panel.getDimension().getWidth() || e.getLoc().getY() >= panel.getDimension().getHeight();
+                e.getLoc().getX() >= panel.getDimension().getWidth() || e.getLoc().getY() <=0;
     }
     public static Point2D collisionPoint(Point2D a, Point2D b){
         return new Point2D.Double((a.getX() + b.getX())/2.0, (a.getY() + b.getY())/2.0);

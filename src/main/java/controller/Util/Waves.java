@@ -5,17 +5,38 @@ import controller.Update;
 import model.model.GamePanelModel;
 import sound.Sound;
 
+import static controller.constants.Constant.FINAL_WAVE;
+
 public class Waves {
     private static GamePanelModel panelModel;
     private static DataBase dataBase;
+    private static Update update;
     public static int bound;
     private static int count= 0;
+    private static int waveEnemy;
 
     public Waves(Update update) {
+        this.update = update;
         dataBase = update.dataBase;
-        panelModel = update.dataBase.getGamePanelModel();
+        panelModel = dataBase.getGamePanelModel();
         bound = update.bound;
-
+        update.second = 0;
+        count = 0;
+        panelModel.enemies = 0;
+    }
+    public static void wave(){
+        if(dataBase.wave < FINAL_WAVE) {
+            if (dataBase.killedEnemies >= dataBase.wave * 2 + 5 + waveEnemy) {
+                update.d = true;
+                if(dataBase.waveTime%10 == 0&&update.bound>5)update.bound -= 3;
+                if (panelModel.movables.size() == 1) {
+                    dataBase.wave++;
+                    dataBase.waveTime = 0;
+                    update.d = false;
+                    waveEnemy = dataBase.killedEnemies;
+                }
+            }
+        }
     }
 
     public static void Wave() {
@@ -52,4 +73,5 @@ public class Waves {
             panelModel.wave2 = false;
         }
     }
+
 }
