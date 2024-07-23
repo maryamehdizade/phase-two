@@ -16,10 +16,9 @@ import view.charactersView.PlayerView;
 import view.charactersView.boss.BossView;
 import view.charactersView.enemy.*;
 import view.drawable.Drawable;
-import view.pages.Game;
-import view.pages.GameOver;
-import view.pages.GamePanel;
+import view.pages.*;
 import view.pages.Menu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -324,7 +323,9 @@ public class Update {
             s = false;
         }
         if(second >= 10) {
-            panelModel.shrinkage();
+            if(dataBase.handler.skills.get(SkillTree.names.athena)) {
+                if(random.nextDouble(0,100)<= panelModel.playerModel.melampus)panelModel.shrinkage();
+            }
         }
     }
     private void initialGame(){

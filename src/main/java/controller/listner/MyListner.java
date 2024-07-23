@@ -107,11 +107,20 @@ public class MyListner implements KeyListener, MouseListener {
                         dataBase.getGamePanelModel().skillCount ++;
                     }
                 }
-            }else {
+            }else if(Menu.getMenu().skills.get(SkillTree.names.chiron)){
                 if(dataBase.getGamePanelModel().skillCount == 0) {
                     if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
                         dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
                         dataBase.handler.skills.put(SkillTree.names.chiron,true);
+                        dataBase.getGamePanelModel().skillCount ++;
+                    }
+                }
+            }else if(Menu.getMenu().skills.get(SkillTree.names.athena)){
+                if(dataBase.getGamePanelModel().skillCount == 0) {
+                    if( dataBase.getGamePanelModel().playerModel.getXp() >= 100) {
+                        dataBase.getGamePanelModel().playerModel.setXp( dataBase.getGamePanelModel().playerModel.getXp() -100);
+                        dataBase.handler.skills.put(SkillTree.names.athena,true);
+                        dataBase.getGamePanelModel().playerModel.melampus = dataBase.getGamePanelModel().playerModel.melampus*8/10;
                         dataBase.getGamePanelModel().skillCount ++;
                     }
                 }

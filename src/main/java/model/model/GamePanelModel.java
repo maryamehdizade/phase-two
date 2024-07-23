@@ -38,6 +38,7 @@ public class GamePanelModel {
     private Dimension dimension;
     public PlayerModel playerModel;
     public ArrayList<Movable> movables;
+    public double shrinkageSpeed = 1;
 
     public GamePanelModel(Point location, Dimension dimension, boolean rigidBody, boolean isometric) {
         movables = new ArrayList<>();
@@ -59,8 +60,8 @@ public class GamePanelModel {
     }
     public void xmin(){
         if( getDimension().width > MIN_SIZE.width) {
-             getDimension().width -= 1;
-            if( getLoc().getX() < MIN_SIZE.getWidth())  getLoc().setLocation( getLoc().getX() + 0.5,  getLoc().getY() );
+             getDimension().width -= (int) shrinkageSpeed;
+            if( getLoc().getX() < MIN_SIZE.getWidth())  getLoc().setLocation( getLoc().getX() + shrinkageSpeed/2,  getLoc().getY() );
         }
         if( playerModel.getLocation().getX() + BALL_SIZE >  getDimension().getWidth()){
             playerModel.setLocation(
@@ -74,8 +75,8 @@ public class GamePanelModel {
     }
     public void ymin(){
         if( getDimension().height > MIN_SIZE.height) {
-             getDimension().height -= 1;
-            if( getLoc().getY() < MIN_SIZE.getHeight())  getLoc().setLocation( getLoc().getX(),  getLoc().getY() + 0.5);
+             getDimension().height -= (int) shrinkageSpeed;
+            if( getLoc().getY() < MIN_SIZE.getHeight())  getLoc().setLocation( getLoc().getX(),  getLoc().getY() + shrinkageSpeed/2);
         }
         if ( playerModel.getLocation().getY() + BALL_SIZE>  getDimension().getHeight()) {
             playerModel.setLocation(
