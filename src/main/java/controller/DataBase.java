@@ -20,6 +20,7 @@ public class DataBase {
     int slumberSec;
     int dismaySec;
     private int slaughterSec;
+    private boolean slaughter;
     public int wave = 5;
     public int waveTime;
     private static DataBase dataBase;
@@ -62,5 +63,21 @@ public class DataBase {
 
     public void setDismaySec(int dismaySec) {
         this.dismaySec = dismaySec;
+    }
+
+    public int getSlaughterSec() {
+        return slaughterSec;
+    }
+
+    public boolean isSlaughter() {
+        return slaughter;
+    }
+
+    public void setSlaughter(boolean slaughter) {
+        this.slaughter = slaughter;
+    }
+
+    public void setSlaughterSec(int slaughterSec) {
+        this.slaughterSec = slaughterSec;
     }
 }

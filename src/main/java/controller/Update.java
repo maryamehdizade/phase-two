@@ -105,6 +105,12 @@ public class Update {
                     stopEnemies();
                 }
             }
+            if(dataBase.getSlaughterSec() !=0||dataBase.isSlaughter()){
+                dataBase.setSlaughterSec(dataBase.getSlaughterSec()+1);
+                if (dataBase.getSlaughterSec() == 120) {
+                    dataBase.setSlaughterSec(0);
+                }
+            }
             second += 1;
             dataBase.waveTime++;
         });
@@ -226,6 +232,7 @@ public class Update {
                 if (movable.getId().equals(b.getId())) {
                     b.setCircles(((BlackOrbModel) movable).getCircles());
                     b.setHp(movable.getHp());
+                    b.draw = ((BlackOrbModel) movable).move;
                 }
             }
         }

@@ -11,12 +11,11 @@ public class BulletModel implements Movable, Collidable {
     private Point2D loc;
     private double dx;
     private double dy;
+    private int power;
     private double speed = 3;
     private String id;
 
     public BulletModel(Point2D loc, int targetX, int targetY) {
-
-
         id = UUID.randomUUID().toString();
         this.loc = loc;
         double angle = Math.atan2(targetY - loc.getX(), targetX - loc.getY());
@@ -105,7 +104,13 @@ public class BulletModel implements Movable, Collidable {
         return dy;
     }
 
+    public int getPower() {
+        return power;
+    }
 
+    public void setPower(int power) {
+        this.power = power;
+    }
 
     public Point2D getLoc() {
         return loc;

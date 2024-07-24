@@ -58,11 +58,13 @@ public class Store extends JFrame  {
         slaughter.setBackground(color);
         slaughter.setFont(new Font("TimesRoman", Font.PLAIN, font));
         slaughter.addActionListener(e -> {
-            if(panel. playerView.getXp() >= 200){
-                panel. playerView.setXp(panel. playerView.getXp() - 200);
-                update.dataBase.setXp(panel.playerView.getXp());
-
-                start();
+            if(panel. playerView.getXp() >= 200) {
+                if (update.dataBase.getSlaughterSec() == 0) {
+                    panel.playerView.setXp(panel.playerView.getXp() - 200);
+                    update.dataBase.setXp(panel.playerView.getXp());
+                    update.dataBase.setSlaughter(true);
+                    start();
+                }
             }
         });
 

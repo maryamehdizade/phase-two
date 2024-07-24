@@ -55,7 +55,7 @@ public interface Collidable {
 
                         //reduce m hp and remove bullet
                         removeBullet((BulletModel) n);
-                        injured(m);
+                        injured((BulletModel) n,m);
                         impact(centerLoc(n),IMPACT_RANGE);
                     }
                 }
@@ -97,20 +97,22 @@ public interface Collidable {
                         if(n instanceof PlayerModel)astrape(m);
                         impact(collisionPoint(n.getLoc(),c.getLoc()), IMPACT_RANGE);
                     }
-                    for (int j = i; j + i < ((BlackOrbModel) m).getCircles().size(); j++) {
-                        Polygon p = getPolygon((BlackOrbModel) m, i, j);
-                        if (p.contains(centerLoc(n))) {
-                            if(n instanceof Enemy) {
-                                Enemy e = (Enemy) n;
-                                e.counter += 0.1;
-                                if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                                    laserDamage(n, (BlackOrbModel) m);
-                                }
-                            }else{
-                                PlayerModel e = (PlayerModel) n;
-                                e.counter += 0.1;
-                                if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
-                                    laserDamage(n, (BlackOrbModel) m);
+                    if(((BlackOrbModel) m).move) {
+                        for (int j = i; j + i < ((BlackOrbModel) m).getCircles().size(); j++) {
+                            Polygon p = getPolygon((BlackOrbModel) m, i, j);
+                            if (p.contains(centerLoc(n))) {
+                                if (n instanceof Enemy) {
+                                    Enemy e = (Enemy) n;
+                                    e.counter += 0.1;
+                                    if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
+                                        laserDamage(n, (BlackOrbModel) m);
+                                    }
+                                } else {
+                                    PlayerModel e = (PlayerModel) n;
+                                    e.counter += 0.1;
+                                    if (e.counter % 10 >= 0 && e.counter % 10 < 0.1) {
+                                        laserDamage(n, (BlackOrbModel) m);
+                                    }
                                 }
                             }
                         }
@@ -121,7 +123,7 @@ public interface Collidable {
                     BlackOrbCircles c = ((BlackOrbModel) m).getCircles().get(i);
                     if(distance(centerLoc(n),centerLoc(c)) <= c.size()/2.0){
                         removeBullet((BulletModel) n);
-                        injured(c);
+                        injured((BulletModel) n,c);
                         impact(centerLoc(n),IMPACT_RANGE);
                     }
                 }
@@ -138,7 +140,7 @@ public interface Collidable {
 
                                     //reduce m hp and remove bullet
                                     removeBullet((BulletModel) n);
-                                    injured(m);
+                                    injured((BulletModel) n,m);
                                     impact(collisionPoint(centerLoc(m), centerLoc(n)),IMPACT_RANGE);
                                 }
                             }
@@ -160,7 +162,7 @@ public interface Collidable {
                                     //impact and reduce m hp
 
                                     removeBullet((BulletModel) n);
-                                    injured(m);
+                                    injured((BulletModel) n, m);
                                     impact(centerLoc(n), IMPACT_RANGE);
 
                                 }

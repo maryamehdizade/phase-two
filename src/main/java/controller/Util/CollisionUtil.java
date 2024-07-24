@@ -55,6 +55,17 @@ public class CollisionUtil {
             checkDeath(r);
         }
     }
+    public static void injured(BulletModel m, Movable r){
+        if((r instanceof Rhand && !((Rhand) r).vulnerable) ||(r instanceof Lhand && !((Lhand) r).vulnerable)
+                ||(r instanceof BossModel && !((BossModel) r).vulnerable)) {
+        }else{
+            Sound.sound().injured();
+            r.setHp(r.getHp() - m.getPower());
+            chiron();
+            dataBase.successShoots++;
+            checkDeath(r);
+        }
+    }
     public static void aoeDamage(Movable r, ArchmireModel a){
         if(!(r instanceof PlayerModel))Sound.sound().injured();
         r.setHp(r.getHp() - a.getAoe());

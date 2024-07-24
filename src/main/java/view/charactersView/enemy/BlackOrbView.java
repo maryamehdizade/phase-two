@@ -15,9 +15,10 @@ public class BlackOrbView implements Drawable {
     private Point2D loc;
     private String id;
     private int hp;
+    public boolean draw;
     private ArrayList<BlackOrbCircles> circles;
 
-    public BlackOrbView(Point2D loc, String id,ArrayList<BlackOrbCircles> circles) {
+    public BlackOrbView(Point2D loc, String id, ArrayList<BlackOrbCircles> circles) {
         this.circles = circles;
         this.loc = loc;
         this.id = id;
@@ -30,35 +31,36 @@ public class BlackOrbView implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.setColor(new Color(120, 10, 222));
-        for (int i = 0; i < circles.size(); i++) {
-            for (int j = i + 1; j <circles.size() ; j++) {
-                BlackOrbCircles c = circles.get(i);
-                BlackOrbCircles c1 = circles.get(j);
+        if (draw) {
+            for (int i = 0; i < circles.size(); i++) {
+                for (int j = i + 1; j < circles.size(); j++) {
+                    BlackOrbCircles c = circles.get(i);
+                    BlackOrbCircles c1 = circles.get(j);
 
-                int n = (int) (c.getLoc().getX() - c1.getLoc().getX())%11;
-                int m = (int) (c.getLoc().getY() - c1.getLoc().getY())%11;
+                    int n = (int) (c.getLoc().getX() - c1.getLoc().getX()) % 11;
+                    int m = (int) (c.getLoc().getY() - c1.getLoc().getY()) % 11;
 
-                int[] x = new int[]{(int) (centerLoc(c).getX() - m),
-                        (int) (centerLoc(c).getX() + m),
-                        (int) (centerLoc(c1).getX() + m),
-                        (int) (centerLoc(c1).getX() -m)};
-                int[] y = new int[]{(int) (centerLoc(c).getY() + n),
-                        (int) (centerLoc(c).getY() - n),
-                        (int) (centerLoc(c1).getY() - n) ,
-                        (int) (centerLoc(c1).getY() +n)};
-                g.fillPolygon(x,y,4);
+                    int[] x = new int[]{(int) (centerLoc(c).getX() - m),
+                            (int) (centerLoc(c).getX() + m),
+                            (int) (centerLoc(c1).getX() + m),
+                            (int) (centerLoc(c1).getX() - m)};
+                    int[] y = new int[]{(int) (centerLoc(c).getY() + n),
+                            (int) (centerLoc(c).getY() - n),
+                            (int) (centerLoc(c1).getY() - n),
+                            (int) (centerLoc(c1).getY() + n)};
+                    g.fillPolygon(x, y, 4);
+                }
             }
         }
-
-        for (int i = 0;i < circles.size();i++) {
+        for (int i = 0; i < circles.size(); i++) {
             g.setColor(Color.black);
             g.fillOval((int) circles.get(i).getLoc().getX(), (int) circles.get(i).getLoc().getY(), circles.get(i).size(), circles.get(i).size());
             g.setColor(new Color(120, 10, 222));
             g.drawOval((int) circles.get(i).getLoc().getX(), (int) circles.get(i).getLoc().getY(), circles.get(i).size(), circles.get(i).size());
             g.drawString(String.valueOf(circles.get(i).getHp()), (int) centerLoc(circles.get(i)).getX(),
-                    (int) centerLoc( circles.get(i)).getY());
+                    (int) centerLoc(circles.get(i)).getY());
         }
-        
+
     }
 
     public String getId() {

@@ -243,6 +243,11 @@ public class MyListner implements KeyListener, MouseListener {
         for (int i = -1; i < n; i++) {
             BulletModel model = new BulletModel(playerCenter( dataBase.getGamePanelModel().playerModel), targetX + i * n * 10,
                     targetY + i * n * 10);
+            if(dataBase.isSlaughter()){
+                dataBase.setSlaughter(false);
+                model.setPower(50);
+            }
+            else model.setPower(dataBase.getGamePanelModel().getPower());
             dataBase.getGamePanelModel().movables.add(model);
             panel.getDrawables().add(createBulletView(model));
         }
