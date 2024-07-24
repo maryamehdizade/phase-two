@@ -17,8 +17,11 @@ public class DataBase {
     public int shoots;
     public int successShoots;
     public int killedEnemies;
+    public int second;
+    public int bound ;
     int slumberSec;
     int dismaySec;
+
     private int slaughterSec;
     private boolean slaughter;
     public int wave = 5;

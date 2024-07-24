@@ -57,10 +57,7 @@ public class Update {
     public Timer view;
     public Timer model;
     public double a ;
-    public int bound ;
-    public int second;
     public int waveTime;
-    
     boolean over;
     public DataBase dataBase;
     private Waves waves;
@@ -111,7 +108,7 @@ public class Update {
                     dataBase.setSlaughterSec(0);
                 }
             }
-            second += 1;
+            dataBase.second += 1;
             dataBase.waveTime++;
         });
         time.start();
@@ -240,7 +237,7 @@ public class Update {
     private void updatePanel(){
         panel.setSize(panelModel.getDimension());
         panel.setLocation(panelModel.getLoc());
-        panel.setSecond(second);
+        panel.setSecond(dataBase.second);
         if(Game.getGame().getPhase() == 0)panel.setWave(panelModel.wave);
         else panel.setWave(dataBase.wave);
     }
@@ -339,11 +336,11 @@ public class Update {
         moveEpsilon();
     }
     private void timeCheck(){
-        if(second <= 1 && s){
+        if(dataBase.second <= 1 && s){
             initialGame();
             s = false;
         }
-        if(second >= 10) {
+        if(dataBase.second >= 10) {
             if(dataBase.handler.skills.get(SkillTree.names.athena)) {
                 if(random.nextDouble(0,100)<= panelModel.playerModel.melampus)panelModel.shrinkage();
             }
@@ -393,7 +390,7 @@ public class Update {
         if (new Random().nextDouble(0, 50) <= 1) {
             m.setSpeed(2);
         }
-        if (second % 2 == 0) m.setSpeed(1);
+        if (dataBase.second % 2 == 0) m.setSpeed(1);
         m.move();
         checkCollision(m);
     }

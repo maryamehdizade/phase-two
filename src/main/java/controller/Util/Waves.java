@@ -19,8 +19,8 @@ public class Waves {
         this.update = update;
         dataBase = update.dataBase;
         panelModel = dataBase.getGamePanelModel();
-        bound = update.bound;
-        update.second = 0;
+        bound = dataBase.bound;
+        dataBase.second = 0;
         count = 0;
         panelModel.enemies = 0;
     }
@@ -28,7 +28,7 @@ public class Waves {
         if(dataBase.wave < FINAL_WAVE) {
             if (dataBase.killedEnemies >= dataBase.wave * 2 + 5 + waveEnemy) {
                 update.d = true;
-                if(dataBase.waveTime%10 == 0&&update.bound>5)update.bound -= 3;
+                if(dataBase.waveTime%10 == 0&&dataBase.bound>5)dataBase.bound -= 3;
                 if (panelModel.movables.size() == 1) {
                     dataBase.wave++;
                     dataBase.waveTime = 0;

@@ -15,7 +15,6 @@ import static controller.constants.Constant.MIN_SIZE;
 import static controller.constants.EntityConstants.BALL_SIZE;
 
 public class GamePanelModel {
-
     String id;
     Point loc;
     public boolean victory = false;

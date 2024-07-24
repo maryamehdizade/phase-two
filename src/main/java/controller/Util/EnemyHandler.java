@@ -33,7 +33,7 @@ public class EnemyHandler {
     }
 
     public static void addingEnemies(){
-        if (random.nextDouble(0, update.bound) < 1) {
+        if (random.nextDouble(0, dataBase.bound) < 1) {
             Movable n = null;
             if (dataBase.wave != 6) {
                 if (Game.getGame().getPhase() == 0) {

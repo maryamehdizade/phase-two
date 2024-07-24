@@ -22,8 +22,6 @@ public class SkillTreeHandler {
         time = new Timer(100, e -> {
             skiilTree();
             store();
-//            if(update.over)stop();
-
         });
         time.start();
         initialSkills();
@@ -42,7 +40,7 @@ public class SkillTreeHandler {
     }
     private void store(){
         //store empower
-        if( panel.empower) {
+        if(panel.empower) {
             empowerSec += 0.1;
             if (empowerSec >= 15)panel.empower = false;
         }
