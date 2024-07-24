@@ -3,6 +3,7 @@ import model.model.Enemy;
 import model.movement.Collidable;
 import model.movement.Movable;
 import static controller.constants.Constant.PANEL_DIMENSION;
+import static controller.constants.EntityConstants.*;
 import static controller.listner.MyListner.v;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 import static controller.Util.BossHandler.attacks;
 import static controller.Util.Util.*;
-import static controller.constants.EntityConstants.FINALBOSS_HP;
 import static controller.constants.ImageFiles.smiley;
 import static model.movement.Impact.impact;
 
@@ -26,8 +26,9 @@ public class BossModel extends Enemy implements Movable, Collidable {
     private File file;
     private int xvelocity;
     private int yvelocity;
-    private int hp = FINALBOSS_HP;
+    private int hp = FINALBOSS_HP - 295;
     public  Lhand l;
+    private double size = SMILEY_SIZE;
     public  Rhand r;
     public Phand p;
     public int vomitCount;
@@ -128,7 +129,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
         counter.start();
     }
     private double delta = Math.PI/200.0;
-    private double angle;
+    public double angle;
     private double dis;
     public void projectile(){
         dis = distance(loc,playerModel.getLoc());
@@ -197,6 +198,14 @@ public class BossModel extends Enemy implements Movable, Collidable {
     @Override
     public void setYvelocity(double yvelocity) {
         this.xvelocity = xvelocity;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 
     @Override

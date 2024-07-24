@@ -25,17 +25,26 @@ public class BossView implements Drawable {
     public pHandView p;
     public ArrayList<Point2D> aoe = new ArrayList<>();
     private Point2D loc;
+    private double size;
     public BossView(Image i,String id, Point2D l){
         this.id = id;
         loc = l;
         img = i;
     }
 
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+
     @Override
     public void draw(Graphics g) {
-        g.drawImage(img, (int) loc.getX(), (int) loc.getY(), (int) SMILEY_DRAW_SIZE.getX(), (int) SMILEY_DRAW_SIZE.getY(), null);
+        g.drawImage(img, (int) loc.getX(), (int) loc.getY(), (int) size + 110, (int)size+110, null);
         g.setColor(Color.black);
-        g.drawString(String.valueOf(hp), (int) (loc.getX() + SMILEY_DRAW_SIZE.getX() / 2), (int) (loc.getY() + SMILEY_DRAW_SIZE.getY() / 2));
+        g.drawString(String.valueOf(hp), (int) (loc.getX() + size+110 / 2 ), (int) (loc.getY() + size+110 / 2));
 
         for (Point2D p : aoe) {
             g.setColor(Color.pink);

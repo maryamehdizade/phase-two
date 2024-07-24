@@ -8,7 +8,6 @@ import model.characterModel.enemy.boss.BossModel;
 import model.characterModel.enemy.boss.Lhand;
 import model.characterModel.enemy.boss.Phand;
 import model.characterModel.enemy.boss.Rhand;
-import view.charactersView.enemy.BarricadosView;
 
 import java.awt.geom.Point2D;
 
@@ -54,12 +53,12 @@ public interface Movable {
             }
             case BarricadosModel n ->{
                 return BAR_SIZE;
-            }case BlackOrbModel n ->{
+            }case BlackOrbModel ignored ->{
                 return ORB_SIZE;
             }case BlackOrbCircles n ->{
                 return ORB_CIRCLE_SIZE;
             }case BossModel n ->{
-                return (int) SMILEY_DRAW_SIZE.getX();
+                return (int) n.getSize();
             }case Lhand n ->{
                 return (int) L_HAND_SIZE.getX();
             }case Rhand n ->{

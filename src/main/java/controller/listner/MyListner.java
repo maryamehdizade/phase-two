@@ -253,7 +253,7 @@ public class MyListner implements KeyListener, MouseListener {
         }
         for (Movable m : DataBase.getDataBase().getGamePanelModel().movables) {
             if(m instanceof Phand || m instanceof Rhand|| m instanceof Lhand|| m instanceof BossModel){
-                m.move(3);
+                m.move(1);
             }
         }
         DataBase.getDataBase().shoots++;

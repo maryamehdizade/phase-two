@@ -19,9 +19,12 @@ import view.drawable.Drawable;
 import view.pages.*;
 import view.pages.Menu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
@@ -49,8 +52,8 @@ public class Update {
         }
         return update;
     }
-    public static void remove(){
-        update = null;
+    public static void setUpdate(Update u){
+        update = u;
     }
     public GamePanel panel;
     public Timer time;
@@ -142,7 +145,7 @@ public class Update {
             else if(d instanceof NecropicklView)updateNecroView((NecropicklView) d);
             else if(d instanceof ArchmireView)uodateArchView((ArchmireView) d);
             else if(d instanceof WyrmView)updateWrymView((WyrmView) d);
-            else if (d instanceof BlackOrbView) updateOrbView((BlackOrbView) d);
+            else if(d instanceof BlackOrbView) updateOrbView((BlackOrbView) d);
             else if(d instanceof BossView)updateBoss((BossView) d);
 
         }
@@ -163,6 +166,7 @@ public class Update {
         }
         view.setLoc(panelModel.boss.getLoc());
         view.setImg(panelModel.boss.image);
+        view.setSize(panelModel.boss.getSize());
         view.setHp(panelModel.boss.getHp());
         view.aoe = panelModel.boss.aoe;
 
@@ -681,6 +685,7 @@ public class Update {
             if (random.nextDouble(0,100) < 0.5) createBullet(panelModel.boss);
             if(panelModel.boss.projectileCount>=500){
                 panelModel.boss.projectileCount =0;
+                panelModel.boss.angle= 0;
                 attacks.remove(Attacks.projectile);
             }
         }
@@ -702,10 +707,24 @@ public class Update {
             }
         }
     }
-    public void phaseTwoVic(){
-        //todo:addemoji and stuff
-        
-        panelModel.victory = true;
+    Timer p;
+    public void phaseTwoVic() {
+        try {
+            panelModel.boss.setImage(ImageIO.read(new File("C:\\Users\\EPSILON\\IdeaProjects\\image\\dead.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        p = new Timer(15,e->{
+            if(panelModel.boss.getSize()>= -100)panelModel.boss.setSize(panelModel.boss.getSize() - 2);
+            attacks.clear();
+            if (panelModel.boss.getSize() <= -90) {
+                panelModel.movables.remove(panelModel.boss);
+                if(!panelModel.victory)panelModel.playerModel.setXp(panelModel.playerModel.getXp()+ 250);
+                panelModel.victory = true;
+                victory();
+            }});
+        p.start();
+        model.stop();
     }
     private void victory() {
         if (panelModel.victory) {
@@ -713,6 +732,7 @@ public class Update {
             model.stop();
             view.stop();
             time.stop();
+            p.stop();
             t = new Timer(10, e -> {
                 v();
                 updatePlayerView(panel.playerView);
@@ -751,10 +771,11 @@ public class Update {
         model.stop();
         view.stop();
         time.stop();
+        p.stop();
+        t.stop();
         over = true;
         PlayerModel.defuse();
         Sound.sound().stop();
-
         new GameOver(this);
     }
 

@@ -21,7 +21,7 @@ public  class Game extends JFrame {
         }
         return game;
     }
-    public void remove(){
+    public static void remove(){
         game = null;
     }
 

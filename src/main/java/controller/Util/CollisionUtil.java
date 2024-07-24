@@ -117,7 +117,6 @@ public class CollisionUtil {
         Sound.sound().death();
         dataBase.killedEnemies++;
 
-        panelModel.movables.remove(m);
         if (m instanceof BossModel) {
             panelModel.movables.remove(((BossModel) m).r);
             panelModel.movables.remove(((BossModel) m).l);
@@ -126,11 +125,12 @@ public class CollisionUtil {
             removeEntity(((BossModel) m).p);
             removeEntity(((BossModel) m).r);
             update.phaseTwoVic();
-            
+            return;
         } 
         else if (m instanceof Rhand) panelModel.boss.r = null;
         else if (m instanceof Lhand) panelModel.boss.l = null;
         else if (m instanceof Phand) panelModel.boss.p = null;
+        panelModel.movables.remove(m);
         if (m instanceof NecropickModel) ((NecropickModel) m).timer.stop();
         removeEntity(m);
         death(m);
@@ -173,18 +173,14 @@ public class CollisionUtil {
             }
         }
     }
-    private static void death(Movable movable){
-        if(movable instanceof BossModel)panelModel.playerModel.setHp(
-                panelModel.playerModel.getHp() + 250);
-       else {
-            Enemy e = (Enemy) movable;
-            int n = e.collectables;
-            for (int i = 0; i < n; i++) {
-                CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i * 4, i * 4)));
-                c.setCreator(e);
-                dataBase.collectableModels.add(c);
-                panel.getDrawables().add(createCollectableView(c));
-            }
+    private static void death(Movable movable) {
+        Enemy e = (Enemy) movable;
+        int n = e.collectables;
+        for (int i = 0; i < n; i++) {
+            CollectableModel c = new CollectableModel(addVector(movable.getLoc(), new Point2D.Double(i * 4, i * 4)));
+            c.setCreator(e);
+            dataBase.collectableModels.add(c);
+            panel.getDrawables().add(createCollectableView(c));
         }
     }
     static Random random = new Random();

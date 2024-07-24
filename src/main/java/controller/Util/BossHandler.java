@@ -108,17 +108,11 @@ public class BossHandler {
             }
         }
     }
-
-
     private static boolean epsilonIsBetweenHeadAndHands() {
         if(boss.hasTwoHands()) return boss.getLoc().getY() < boss.playerModel.getLocation().getY() &&
                 boss.l.getLoc().getX() > boss.playerModel.getLocation().getX() &&
                 boss.r.getLoc().getX() < boss.playerModel.getLocation().getX()&&
                 boss.r.getLoc().getY() + R_HAND_SIZE.getY()< boss.playerModel.getLocation().getY();
         return false;
-    }
-
-    public void setBoss(BossModel boss) {
-        this.boss = boss;
     }
 }

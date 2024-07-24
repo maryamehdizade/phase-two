@@ -64,9 +64,7 @@ public class EnemyHandler {
                     Sound.sound().entrance();
                 }
             } else {
-                System.out.println("k");
                 if (!update.d) {
-                    System.out.println("h");
                     update.d = true;
                     n = new BossModel();
                     BossView b = (BossView) createEnemyView(n);

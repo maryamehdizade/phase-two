@@ -2,7 +2,6 @@ package view.pages;
 
 import controller.DataBase;
 import controller.Update;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -77,12 +76,12 @@ public class GameOver extends JFrame {
         add(Sbullets);
     }
     private void startOver(){
-        dispose();
         Game.getGame().dispose();
-        Game.getGame().remove();
-        Update.getUpdate().remove();
-        DataBase.getDataBase().remove();
+        Game.remove();
+        Update.setUpdate(null);
+        DataBase.remove(null);
         Menu.getMenu().setVisible(true);
+        dispose();
     }
 
 }

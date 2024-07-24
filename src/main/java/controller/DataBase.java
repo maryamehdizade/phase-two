@@ -24,7 +24,7 @@ public class DataBase {
 
     private int slaughterSec;
     private boolean slaughter;
-    public int wave = 5;
+    public int wave = 6;
     public int waveTime;
     private static DataBase dataBase;
     public SkillTreeHandler handler;
@@ -52,8 +52,8 @@ public class DataBase {
     public GamePanelModel getGamePanelModel() {
         return gamePanelModel;
     }
-    public static void remove(){
-        dataBase = null;
+    public static void remove(DataBase d){
+        dataBase = d;
     }
 
     public int getSlumberSec() {
