@@ -19,7 +19,7 @@ public final class Sound {
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/Background.wav").getAbsoluteFile());
+                    "C:\\Users\\EPSILON\\IdeaProjects\\sound\\Background.wav").getAbsoluteFile());
 
             back = AudioSystem.getClip();
             back.open(audioInputStream);
@@ -38,7 +38,7 @@ public final class Sound {
     public void wave() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/Wave.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\Wave.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
 
             clip.open(audioInputStream);
@@ -51,7 +51,7 @@ public final class Sound {
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/Victory.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\Victory.wav").getAbsoluteFile());
 
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -63,7 +63,7 @@ public final class Sound {
     public void Losing(){
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/Losing.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\Losing.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
@@ -75,7 +75,7 @@ public final class Sound {
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/swing.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\swing.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
@@ -87,7 +87,7 @@ public final class Sound {
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/interface.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\interface.wav").getAbsoluteFile());
 
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -100,7 +100,7 @@ public final class Sound {
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(
-                    Paths.get("").toAbsolutePath() + "/src/main/java/sound/Injured.wav").getAbsoluteFile());
+                     "C:\\Users\\EPSILON\\IdeaProjects\\sound\\Injured.wav").getAbsoluteFile());
 
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);

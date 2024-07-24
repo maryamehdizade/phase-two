@@ -74,7 +74,7 @@ public class Update {
         random = new Random();
 
         initialDataBase();
-        bound = Menu.getMenu().bound;
+        dataBase.bound = Menu.getMenu().bound;
 
         panel = creatGamePanel(panelModel);
         a = Menu.getMenu().aa;
@@ -352,7 +352,7 @@ public class Update {
     private void phaseOne(){
         waveCheck();
         Wave();
-        bound = Waves.bound;
+        dataBase.bound = Waves.bound;
         timeCheck();
     }
     private void phaseTwo() {

@@ -18,7 +18,12 @@ public class Data {
     }
 
     private void serialize(){
-
+//        try {
+//            objectMapper.writeValue(file, null);
+//            objectMapper.writeValue(file,);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     private void deserialize(){
 
