@@ -39,6 +39,7 @@ public class Lhand extends Enemy implements Movable, Collidable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        move = true;
         loc = new Point2D.Double(head.getLoc().getX() + L_HAND_SIZE.getX()+SMILEY_SIZE + 100,head.getLoc().getY() + 100);
     }
     public void moveDown(){
@@ -79,22 +80,25 @@ public class Lhand extends Enemy implements Movable, Collidable {
 
     @Override
     public int move() {
-        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() +200 - loc.getX()));
-        xvelocity = (Math.cos(m) * 2) * speed;
-        yvelocity = (Math.sin(m) * 2) * speed;
-        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
-        if(distance(addVector(playerModel.getLoc(),new Point2D.Double(200,-70)),loc) <= 50)attacks.remove(Attacks.squeeze);
-
+        if(move) {
+            m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() + 200 - loc.getX()));
+            xvelocity = (Math.cos(m) * 2) * speed;
+            yvelocity = (Math.sin(m) * 2) * speed;
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            if (distance(addVector(playerModel.getLoc(), new Point2D.Double(200, -70)), loc) <= 50)
+                attacks.remove(Attacks.squeeze);
+        }
         return 0;
     }
 
     @Override
     public void move(double velocity) {
-        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() +200 - loc.getX()));
-        xvelocity = (Math.cos(m) * 2) * velocity;
-        yvelocity = (Math.sin(m) * 2) * velocity;
-        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
-
+        if(move) {
+            m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() + 200 - loc.getX()));
+            xvelocity = (Math.cos(m) * 2) * velocity;
+            yvelocity = (Math.sin(m) * 2) * velocity;
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+        }
     }
 
     @Override

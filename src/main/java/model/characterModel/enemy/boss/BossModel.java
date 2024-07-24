@@ -45,6 +45,7 @@ public class BossModel extends Enemy implements Movable, Collidable {
         create();
     }
     private void create(){
+        move = true;
         try {
             image = ImageIO.read(file);
         } catch (IOException e) {
@@ -63,19 +64,22 @@ public class BossModel extends Enemy implements Movable, Collidable {
     }
     @Override
     public int move() {
-        if(!inPlace) {
-            if (loc.getY() < 75) {
-                moveDown();
-            } else {
-                inPlace = true;
+        if(move) {
+            if (!inPlace) {
+                if (loc.getY() < 75) {
+                    moveDown();
+                } else {
+                    inPlace = true;
+                }
             }
-        }
-        if(!attacks.contains(Attacks.projectile)) {
-            if (loc.getX() < 5) loc = new Point2D.Double(loc.getX() + speed, loc.getY());
-            if (loc.getY() < 5) loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
-            if (loc.getX() > PANEL_DIMENSION.getWidth() - 200) loc = new Point2D.Double(loc.getX() - speed, loc.getY());
-            if (loc.getY() > PANEL_DIMENSION.getHeight() - 200)
-                loc = new Point2D.Double(loc.getX(), loc.getY() - speed);
+            if (!attacks.contains(Attacks.projectile)) {
+                if (loc.getX() < 5) loc = new Point2D.Double(loc.getX() + speed, loc.getY());
+                if (loc.getY() < 5) loc = new Point2D.Double(loc.getX(), loc.getY() + speed);
+                if (loc.getX() > PANEL_DIMENSION.getWidth() - 200)
+                    loc = new Point2D.Double(loc.getX() - speed, loc.getY());
+                if (loc.getY() > PANEL_DIMENSION.getHeight() - 200)
+                    loc = new Point2D.Double(loc.getX(), loc.getY() - speed);
+            }
         }
         return 0;
     }
@@ -152,10 +156,12 @@ public class BossModel extends Enemy implements Movable, Collidable {
 
     @Override
     public void move(double velocity) {
-        loc = new Point2D.Double(playerModel.getLocation().getX() + dis * Math.cos(angle),
-                playerModel.getLocation().getY() - dis * Math.sin(angle));
-        if(dis < 100)dis++;
-        angle += delta;
+        if(move) {
+            loc = new Point2D.Double(playerModel.getLocation().getX() + dis * Math.cos(angle),
+                    playerModel.getLocation().getY() - dis * Math.sin(angle));
+            if (dis < 100) dis++;
+            angle += delta;
+        }
     }
 
     @Override

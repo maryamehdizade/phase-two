@@ -17,6 +17,9 @@ public class DataBase {
     public int shoots;
     public int successShoots;
     public int killedEnemies;
+    int slumberSec;
+    int dismaySec;
+    private int slaughterSec;
     public int wave = 5;
     public int waveTime;
     private static DataBase dataBase;
@@ -47,5 +50,17 @@ public class DataBase {
     }
     public static void remove(){
         dataBase = null;
+    }
+
+    public int getSlumberSec() {
+        return slumberSec;
+    }
+
+    public void setSlumberSec(int slumberSec) {
+        this.slumberSec = slumberSec;
+    }
+
+    public void setDismaySec(int dismaySec) {
+        this.dismaySec = dismaySec;
     }
 }

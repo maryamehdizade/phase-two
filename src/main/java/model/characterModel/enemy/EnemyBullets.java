@@ -7,7 +7,7 @@ import model.movement.Movable;
 import java.awt.geom.Point2D;
 import java.util.UUID;
 
-public class EnemyBullets implements Movable, Collidable {
+public class EnemyBullets extends Enemy implements Movable, Collidable {
 
 
     private double xvelocity;
@@ -29,6 +29,7 @@ public class EnemyBullets implements Movable, Collidable {
         this.creator = creator;
         id = UUID.randomUUID().toString();
         m = Math.atan2(target.getY() - loc.getY(), target.getX() - loc.getX());
+        move = true;
     }
 
     @Override
@@ -43,11 +44,12 @@ public class EnemyBullets implements Movable, Collidable {
 
     @Override
     public int move() {
+        if(move) {
+            xvelocity = (Math.cos(m)) * speed;
+            yvelocity = (Math.sin(m)) * speed;
 
-        xvelocity = (Math.cos(m) ) * speed;
-        yvelocity = (Math.sin(m) ) * speed;
-
-        loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+        }
         return 0;
     }
 

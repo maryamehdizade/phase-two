@@ -49,7 +49,6 @@ public class Update {
         }
         return update;
     }
-    public boolean dismay;
     public static void remove(){
         update = null;
     }
@@ -61,7 +60,7 @@ public class Update {
     public int bound ;
     public int second;
     public int waveTime;
-    private int dismaySec;
+    
     boolean over;
     public DataBase dataBase;
     private Waves waves;
@@ -91,14 +90,19 @@ public class Update {
 
 
         time = new Timer(1000,e -> {
-            if(dismay){
-                dismaySec++;
-                if(dismaySec == 10){
-                    dismaySec = 0;
-                    dismay = false;
-                    for (Movable m:panelModel.movables) {
-                        if(m instanceof Enemy)((Enemy)m).move = true;
-                    }
+            if(dataBase.dismaySec !=0){
+                dataBase.dismaySec++;
+                if(dataBase.dismaySec == 10){
+                    dataBase.dismaySec = 0;
+                    stopEnemies();
+                }
+            }if(dataBase.slumberSec != 0) {
+                dataBase.slumberSec++;
+                update.d = true;
+                if (dataBase.slumberSec == 11) {
+                    dataBase.slumberSec = 0;
+                    update.d = false;
+                    stopEnemies();
                 }
             }
             second += 1;
@@ -112,6 +116,11 @@ public class Update {
         waves = new Waves(this);
 
 
+    }
+    private void stopEnemies(){
+        for (Movable m:panelModel.movables) {
+            if(m instanceof Enemy)((Enemy)m).move = true;
+        }
     }
     private boolean s=true;
     public void updateView(){
@@ -285,12 +294,17 @@ public class Update {
             else if(m instanceof BossModel)updateBossModel();
             else if(m instanceof EnemyBullets)updateEnemyBullet((EnemyBullets) m);
 
-            if(dismay) {
+            if(dataBase.dismaySec != 0) {
                 for (Movable p :
                         panelModel.movables) {
                     if (p instanceof Enemy && m.collides() && distance(m.getLoc(),panelModel.playerModel.getLoc()) <= 100)
                         ((Enemy)p).move = false;
                 }
+            }
+            if(dataBase.slumberSec != 0) {
+                for (Movable p : panelModel.movables)
+                    if (p instanceof Enemy) ((Enemy) p).move = false;
+
             }
         }
 
@@ -435,26 +449,26 @@ public class Update {
 
     }
     private void updateNecro(NecropickModel necro){
-
-        if(necro.sec % 8 == 0 && necro.sec != 0){
-            necro.visible = false;
-            necro.collides = false;
-            necro.bullets = 0;
-            necro.sec = 0;
-        }else if(necro.sec%2 == 0 && !necro.visible && necro.sec !=0 && Objects.equals(necro.preLoc, new Point2D.Double(0, 0))){
-            necro.preLoc = necro.findPlayer();
-        }
-        else if(necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible){
-            necro.findPlayer(necro.getLoc());
-            necro.visible = true;
-            necro.collides = true;
-            necro.sec = 0;
-            necro.preLoc = new Point2D.Double();
-        }
-        if(necro.visible){
-            if(necro.bullets < 8 && Math.random() < 0.004) {
-                createRandomBullet(necro);
-                necro.bullets ++;
+        if(necro.move) {
+            if (necro.sec % 8 == 0 && necro.sec != 0) {
+                necro.visible = false;
+                necro.collides = false;
+                necro.bullets = 0;
+                necro.sec = 0;
+            } else if (necro.sec % 2 == 0 && !necro.visible && necro.sec != 0 && Objects.equals(necro.preLoc, new Point2D.Double(0, 0))) {
+                necro.preLoc = necro.findPlayer();
+            } else if (necro.sec % 4 == 0 && necro.sec != 0 && !necro.visible) {
+                necro.findPlayer(necro.getLoc());
+                necro.visible = true;
+                necro.collides = true;
+                necro.sec = 0;
+                necro.preLoc = new Point2D.Double();
+            }
+            if (necro.visible) {
+                if (necro.bullets < 8 && Math.random() < 0.004) {
+                    createRandomBullet(necro);
+                    necro.bullets++;
+                }
             }
         }
         checkCollision(necro);

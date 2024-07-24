@@ -35,6 +35,7 @@ public class Rhand extends Enemy implements Movable, Collidable {
         create();
     }
     private void create(){
+        move = true;
         try {
             image = ImageIO.read(file);
         } catch (IOException e) {
@@ -80,20 +81,25 @@ public class Rhand extends Enemy implements Movable, Collidable {
 
     @Override
     public int move() {
-        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() - 200  - loc.getX()));
-        xvelocity = (Math.cos(m) * 2) * speed;
-        yvelocity = (Math.sin(m) * 2) * speed;
-        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
-        if(distance(addVector(playerModel.getLoc(),new Point2D.Double(-200,-70)),loc) <= 50)attacks.remove(Attacks.squeeze);
+        if(move) {
+            m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() - 200 - loc.getX()));
+            xvelocity = (Math.cos(m) * 2) * speed;
+            yvelocity = (Math.sin(m) * 2) * speed;
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+            if (distance(addVector(playerModel.getLoc(), new Point2D.Double(-200, -70)), loc) <= 50)
+                attacks.remove(Attacks.squeeze);
+        }
         return 0;
     }
 
     @Override
     public void move(double velocity) {
-        m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() +200 - loc.getX()));
-        xvelocity = (Math.cos(m) * 2) * velocity;
-        yvelocity = (Math.sin(m) * 2) * velocity;
-        loc = new Point2D.Double(loc.getX() +  xvelocity, loc.getY() +  yvelocity);
+        if(move) {
+            m = Math.atan2(playerModel.getLocation().getY() - 70 - loc.getY(), (playerModel.getLocation().getX() + 200 - loc.getX()));
+            xvelocity = (Math.cos(m) * 2) * velocity;
+            yvelocity = (Math.sin(m) * 2) * velocity;
+            loc = new Point2D.Double(loc.getX() + xvelocity, loc.getY() + yvelocity);
+        }
 
     }
 

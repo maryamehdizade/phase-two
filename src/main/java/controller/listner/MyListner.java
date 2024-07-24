@@ -1,6 +1,7 @@
 package controller.listner;
 
 import controller.DataBase;
+import controller.Update;
 import model.characterModel.BulletModel;
 import model.characterModel.PlayerModel;
 import model.characterModel.enemy.EnemyBullets;
@@ -25,8 +26,8 @@ import static controller.Util.Util.*;
 import static model.movement.Impact.impact;
 
 public class MyListner implements KeyListener, MouseListener {
-    DataBase dataBase;
-    GamePanel panel;
+    private DataBase dataBase;
+    private GamePanel panel;
 
     public MyListner(GamePanel panel){
         this.panel = panel;
@@ -51,7 +52,7 @@ public class MyListner implements KeyListener, MouseListener {
              dataBase.getGamePanelModel().playerModel.setdForce(true);
         }
         if(keyCode == KeyEvent.VK_SPACE){
-            new Store(panel);
+           if(dataBase.getSlumberSec() == 0) new Store(panel);
         }
     }
     @Override
